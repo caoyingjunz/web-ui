@@ -1,10 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router/index.js'
 
-import ElementPlus from 'element-plus' // 引入element-plus
-import 'element-plus/theme-chalk/index.css' // 引入element-plus的样式
+const app = createApp(App)
+app.use(router)
 
-
-createApp(App)
-    .use(ElementPlus, { zIndex: 3000, size: 'small' })
-    .mount('#app')
+app.mount('#app')
