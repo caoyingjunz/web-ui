@@ -35,5 +35,4 @@ const request = class{
     }
 }
 
-
 export default request
