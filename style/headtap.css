@@ -1,5 +1,5 @@
 #backont {
-    background-image: url(../static/fengjing.jpeg);
+    background-image: url(../static/beijing.jpeg);
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -48,4 +48,26 @@
 
 .inputflex {
     flex: 1;
+}
+
+.reg-view {
+    width: 400px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.reg-view p {
+    cursor: pointer;
+    display: contents;
+}
+
+.meituan-btn {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:  10px auto 0 auto;
+    font-size:  16px;
 }
