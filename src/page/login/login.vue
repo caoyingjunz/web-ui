@@ -1,5 +1,6 @@
 <template>
-   <div>
+    <!-- 滚动条 -->
+   <div style="height: 1000px;">
         web login
    </div>
 </template>
