@@ -1,7 +1,8 @@
 <template>
     <!-- 滚动条 -->
-   <div style="height: 1000px;">
-        web login
+   <div>
+        <el-button>Default</el-button>
+        <el-button type="success">Success</el-button>
    </div>
 </template>
 
