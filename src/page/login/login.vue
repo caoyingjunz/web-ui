@@ -41,10 +41,14 @@ export default {
         const register = async()=> {
             const obj = {account: user.account, password: user.password}
             const res = await new proxy.$request(proxy.$urls.m().register, obj).doPost()
-            console.log(res)
+            // console.log(res)
 
-            // console.log("注册",user.account, user.password)
-            // console.log(proxy.$urls.m().register)
+            if (res.status != 200) {
+                new proxy.$tips(res.data.msg, "error").print_message()
+            } else {
+                new proxy.$tips(res.data.msg).print_message()
+                user.regx = '注册'
+            }
         }
 
         return {...toRefs(user), signin, register}
