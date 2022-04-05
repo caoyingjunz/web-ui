@@ -19,5 +19,8 @@ app.config.globalProperties.$urls = urls
 // 请求方法
 import request from '../api/request.js'
 app.config.globalProperties.$request = request
+// 弹窗tips
+import tips from '../config/tips.js'
+app.config.globalProperties.$tips = tips
 
 app.mount('#app')

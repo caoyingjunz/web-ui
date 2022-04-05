@@ -9,7 +9,7 @@ const request = class{
     }
 
     // post
-    static modepost() {
+    doPost() {
         return new Promise((resolve, reject)=> {
             instance.post(this.url, this.arg)
             .then(res=>{
@@ -22,7 +22,7 @@ const request = class{
     }
 
     // get
-    static modeget() {
+    doGet() {
         return new Promise((resolve, reject)=>{
             instance.get(this.url)
             .then(res=>{
