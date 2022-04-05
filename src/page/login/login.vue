@@ -5,11 +5,11 @@
             <div class="meituan-titile"> 拳皇登记系统 </div>
             <div class="meituan-user">
                 <p>账号</p>
-                <el-input v-model="account"  class="inputflex" placeholder="请输入账号" />
+                <el-input v-model="account"  class="inputflex" placeholder="请输入账号" clearable />
             </div>
             <div class="meituan-user">
                 <p>密码</p>
-                <el-input v-model="password" class="inputflex" placeholder="请输入密码" />
+                <el-input v-model="password" class="inputflex" placeholder="请输入密码" show-password/>
             </div>
             <!-- 登陆和注册切换 -->
             <div class="reg-view" @click="regx = regx== '登陆' ? '注册' : '登陆' "> <p> {{regx}} </p> </div>
