@@ -22,9 +22,10 @@
 </template>
 
 <script>
-import {reactive, toRefs} from 'vue'
+import {reactive, toRefs, getCurrentInstance} from 'vue'
 export default {
     setup() {
+        const {proxy} = getCurrentInstance()
         const user = reactive({
             account: '',
             password: '',
@@ -37,9 +38,15 @@ export default {
         }
 
         // 注册
-        function register() {
-            console.log("注册",user.account, user.password)
+        const register = async()=> {
+            const obj = {account: user.account, password: user.password}
+            const res = await new proxy.$request(proxy.$urls.m().register, obj).doPost()
+            console.log(res)
+
+            // console.log("注册",user.account, user.password)
+            // console.log(proxy.$urls.m().register)
         }
+
         return {...toRefs(user), signin, register}
     }
 }
