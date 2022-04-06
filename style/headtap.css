@@ -71,3 +71,41 @@
     margin:  10px auto 0 auto;
     font-size:  16px;
 }
+
+.sidebar-top {
+    width: 100%;
+    background: #FFFFFF;
+    height: 50px;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+}
+
+.sidebar-cont {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    bottom: 50px;
+    background: #FFFFFF;
+    width: 200px;
+    height: 100vh;
+    color: #000000 !important;
+    font-size: 16px;
+    overflow-y: auto;
+}
+
+.sidebar-top div:nth-child(1) {
+    padding-left: 22px;
+    font-size: 18px;
+}
+
+.sidebar-top div:nth-child(2) {
+    padding-right: 22px;
+    cursor: pointer;
+}
