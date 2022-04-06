@@ -10,7 +10,7 @@
             <el-menu>
                 <el-menu-item index="1">
                     <template #title>
-                        <el-icon><Histogram /></el-icon>
+                        <el-icon><Location /></el-icon>
                         <span>草薙京</span>
                     </template>
                 </el-menu-item>
@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import {Histogram} from '@element-plus/icons-vue'
+import {Location} from '@element-plus/icons-vue'
 
 export default{
-    components: {Histogram},
+    components: {Location},
 
     // setup(){
     //     const Array = [
