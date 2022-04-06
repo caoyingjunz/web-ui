@@ -40,14 +40,12 @@ export default {
 
             try {
                 const res = await new proxy.$request(proxy.$urls.m().login, obj).doPost()
-                console.log(res)
-
+                // console.log(res)
                 if (res.status != 200) {
                    new proxy.$tips(res.data.msg, "error").print_message()
                 } else {
                     // 跳转到内容页面
-                    // 缓存 token 到本地
-                    localStorage.setItem("token", res.data.token)
+                    localStorage.setItem("token", res.data.data.token) // 缓存 token 到本地
                  }
 
             } catch (error) {
@@ -63,8 +61,7 @@ export default {
 
             try {
                 const res = await new proxy.$request(proxy.$urls.m().register, obj).doPost()
-                console.log(res)
-
+                // console.log(res)
                 if (res.status != 200) {
                     new proxy.$tips(res.data.msg, "error").print_message()
                 } else {
