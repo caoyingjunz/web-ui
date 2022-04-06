@@ -5,9 +5,13 @@ const routes = [
         path: '/',
         name:'login',
         component:()=> import(/*webpackChunkName:'Login'*/ '@/page/login/login.vue')
+    },
+    { // 主界面
+        path: '/index',
+        name:'index',
+        component:()=> import(/*webpackChunkName:'Index'*/ '@/page/index/index.vue')
     }
 ]
-
 
 const router = createRouter({
     history: createWebHashHistory(),
