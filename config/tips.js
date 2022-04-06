@@ -14,7 +14,8 @@ const tips = class{
         ElMessage({
             message: this.msg,
             type: this.type,
-            duration: 2000
+            duration: 3000,
+            showClose: true,
         })
     }
 }
