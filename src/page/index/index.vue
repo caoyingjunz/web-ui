@@ -7,7 +7,7 @@
         </div>
 
         <div class="sidebar-cont">
-            <el-menu>
+            <el-menu :default-active="active_index" @select="Select">
                 <el-menu-item index="1">
                     <template #title>
                         <el-icon><Location /></el-icon>
@@ -15,12 +15,34 @@
                     </template>
                 </el-menu-item>
 
-                <el-menu-item index="2">八神</el-menu-item>
-                <el-menu-item index="3">剑魂</el-menu-item>
+                <el-menu-item index="2">
+                    <template #title>
+                        <el-icon><Refresh /></el-icon>
+                        <span>八神</span>
+                    </template>
+                </el-menu-item>
+
+                <el-menu-item index="3">
+                    <template #title>
+                        <el-icon><mic /></el-icon>
+                         <span>剑魂</span>
+                    </template>
+                </el-menu-item>
+
                 <!-- 二级，三级 -->
                 <el-sub-menu index="4">
-                    <template #title>不知火舞</template>
-                    <el-menu-item index="4-1"> 不知火舞-1 </el-menu-item>
+                    <template #title>
+                        <el-icon><Setting /></el-icon>
+                        <span>角色管理</span>
+                    </template>
+
+                    <el-menu-item index="4-1">
+                        <template #title>
+                            <el-icon><refresh /></el-icon>
+                            <span>攻击力</span>
+                        </template>
+                    </el-menu-item>
+
                 </el-sub-menu>
             </el-menu>
         </div>
@@ -28,18 +50,32 @@
 </template>
 
 <script>
-import {Location} from '@element-plus/icons-vue'
+import {
+    Location,
+    Setting,
+    Mic,
+    Refresh
+} from '@element-plus/icons-vue'
+
+import {ref,onMounted} from 'vue'
 
 export default{
-    components: {Location},
+    components: {Location,Setting,Mic,Refresh},
 
-    // setup(){
-    //     const Array = [
-    //         {
-    //             id: '1'
-    //         }
-    //     ]
-    // }
+    setup(){
+        const active_index = ref('1')
+        // 菜单激活回调
+        function Select(index, path){
+            console.log(path)
+            localStorage.setItem('menuid', JSON.stringify(index))
+        }
+
+        onMounted(()=>{
+            active_index.value = JSON.parse(localStorage.getItem('menuid'))
+        })
+
+      return {active_index, Select}
+    }
 }
 </script>
 
