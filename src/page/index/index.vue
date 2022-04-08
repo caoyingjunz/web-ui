@@ -11,21 +11,21 @@
                 <el-menu-item index="1">
                     <template #title>
                         <el-icon><histogram /></el-icon>
-                        <span>草薙京</span>
+                        <span>数据分析</span>
                     </template>
                 </el-menu-item>
 
                 <el-menu-item index="2">
                     <template #title>
                         <el-icon><user-filled /></el-icon>
-                        <span>八神</span>
+                        <span>用户列表</span>
                     </template>
                 </el-menu-item>
 
                 <el-menu-item index="3">
                     <template #title>
                         <el-icon><notebook /></el-icon>
-                         <span>剑魂</span>
+                         <span>订单管理</span>
                     </template>
                 </el-menu-item>
 
@@ -33,19 +33,22 @@
                 <el-sub-menu index="4">
                     <template #title>
                         <el-icon><Setting /></el-icon>
-                        <span>角色管理</span>
+                        <span>系统设置</span>
                     </template>
 
                     <el-menu-item index="4-1">
                         <template #title>
                             <el-icon><knife-fork /></el-icon>
-                            <span>攻击力</span>
+                            <span>其他设置</span>
                         </template>
                     </el-menu-item>
 
                 </el-sub-menu>
             </el-menu>
         </div>
+
+        <router-view></router-view>
+
     </div>
 </template>
 
@@ -64,6 +67,7 @@ export default{
     components: {Histogram,Setting,Notebook,UserFilled,KnifeFork},
 
     setup(){
+        // 默认打开页面，选择 index1
         const active_index = ref('1')
         // 菜单激活回调
         function Select(index, path){
