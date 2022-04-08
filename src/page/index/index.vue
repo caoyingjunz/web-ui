@@ -10,22 +10,22 @@
             <el-menu :default-active="active_index" @select="Select">
                 <el-menu-item index="1">
                     <template #title>
-                        <el-icon><Location /></el-icon>
-                        <span>草薙京</span>
+                        <el-icon><histogram /></el-icon>
+                        <span>数据分析</span>
                     </template>
                 </el-menu-item>
 
                 <el-menu-item index="2">
                     <template #title>
-                        <el-icon><Refresh /></el-icon>
-                        <span>八神</span>
+                        <el-icon><user-filled /></el-icon>
+                        <span>用户列表</span>
                     </template>
                 </el-menu-item>
 
                 <el-menu-item index="3">
                     <template #title>
-                        <el-icon><mic /></el-icon>
-                         <span>剑魂</span>
+                        <el-icon><notebook /></el-icon>
+                         <span>订单管理</span>
                     </template>
                 </el-menu-item>
 
@@ -33,36 +33,41 @@
                 <el-sub-menu index="4">
                     <template #title>
                         <el-icon><Setting /></el-icon>
-                        <span>角色管理</span>
+                        <span>系统设置</span>
                     </template>
 
                     <el-menu-item index="4-1">
                         <template #title>
-                            <el-icon><refresh /></el-icon>
-                            <span>攻击力</span>
+                            <el-icon><knife-fork /></el-icon>
+                            <span>其他设置</span>
                         </template>
                     </el-menu-item>
 
                 </el-sub-menu>
             </el-menu>
         </div>
+
+        <router-view></router-view>
+
     </div>
 </template>
 
 <script>
 import {
-    Location,
+    Histogram,
     Setting,
-    Mic,
-    Refresh
+    Notebook,
+    UserFilled,
+    KnifeFork
 } from '@element-plus/icons-vue'
 
 import {ref,onMounted} from 'vue'
 
 export default{
-    components: {Location,Setting,Mic,Refresh},
+    components: {Histogram,Setting,Notebook,UserFilled,KnifeFork},
 
     setup(){
+        // 默认打开页面，选择 index1
         const active_index = ref('1')
         // 菜单激活回调
         function Select(index, path){
