@@ -10,21 +10,21 @@
             <el-menu :default-active="active_index" @select="Select">
                 <el-menu-item index="1">
                     <template #title>
-                        <el-icon><Location /></el-icon>
+                        <el-icon><histogram /></el-icon>
                         <span>草薙京</span>
                     </template>
                 </el-menu-item>
 
                 <el-menu-item index="2">
                     <template #title>
-                        <el-icon><Refresh /></el-icon>
+                        <el-icon><user-filled /></el-icon>
                         <span>八神</span>
                     </template>
                 </el-menu-item>
 
                 <el-menu-item index="3">
                     <template #title>
-                        <el-icon><mic /></el-icon>
+                        <el-icon><notebook /></el-icon>
                          <span>剑魂</span>
                     </template>
                 </el-menu-item>
@@ -38,7 +38,7 @@
 
                     <el-menu-item index="4-1">
                         <template #title>
-                            <el-icon><refresh /></el-icon>
+                            <el-icon><knife-fork /></el-icon>
                             <span>攻击力</span>
                         </template>
                     </el-menu-item>
@@ -51,16 +51,17 @@
 
 <script>
 import {
-    Location,
+    Histogram,
     Setting,
-    Mic,
-    Refresh
+    Notebook,
+    UserFilled,
+    KnifeFork
 } from '@element-plus/icons-vue'
 
 import {ref,onMounted} from 'vue'
 
 export default{
-    components: {Location,Setting,Mic,Refresh},
+    components: {Histogram,Setting,Notebook,UserFilled,KnifeFork},
 
     setup(){
         const active_index = ref('1')
