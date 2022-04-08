@@ -3,7 +3,9 @@
         <!-- 顶部 -->
         <div class="sidebar-top">
            <div>拳皇管理系统</div>
-           <div>退出</div>
+           <div @click="logout">退出</div>
+                <!-- <el-button  @click="logout">退出</el-button> -->
+           <!-- </div> -->
         </div>
 
         <div class="sidebar-cont">
@@ -61,12 +63,14 @@ import {
     KnifeFork
 } from '@element-plus/icons-vue'
 
-import {ref,onMounted} from 'vue'
+import {ref,onMounted,getCurrentInstance} from 'vue'
 
 export default{
     components: {Histogram,Setting,Notebook,UserFilled,KnifeFork},
 
     setup(){
+        const {proxy} = getCurrentInstance()
+
         // 默认打开页面，选择 index1
         const active_index = ref('1')
         // 菜单激活回调
@@ -79,7 +83,14 @@ export default{
             active_index.value = JSON.parse(localStorage.getItem('menuid'))
         })
 
-      return {active_index, Select}
+        // 退出登陆
+        function logout(){
+            // 清除本地缓存的 token 和 menuid
+            localStorage.clear()
+            proxy.$router.push('/')
+        }
+
+      return {active_index, Select, logout}
     }
 }
 </script>

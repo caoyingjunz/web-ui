@@ -2,7 +2,7 @@
    <div id="backont">
         <div class="meituan-content">
             <div class="login-cont">
-            <div class="meituan-titile"> 拳皇登记系统 </div>
+            <div class="meituan-titile"> 拳皇管理系统 </div>
             <div class="meituan-user">
                 <p>账号</p>
                 <el-input v-model="account"  class="inputflex" placeholder="请输入账号" clearable />
@@ -46,9 +46,11 @@ export default {
                 } else {
                     // 跳转到内容页面
                     localStorage.setItem("token", res.data.data.token) // 缓存 token 到本地
+                    // proxy.$router.push({name:'index'})
+                    proxy.$router.push('/index')
                  }
-
             } catch (error) {
+                console.log(error)
                 new proxy.$tips('内部服务器发生错误', "error").print_message()
             }
             user.load =false
@@ -77,7 +79,6 @@ export default {
         return {...toRefs(user), signin, register}
     }
 }
-
 </script>
 
 <style>
