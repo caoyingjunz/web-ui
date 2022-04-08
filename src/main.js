@@ -12,7 +12,6 @@ const app = createApp(App)
 app.use(ElementPlus, {locale: zhCn})
 app.use(router)
 
-
 // 请求地址
 import urls from '../api/api.js'
 app.config.globalProperties.$urls = urls
