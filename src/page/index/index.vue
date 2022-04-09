@@ -13,7 +13,7 @@
                 <el-menu-item index="1">
                     <template #title>
                         <el-icon><histogram /></el-icon>
-                        <span>数据分析</span>
+                        <span>概览</span>
                     </template>
                 </el-menu-item>
 
