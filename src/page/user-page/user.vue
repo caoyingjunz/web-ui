@@ -1,6 +1,11 @@
 <template>
     <div class="ordering">
         <div class="heading">用户列表</div>
+
+        <!-- <div>
+            <el-button type="primary" @click="handleAdd">新增用户</el-button>
+        </div> -->
+
         <div>
             <el-table :data="tableData" stripe style="width: 100%">
                 <el-table-column prop="time" label="注册时间" width="160" />
@@ -9,10 +14,11 @@
                 <el-table-column prop="job" label="职位" width="120"/>
                 <el-table-column prop="address" label="所在城市" width="150"/>
 
-                <el-table-column fixed="right" label="操作" width="120">
+                <el-table-column fixed="right" label="操作" width="180">
                     <template #default>
                       <el-button type="text" size="small" @click="handleClick">详情</el-button>
-                      <el-button type="text" size="small">编辑</el-button>
+                      <el-button type="text" size="small" @click="hanldeEdit">编辑</el-button>
+
                     </template>
                   </el-table-column>
 
@@ -25,9 +31,19 @@
 import {reactive} from 'vue'
 
 export default{
+    // components: {Upload},
+
     setup(){
         const handleClick = () => {
             console.log('click')
+        }
+
+        function handleAdd() {
+            console.log("add")
+        }
+
+        function hanldeEdit() {
+            console.log("edit")
         }
 
         const tableData = reactive([
@@ -47,11 +63,9 @@ export default{
                 }
         ])
 
-      return {tableData, handleClick}
+      return {tableData,handleClick,hanldeEdit,handleAdd}
     }
 }
-
-
 </script>
 
 <style>
