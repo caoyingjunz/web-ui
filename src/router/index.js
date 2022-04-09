@@ -16,9 +16,14 @@ const routes = [
             {
                 path: '/userpage',
                 name: 'userpage',
-                component:()=> import(/*webpackChunkName:'Userpage'*/ '@/page/user-page/user.vue')
+                component:()=> import(/*webpackChunkName:'Userpage'*/ '@/page/user/user.vue')
             }
         ]
+    },
+    { // 系统设置页面
+        path: '/setting',
+        name: 'setting',
+        component:()=> import(/*webpackChunkName:'Setting'*/ '@/page/setting/index.vue')
     }
 ]
 
@@ -26,6 +31,5 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes
 })
-
 
 export default router
