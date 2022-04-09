@@ -63,11 +63,9 @@ export default{
                 }
         ])
 
-      return {tableData, handleClick,hanldeEdit,handleAdd}
+      return {tableData,handleClick,hanldeEdit,handleAdd}
     }
 }
-
-
 </script>
 
 <style>
