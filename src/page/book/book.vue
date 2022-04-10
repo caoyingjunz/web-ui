@@ -1,13 +1,13 @@
 <template>
     <div class="ordering">
-        <h1>权限设置</h1>
+        <div class="heading">图书管理</div>
+            <div>
+                dd
+            </div>
 
-        <div>TODO</div>
     </div>
-
-    <div>TODO</div>
-
 </template>
+
 
 <script>
 export default {
@@ -17,8 +17,13 @@ export default {
         }
     },
     methods: {
+
     },
     components: {
+
     }
 }
 </script>
+
+<style>
+</style>

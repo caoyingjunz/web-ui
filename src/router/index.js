@@ -10,20 +10,36 @@ const routes = [
         path: '/index',
         name: 'index',
         component:()=> import(/*webpackChunkName:'Index'*/ '@/page/index/index.vue'),
-        redirect: '/userpage',
+        // redirect: '/user',
         // 二级路由
         children: [
             {
-                path: '/userpage',
-                name: 'userpage',
-                component:()=> import(/*webpackChunkName:'Userpage'*/ '@/page/user/user.vue')
+                path: '/index',
+                name: 'index',
+                component:()=> import(/*webpackChunkName:'Index'*/ '@/page/index/index.vue'),
+                // redirect: '/user',
+            },
+            {
+                path: '/user',
+                name: 'user',
+                component:()=> import(/*webpackChunkName:'User'*/ '@/page/user/user.vue')
+            },
+            {
+                path: '/book',
+                name: 'book',
+                component:()=> import(/*webpackChunkName:'Book'*/ '@/page/book/book.vue')
+            },
+            { // 权限设置页面
+                path: '/setting',
+                name: 'setting',
+                component:()=> import(/*webpackChunkName:'Setting'*/ '@/page/setting/index.vue')
+            },
+            { // 角色设置页面
+                path: '/role',
+                name: 'role',
+                component:()=> import(/*webpackChunkName:'Role'*/ '@/page/setting/role.vue')
             }
         ]
-    },
-    { // 系统设置页面
-        path: '/setting',
-        name: 'setting',
-        component:()=> import(/*webpackChunkName:'Setting'*/ '@/page/setting/index.vue')
     }
 ]
 
