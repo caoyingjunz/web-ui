@@ -4,8 +4,6 @@
 
         <div>TODO</div>
     </div>
-
-    <div>TODO</div>
 </template>
 
 <script>

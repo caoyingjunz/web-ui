@@ -14,12 +14,11 @@ const routes = [
         // redirect: '/user',
         // 二级路由
         children: [
-            {
+            { // 首页
                 path: '/index',
                 name: 'index',
                 meta: {title: '概览'},
-                component:()=> import(/*webpackChunkName:'Index'*/ '@/page/index/index.vue'),
-                // redirect: '/user',
+                component:()=> import(/*webpackChunkName:'Home'*/ '@/page/index/home.vue'),
             },
             {
                 path: '/user',
