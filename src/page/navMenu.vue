@@ -18,13 +18,13 @@
             </el-menu-item>
 
             <!-- 无子集 -->
-            <el-menu-item index="2">
+            <el-menu-item index="/user">
                 <el-icon><UserFilled /></el-icon>
                 <span>用户列表</span>
             </el-menu-item>
 
             <!-- 无子集 -->
-            <el-menu-item index="3">
+            <el-menu-item index="/book">
                 <el-icon><Notebook /></el-icon>
                 <span>图书管理</span>
             </el-menu-item>
@@ -36,11 +36,11 @@
                 <span>系统设置</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="4-1">
+                <el-menu-item index="/setting">
                     <el-icon><Lock /></el-icon>
                     <span>权限设置</span>
                 </el-menu-item>
-                <el-menu-item index="4-2">
+                <el-menu-item index="/role">
                     <el-icon><UserFilled /></el-icon>
                     <span>角色设置</span>
                 </el-menu-item>

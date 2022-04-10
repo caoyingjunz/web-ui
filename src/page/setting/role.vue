@@ -1,13 +1,12 @@
 <template>
     <div class="ordering">
-        <div class="heading">图书管理</div>
-            <div>
-                dd
-            </div>
+        <h1>角色设置</h1>
 
+        <div>TODO</div>
     </div>
-</template>
 
+    <div>TODO</div>
+</template>
 
 <script>
 export default {
@@ -17,13 +16,8 @@ export default {
         }
     },
     methods: {
-
     },
     components: {
-
     }
 }
 </script>
-
-<style>
-</style>

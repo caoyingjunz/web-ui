@@ -1,7 +1,12 @@
 <template>
-    <div class="about">
-        <h1>系统设置</h1>
+    <div class="ordering">
+        <h1>权限设置</h1>
+
+        <div>TODO</div>
     </div>
+
+    <div>TODO</div>
+
 </template>
 
 <script>
@@ -12,6 +17,8 @@ export default {
         }
     },
     methods: {
+    },
+    components: {
     }
 }
 </script>
