@@ -4,8 +4,6 @@
         <div class="sidebar-top">
            <div>拳皇管理系统</div>
            <div @click="logout">退出</div>
-                <!-- <el-button  @click="logout">退出</el-button> -->
-           <!-- </div> -->
         </div>
 
         <div class="sidebar-cont">
