@@ -4,9 +4,15 @@
             <!-- 左侧导航 -->
             <NavMenu />
           <el-container>
-            <!-- 右侧主题 -->
-            <el-header>Header</el-header>
-            <!-- 主题 -->
+            <!-- 右侧主体 -->
+            <!-- 头部 -->
+            <el-header>
+
+              <Breadcrumb />
+              <!-- <el-button class="exit" type="primary" @click="goBack()">退出</el-button> -->
+            </el-header>
+            <!-- 主体 -->
+
             <el-main><router-view /></el-main>
           </el-container>
         </el-container>
@@ -15,6 +21,7 @@
 
 <script>
 import NavMenu from '../navMenu.vue'
+import Breadcrumb from '../breadcrumb.vue'
 
 export default {
     data() {
@@ -26,7 +33,8 @@ export default {
 
     },
     components: {
-        NavMenu
+        NavMenu,
+        Breadcrumb,
     }
 }
 </script>
