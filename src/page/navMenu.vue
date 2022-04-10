@@ -26,7 +26,7 @@
             <!-- 无子集 -->
             <el-menu-item index="3">
                 <el-icon><Notebook /></el-icon>
-                <span>订单管理</span>
+                <span>图书管理</span>
             </el-menu-item>
 
             <!-- 有子集 -->
