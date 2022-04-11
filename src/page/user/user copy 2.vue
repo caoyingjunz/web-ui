@@ -2,9 +2,12 @@
     <div class="ordering">
         <div class="heading">用户列表</div>
 
+        <!-- <div>
+            <el-button type="primary" @click="handleAdd">新增用户</el-button>
+        </div> -->
+
         <div>
             <el-table :data="tableData" stripe style="width: 100%">
-
                 <el-table-column prop="time" label="注册时间" width="160" />
                 <el-table-column prop="name" label="姓名" width="120" />
                 <el-table-column prop="sex" label="性别" width="110"/>
@@ -13,24 +16,13 @@
 
                 <el-table-column fixed="right" label="操作" width="180">
                     <template #default>
-                      <el-button type="text" size="small" @click="detail = true">详情</el-button>
+                      <el-button type="text" size="small" @click="handleClick">详情</el-button>
                       <el-button type="text" size="small" @click="hanldeEdit">编辑</el-button>
                     </template>
                 </el-table-column>
 
             </el-table>
         </div>
-
-        <el-dialog v-model="detail" title="详细信息" width="30%" center>
-          <span>It should be noted that the content will not be aligned in center by default</span>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="detail = false">Cancel</el-button>
-              <el-button type="primary" @click="detail = false">Confirm</el-button>
-            </span>
-          </template>
-        </el-dialog>
-
     </div>
 </template>
 
@@ -40,7 +32,7 @@ import {reactive,ref} from 'vue'
 export default{
 data() {
     return{
-        detail:ref(false),
+        handleClick:ref(false),
         tableData: reactive([
             {
                 time: '2004-10-16',
@@ -86,8 +78,5 @@ data() {
 }
 </script>
 
-<style scoped>
-.dialog-footer button:first-child {
-    margin-right: 10px;
-  }
+<style>
 </style>
