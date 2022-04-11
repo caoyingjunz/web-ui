@@ -21,7 +21,6 @@
 
                     </template>
                   </el-table-column>
-
             </el-table>
         </div>
     </div>
@@ -31,39 +30,52 @@
 import {reactive} from 'vue'
 
 export default{
-    // components: {Upload},
-
-    setup(){
-        const handleClick = () => {
+data() {
+    return{
+        tableData: reactive([
+            {
+                time: '2004-10-16',
+                name: '曹英俊',
+                sex: '男',
+                job: '董事长',
+                address: '杭州'
+            },
+            {
+                time: '2006-10-18',
+                name: '断马',
+                sex: '男',
+                job: 'CTO',
+                address: '香港'
+            },
+            {
+                time: '2006-10-18',
+                name: '靓仔',
+                sex: '男',
+                job: '总经理',
+                address: '北京'
+            }
+         ]),
+         page: {
+            pageTotal:1,
+            rows:1,
+            pageNo:1,
+            pageSize:2
+             }
+        }
+    },
+    methods: {
+        handleClick() {
             console.log('click')
-        }
-
-        function handleAdd() {
+        },
+        handleAdd() {
             console.log("add")
-        }
-
-        function hanldeEdit() {
+        },
+        hanldeEdit() {
             console.log("edit")
         }
+    },
+    components: {
 
-        const tableData = reactive([
-                {
-                    time: '2004-10-16',
-                    name: '曹英俊',
-                    sex: '男',
-                    job: '董事长',
-                    address: '中国-杭州'
-                },
-                {
-                    time: '2006-10-18',
-                    name: '断马',
-                    sex: '男',
-                    job: 'CTO',
-                    address: '中国-香港'
-                }
-        ])
-
-      return {tableData,handleClick,hanldeEdit,handleAdd}
     }
 }
 </script>

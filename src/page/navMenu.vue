@@ -66,7 +66,7 @@ import {
 export default {
     data() {
         return{
-
+            cuisine: [],
         }
     },
     methods: {
@@ -76,8 +76,14 @@ export default {
             // 清除本地缓存的 token 和 menuid
             localStorage.clear()
             console.log('logout')
-            this.$http.get('/practise/get').then(res => { console.log(res)})
-            // proxy.$router.push('/ss')
+            this.$router.push('/')
+            // this.$http.get(`/practise/get`).then(
+            //     res => {
+            //         console.log(res)
+            //         this.cuisine = res.data
+            //     }).catch(error=>{
+            //         console.log(error)
+            //     })
         }
     },
     components: {

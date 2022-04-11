@@ -26,7 +26,6 @@ export default {
     },
     mounted(){
         this.list = this.$route.matched;
-        console.log("xxxxxx",this.list)
     },
     components: {
 
