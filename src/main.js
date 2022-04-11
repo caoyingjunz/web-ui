@@ -22,8 +22,7 @@ app.config.globalProperties.$request = request
 import tips from '../config/tips.js'
 app.config.globalProperties.$tips = tips
 
-import axios from 'axios'
-axios.defaults.baseURL = 'http://127.0.0.1:3000'
-app.config.globalProperties.$http = axios
+import instance from '../api/hanlder.js'
+app.config.globalProperties.$http = instance
 
 app.mount('#app')

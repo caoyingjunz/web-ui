@@ -53,8 +53,6 @@
 </template>
 
 <script>
-// import {getCurrentInstance} from 'vue'
-
 import {
     Histogram,
     Setting,
@@ -72,13 +70,10 @@ export default {
     methods: {
         // 退出登陆
         logout(){
-            // const {proxy} = getCurrentInstance()
             // 清除本地缓存的 token 和 menuid
             localStorage.clear()
-            console.log('logout')
-            this.$http.get('/practise/get').then(res => { console.log(res)})
-            // proxy.$router.push('/ss')
-        }
+            this.$router.push('/')
+         }
     },
     components: {
         Histogram,
