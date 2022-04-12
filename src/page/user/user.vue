@@ -10,11 +10,14 @@
                 <el-table-column prop="sex" label="性别" width="110"/>
                 <el-table-column prop="job" label="职位" width="120"/>
                 <el-table-column prop="address" label="所在城市" width="150"/>
-
                 <el-table-column fixed="right" label="操作" width="180">
-                    <template #default>
-                      <el-button type="text" size="small" @click="detail = true">详情</el-button>
-                      <el-button type="text" size="small" @click="hanldeEdit">编辑</el-button>
+                    <template #header>
+                        <el-input v-model="search" size="small" placeholder="Type to search" />
+                    </template>
+
+                    <template #default="scope">
+                      <el-button size="small" @click="detail = true">详情</el-button>
+                      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
 
@@ -40,7 +43,8 @@ import {reactive,ref} from 'vue'
 export default{
 data() {
     return{
-        detail:ref(false),
+        detail: ref(false),
+        search: ref(''),
         tableData: reactive([
             {
                 time: '2004-10-16',
@@ -48,6 +52,20 @@ data() {
                 sex: '男',
                 job: '董事长',
                 address: '杭州'
+            },
+            {
+                time: '2016-10-18',
+                name: '段铁蛋',
+                sex: '男',
+                job: '技术总监',
+                address: '郑州'
+            },
+            {
+                time: '2008-09-28',
+                name: '张狗蛋',
+                sex: '男',
+                job: '体育老师',
+                address: '日照'
             },
             {
                 time: '2006-10-18',
@@ -62,7 +80,7 @@ data() {
                 sex: '男',
                 job: '总经理',
                 address: '北京'
-            }
+            },
          ]),
          page: {
             pageTotal:1,
@@ -76,8 +94,9 @@ data() {
         handleAdd() {
             console.log("add")
         },
-        hanldeEdit() {
-            console.log("edit")
+        handleDelete(index, row) {
+            console.log("delete index",index)
+            console.log("delete row",row.name)
         }
     },
     components: {
