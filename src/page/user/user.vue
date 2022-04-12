@@ -2,6 +2,26 @@
     <div class="ordering">
         <div class="heading">用户列表</div>
 
+        <!-- 卡片视图取 -->
+        <el-card>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-input placeholder="请输入内容"  >
+                    <template #append>
+                        <el-icon><Search /></el-icon>
+                      <el-button :span="8" :icon="Search" />
+                    </template>
+                  </el-input>
+                </el-col>
+
+                <el-col :span="4">
+                    <el-button type="primary"> 添加用户 </el-button>
+                </el-col>
+
+            </el-row>
+
+        </el-card>
+
         <div>
             <el-table :data="tableData" stripe style="width: 100%">
 
@@ -11,9 +31,6 @@
                 <el-table-column prop="job" label="职位" width="120"/>
                 <el-table-column prop="address" label="所在城市" width="150"/>
                 <el-table-column fixed="right" label="操作" width="180">
-                    <template #header>
-                        <el-input v-model="search" size="small" placeholder="Type to search" />
-                    </template>
 
                     <template #default="scope">
                       <el-button size="small" @click="detail = true">详情</el-button>
@@ -39,12 +56,12 @@
 
 <script>
 import {reactive,ref} from 'vue'
+import { Search } from '@element-plus/icons-vue'
 
 export default{
 data() {
     return{
         detail: ref(false),
-        search: ref(''),
         tableData: reactive([
             {
                 time: '2004-10-16',
@@ -82,15 +99,37 @@ data() {
                 address: '北京'
             },
          ]),
-         page: {
-            pageTotal:1,
-            rows:1,
+        //  查询参数对象
+         queryInfo: {
+            query: '',
             pageNo:1,
             pageSize:2
-             }
-        }
+        },
+        // 用户列表
+        userList: [],
+        // 总数据数
+        total: 0
+
+      }
+    },
+    created() {
+        this.getUserList()
+
     },
     methods: {
+        // 根据分页获取对应的用户列表
+        async getUserList(){
+           const {data: res} = await this.$http.get('user',{params: this.queryInfo})
+           if (res.meta.status != 200) {
+               return this.$tips.error('获取用户列表失败');
+           }
+
+           this.$tips.success('获取用户列表成功')
+           console.log(res.data)
+           this.userList = res.data.users
+           this.total = res.data.total
+        },
+
         handleAdd() {
             console.log("add")
         },
@@ -100,7 +139,7 @@ data() {
         }
     },
     components: {
-
+        Search,
     }
 }
 </script>
