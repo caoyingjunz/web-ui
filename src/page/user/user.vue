@@ -6,10 +6,10 @@
         <el-card>
             <el-row :gutter="20">
                 <el-col :span="6">
-                    <el-input placeholder="请输入内容" >
+                    <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
                     <template #append>
                         <el-icon><Search /></el-icon>
-                      <el-button :span="8" :icon="Search" />
+                      <el-button :span="8" :icon="Search" @click="getUserList" />
                     </template>
                   </el-input>
                 </el-col>
@@ -30,7 +30,8 @@
                 <el-table-column fixed="right" label="操作" width="180">
                     <template #default="scope">
                       <el-button type="primary" size="small" @click="detail = true">编辑</el-button>
-                      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                      <!-- <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
+                      <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
 
@@ -57,6 +58,7 @@
 <script>
 import {reactive,ref} from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 export default{
 data() {
@@ -140,9 +142,27 @@ data() {
         handleAdd() {
             console.log("add")
         },
-        handleDelete(index, row) {
-            console.log("delete index",index)
-            console.log("delete row",row.name)
+        async handleDelete(raw) {
+            console.log(raw)
+            ElMessageBox.confirm('此操作将永久删除该用户. 是否继续?','提示',
+            {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            }
+        )
+            .then(() => {
+                ElMessage({
+                    type: 'success',
+                    message: 'Delete completed',
+                })
+            })
+            .catch(() => {
+                ElMessage({
+                    type: 'info',
+                    message: 'Delete canceled',
+                })
+            })
         }
     },
     components: {
