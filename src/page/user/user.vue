@@ -15,7 +15,7 @@
                 </el-col>
 
                 <el-col :span="4">
-                    <el-button type="primary"> 添加用户 </el-button>
+                    <el-button type="primary" @click="gotoAddPage"> 添加用户 </el-button>
                 </el-col>
             </el-row>
 
@@ -139,8 +139,9 @@ data() {
                 address: '香港'
             }])
         },
-        handleAdd() {
+        gotoAddPage() {
             console.log("add")
+            this.$router.push('/user/add')
         },
         async handleDelete(raw) {
             console.log(raw)

@@ -24,7 +24,13 @@ const routes = [
                 path: '/user',
                 name: 'user',
                 meta: {title: '用户列表'},
-                component:()=> import(/*webpackChunkName:'User'*/ '@/page/user/user.vue')
+                component:()=> import(/*webpackChunkName:'User'*/ '@/page/user/user.vue'),
+            },
+            {
+                path: '/user/add',
+                name: 'add',
+                meta: {title: '添加用户'},
+                component:()=> import(/*webpackChunkName:'User'*/ '@/page/user/adduser.vue')
             },
             {
                 path: '/book',
