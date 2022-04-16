@@ -29,7 +29,7 @@
                 <el-table-column prop="address" label="所在城市" width="150"/>
                 <el-table-column fixed="right" label="操作" width="180">
                     <template #default="scope">
-                      <el-button type="primary" size="small" @click="detail = true">编辑</el-button>
+                      <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
                       <!-- <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button> -->
                       <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
                     </template>
@@ -52,6 +52,30 @@
           />
 
         </el-card>
+
+          <!-- 编辑对话框 -->
+          <el-dialog v-model="dialogFormVisible" title="更新用户属性">
+            <el-form :model="form">
+              <el-form-item label="Promotion name" :label-width="formLabelWidth">
+                <el-input v-model="updateForm.user_name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="Zones" :label-width="formLabelWidth">
+                <el-select v-model="updateForm.user_name" placeholder="Please select a zone">
+                  <el-option label="Zone No.1" value="shanghai" />
+                  <el-option label="Zone No.2" value="beijing" />
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="dialogFormVisible = false"
+                  >Confirm</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
+
     </div>
 </template>
 
@@ -70,11 +94,19 @@ data() {
             pageNo:1,
             pageSize:2
         },
+        updateForm: {
+                user_name: '',
+                user_sex: '',
+                user_age: 18,
+                position: '',
+                description: "",
+                cities: [],
+        },
         // 用户列表
         userList: [],
         // 总数据数
-        total: 0
-
+        total: 0,
+        dialogFormVisible: false
       }
     },
     created() {
@@ -140,11 +172,14 @@ data() {
             }])
         },
         gotoAddPage() {
-            console.log("add")
             this.$router.push('/user/add')
         },
-        async handleDelete(raw) {
-            console.log(raw)
+        handleEdit(row){
+            console.log(row)
+            this.dialogFormVisible = true
+        },
+        async handleDelete(row) {
+            console.log(row)
             ElMessageBox.confirm('此操作将永久删除该用户. 是否继续?','提示',
             {
                 confirmButtonText: '确定',
