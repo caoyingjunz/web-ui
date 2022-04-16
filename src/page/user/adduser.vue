@@ -41,8 +41,8 @@
                 <el-tab-pane label="所在城市" name="2">
                     <el-form-item label="工作城市">
                         <!-- 复选框组 -->
-                        <el-checkbox-group v-model="manyTableData">
-                            <el-checkbox :label="city" v-for="(city, i) in manyTableData" :key="i"  border></el-checkbox>
+                        <el-checkbox-group v-model="addForm.cities">
+                            <el-checkbox :label="city" v-for="(city, i) in addForm.cities" :key="i"  border></el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>
 
@@ -68,7 +68,7 @@
                 <!-- 个人简介，基本描述 -->
                 <el-tab-pane label="其他描述" name="4">
                     <!-- 输入框内容 -->
-                    <el-input v-model="desc"
+                    <el-input v-model="addForm.description"
                         type="textarea"
                         size="default"
                         :autosize="autosize"
@@ -97,7 +97,9 @@ export default{
                 user_name: '',
                 user_sex: '',
                 user_age: 18,
-                position: ''
+                position: '',
+                description: "",
+                cities: [],
             },
             addFormRules: {
                 user_name: [
@@ -112,16 +114,16 @@ export default{
                 position: [
                     {required: false, message: '请输入用户职位', trigger: 'blur'}
                 ],
+                description: [
+                    {required: false, message: '请输入用户职位', trigger: 'blur'}
+                ],
             },
             addFormRef: {},
-            // 动态参数列表
-            manyTableData: [],
             // uploadURL
             uploadURL: `http:127.0.0.1:8080/upload`,
             handleHeaders:{
                 Authentication: window.sessionStorage.getItem("token")
             },
-            desc: "",
             autosize: {
                 minRows: 8,
                 maxRows: 46
@@ -145,7 +147,7 @@ export default{
         tabClicked(){
             if (this.active === "2") {
                 // this.$http.get()
-                this.manyTableData = ["北京", "无锡", "宿迁","杭州", "上海"]
+                this.addForm.cities = ["北京", "无锡", "宿迁","杭州", "上海"]
             }
         },
         // 处理图片预览效果
@@ -163,6 +165,7 @@ export default{
                     return this.$message.error("请填写必要的输入项")
                 }
                 // 实现新增逻辑
+                console.log(this.addForm)
             })
             }
         }
