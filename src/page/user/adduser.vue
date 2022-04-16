@@ -10,7 +10,8 @@
                 <el-step title="基本信息" />
                 <el-step title="所在城市" />
                 <el-step title="照片" />
-                <el-step title="个人简介" />
+                <el-step title="其他描述" />
+                <el-step title="完成" />
             </el-steps>
 
             <!-- 表单区域 -->
@@ -20,7 +21,6 @@
             :rules="addFormRules"
             label-width="120px"
             label-position="top"
-            :size="formSize"
           >
 
             <el-tabs v-model="active" :tab-position="'left'"
@@ -66,8 +66,18 @@
                 </el-tab-pane>
 
                 <!-- 个人简介，基本描述 -->
-                <el-tab-pane label="个人简介" name="4">
-                    个人简介
+                <el-tab-pane label="其他描述" name="4">
+                    <!-- 输入框内容 -->
+                    <el-input v-model="desc"
+                        type="textarea"
+                        size="default"
+                        :autosize="autosize"
+                        placeholder="输入描述信息"
+                        class="inputDesc"
+                        > </el-input>
+
+                    <el-button type="primary" class="btnAdd" @click="addUser"> 添加用户 </el-button>
+
                 </el-tab-pane>
             </el-tabs>
 
@@ -110,7 +120,12 @@ export default{
             uploadURL: `http:127.0.0.1:8080/upload`,
             handleHeaders:{
                 Authentication: window.sessionStorage.getItem("token")
-            }
+            },
+            desc: "",
+            autosize: {
+                minRows: 8,
+                maxRows: 46
+             }
         }
     },
 
@@ -133,14 +148,26 @@ export default{
                 this.manyTableData = ["北京", "无锡", "宿迁","杭州", "上海"]
             }
         },
+        // 处理图片预览效果
         handlePreview(){
-            // 处理图片预览效果
         },
+        // 处理移除操作
         handleRemove(){
-            // 处理移除操作
+        },
+        // 新增用户
+        addUser(){
+            console.log("add user")
+            this.$refs.addFormRef.validate (valid => {
+                // 校验填写项
+                if (!valid){
+                    return this.$message.error("请填写必要的输入项")
+                }
+                // 实现新增逻辑
+            })
+            }
         }
     }
-}
+
 </script>
 
 <style scoped>
@@ -153,6 +180,20 @@ export default{
 
 .el-checkbox {
     margin: 0 10px 0 0!important;
+}
+
+.btnAdd {
+    /* width: 200px; */
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* margin:  10px auto 0 auto; */
+    /* font-size:  16px; */
+}
+
+.inputDesc {
+    width: 1170px;
+    margin-bottom: 15px;
 }
 
 </style>
