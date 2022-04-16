@@ -165,11 +165,18 @@ export default{
                     return this.$message.error("请填写必要的输入项")
                 }
                 // 实现新增逻辑
-                console.log(this.addForm)
+                // console.log(this.addForm)
+                 const res =  this.$http.post('user', this.addForm)
+                 if (res.status != 200){
+                     return this.$message.error("添加用户失败")
+                 }
+
+                 this.$message.success("添加用户成功")
+                 this.$router.push('/user')
             })
-            }
         }
     }
+}
 
 </script>
 
