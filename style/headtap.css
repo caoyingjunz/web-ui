@@ -128,6 +128,14 @@
     margin-bottom: 30px;
 }
 
+.el-steps{
+    margin: 20px 0;
+}
+
+.el-step__title{
+    font-size: 13px;
+}
+
 /* 全局响应式 */
 /* 大于 1700 */
 @media screen and (min-width: 1700px) {
