@@ -23,7 +23,7 @@
             :size="formSize"
           >
 
-            <el-tabs v-model="active" :tab-position="'left'" class="demo-tabs">
+            <el-tabs v-model="active" :tab-position="'left'" class="demo-tabs" :before-leave="beforeTabLeave">
                 <el-tab-pane label="基本信息" name="1">
                     <el-form-item label="用户姓名" prop="user_name">
                        <el-input v-model="addForm.user_name"> </el-input>
@@ -86,8 +86,17 @@ export default{
     created(){
     },
 
-    methods: {}
-
+    methods: {
+        beforeTabLeave(activeName, oldActiveName){
+            // 在第一页时，必须填写完成 user_name 才允许标签也切换
+            if (oldActiveName == '1') {
+                if (this.addForm.user_name == '') {
+                    new this.$tips('请先输入用户姓名！', "error").print_message()
+                    return false
+                }
+            }
+        }
+    }
 }
 </script>
 
