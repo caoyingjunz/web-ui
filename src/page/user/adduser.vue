@@ -8,9 +8,9 @@
             <!-- 步骤条区域 -->
             <el-steps :active="active" finish-status="success" align-center>
                 <el-step title="基本信息" />
-                <el-step title="用户属性" />
-                <el-step title="用户详情" />
-                <el-step title="完成" />
+                <el-step title="所在城市" />
+                <el-step title="照片" />
+                <el-step title="个人简介" />
             </el-steps>
 
             <!-- 表单区域 -->
@@ -23,7 +23,8 @@
             :size="formSize"
           >
 
-            <el-tabs v-model="active" :tab-position="'left'" class="demo-tabs" :before-leave="beforeTabLeave">
+            <el-tabs v-model="active" :tab-position="'left'"
+                class="demo-tabs" :before-leave="beforeTabLeave" @tab-click="tabClicked">
                 <el-tab-pane label="基本信息" name="1">
                     <el-form-item label="用户姓名" prop="user_name">
                        <el-input v-model="addForm.user_name"> </el-input>
@@ -37,19 +38,38 @@
                     </el-form-item>
                 </el-tab-pane>
 
-                <el-tab-pane label="用户属性" name="2">
-                    用户属性
+                <el-tab-pane label="所在城市" name="2">
+                    <el-form-item label="工作城市">
+                        <!-- 复选框组 -->
+                        <el-checkbox-group v-model="manyTableData">
+                            <el-checkbox :label="city" v-for="(city, i) in manyTableData" :key="i"  border></el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>
+
+                    <el-form-item label="职位" prop="position">
+                        <el-input v-model="addForm.position"> </el-input>
+                    </el-form-item>
                 </el-tab-pane>
 
-                <el-tab-pane label="用户详情" name="3">
-                    用户详情
+                <el-tab-pane label="照片" name="3">
+                    <el-upload
+                        action="uploadURL"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        list-type="picture"
+                        :headers="handleHeaders"
+                    >
+                        <el-button type="primary" size="small">点击上传</el-button>
+                        <template #tip>
+                        </template>
+                    </el-upload>
                 </el-tab-pane>
 
-                <el-tab-pane label="完成" name="4">
-                    完成
+                <!-- 个人简介，基本描述 -->
+                <el-tab-pane label="个人简介" name="4">
+                    个人简介
                 </el-tab-pane>
             </el-tabs>
-
 
             </el-form>
 
@@ -61,12 +81,13 @@
 export default{
     data(){
         return {
-            active: '1',
+            active: "1",
             // 添加用户的表单数据对象
             addForm: {
                 user_name: '',
                 user_sex: '',
-                user_age: 0
+                user_age: 18,
+                position: ''
             },
             addFormRules: {
                 user_name: [
@@ -76,10 +97,20 @@ export default{
                     {required: true, message: '请输入性别', trigger: 'blur'}
                 ],
                 user_age: [
-                    {required: true, message: '请输入年龄', trigger: 'blur'}
+                    {required: false, message: '请输入年龄', trigger: 'blur'}
+                ],
+                position: [
+                    {required: false, message: '请输入用户职位', trigger: 'blur'}
                 ],
             },
-            addFormRef: {}
+            addFormRef: {},
+            // 动态参数列表
+            manyTableData: [],
+            // uploadURL
+            uploadURL: `http:127.0.0.1:8080/upload`,
+            handleHeaders:{
+                Authentication: window.sessionStorage.getItem("token")
+            }
         }
     },
 
@@ -91,10 +122,22 @@ export default{
             // 在第一页时，必须填写完成 user_name 才允许标签也切换
             if (oldActiveName == '1') {
                 if (this.addForm.user_name == '') {
-                    new this.$tips('请先输入用户姓名！', "error").print_message()
+                     this.$message.error('请先输入用户姓名!')
                     return false
                 }
             }
+        },
+        tabClicked(){
+            if (this.active === "2") {
+                // this.$http.get()
+                this.manyTableData = ["北京", "无锡", "宿迁","杭州", "上海"]
+            }
+        },
+        handlePreview(){
+            // 处理图片预览效果
+        },
+        handleRemove(){
+            // 处理移除操作
         }
     }
 }
@@ -106,4 +149,10 @@ export default{
 }
 .el-alert:first-child {
   margin: 0;
-} </style>
+}
+
+.el-checkbox {
+    margin: 0 10px 0 0!important;
+}
+
+</style>
