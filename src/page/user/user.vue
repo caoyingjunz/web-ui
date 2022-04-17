@@ -105,13 +105,11 @@
               </el-form-item> -->
 
               <el-form-item label="工作城市" prop="cities">
-                <el-checkbox-group v-model="editForm.cities">
-                  <el-checkbox label="北京" name="type" border />
-                  <el-checkbox label="无锡" name="type" border />
-                  <el-checkbox label="宿迁" name="type" border />
-                  <el-checkbox label="杭州" name="type" border />
-                  <el-checkbox label="上海" name="type" border />
-                </el-checkbox-group>
+                  <el-checkbox v-model="editForm.cities.beijing" label="北京" border />
+                  <el-checkbox v-model="editForm.cities.wuxi" label="无锡" border />
+                  <el-checkbox v-model="editForm.cities.suqian" label="宿迁" border />
+                  <el-checkbox v-model="editForm.cities.hangzhou" label="杭州" border />
+                  <el-checkbox v-model="editForm.cities.shanghai" label="上海" border />
               </el-form-item>
 
               <el-form-item label="职位" prop="position">
@@ -148,16 +146,22 @@ data() {
         //  查询参数对象
          queryInfo: {
             query: '',
-            pageNo:1,
-            pageSize:2
+            pageNo: 1,
+            pageSize: 2
         },
         editForm: {
                 user_name: '',
                 user_sex: '',
                 user_age: 18,
                 position: '',
-                description: "",
-                cities: [],
+                description: '',
+                cities: {
+                    beijing: false,
+                    wuxi: false,
+                    suqian: false,
+                    hangzhou: false,
+                    shanghai: false
+                },
         },
         editFormRules: {
             user_name: [
@@ -266,13 +270,23 @@ data() {
             this.editForm.user_age = row.age
             this.editForm.position = row.job
 
+            // TODO： 应根据实际字段初始化
+            this.editForm.cities.beijing = false
+            this.editForm.cities.wuxi = false
+            this.editForm.cities.suqian = false
+            this.editForm.cities.hangzhou = false
+            this.editForm.cities.shanghai = false
+
             this.dialogFormVisible = true
         },
         confirmEdit(){
+            // TODO
             console.log("确定", this.editForm.user_name)
             this.dialogFormVisible =false
+            this.$message.success("更新成功")
         },
         cancelEdit(){
+            // TODO
             console.log("取消", this.editForm.user_name)
             this.dialogFormVisible =false
         },
