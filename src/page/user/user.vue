@@ -125,8 +125,8 @@
             </el-form>
             <template #footer>
               <span class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
+                <el-button @click="cancelEdit">取消</el-button>
+                <el-button type="primary" @click="confirmEdit">确定</el-button>
               </span>
             </template>
 
@@ -266,7 +266,13 @@ data() {
             this.editForm.position = row.job
 
             this.dialogFormVisible = true
-            console.log("commit", this.editForm)
+        },
+        confirmEdit(){
+            console.log("确定确定确定", this.editForm.user_name)
+            this.dialogFormVisible =false
+        },
+        cancelEdit(){
+            this.dialogFormVisible =false
         },
         async handleDelete(row) {
             ElMessageBox.confirm('此操作将永久删除该用户. 是否继续?','提示',
@@ -277,14 +283,14 @@ data() {
                 draggable: true,
             })
             .then(() => {
-                console.log("删除成功",row.name)
+                console.log("确定操作",row.name)
                 ElMessage({
                     type: 'success',
                     message: 'Delete completed',
                 })
             })
             .catch(() => {
-                console.log("取消删除",row.name)
+                console.log("取消操作",row.name)
                 ElMessage({
                     type: 'info',
                     message: 'Delete canceled',
