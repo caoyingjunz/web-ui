@@ -29,9 +29,13 @@
                     <el-form-item label="用户姓名" prop="user_name">
                        <el-input v-model="addForm.user_name"> </el-input>
                     </el-form-item>
+
                     <el-form-item label="性别" prop="user_sex">
-                        <el-input v-model="addForm.user_sex"> </el-input>
-                    </el-form-item>
+                        <el-radio-group v-model="addForm.user_sex">
+                          <el-radio label="男" />
+                          <el-radio label="女" />
+                        </el-radio-group>
+                      </el-form-item>
 
                     <el-form-item label="年龄(岁)" prop="user_age">
                         <el-input v-model="addForm.user_age" type="number"> </el-input>
@@ -127,11 +131,12 @@ export default{
             autosize: {
                 minRows: 8,
                 maxRows: 46
-             }
+            }
         }
     },
 
     created(){
+        // this.addForm.user_sex = "男"
     },
 
     methods: {
@@ -158,7 +163,6 @@ export default{
         },
         // 新增用户
         addUser(){
-            console.log("add user")
             this.$refs.addFormRef.validate (valid => {
                 // 校验填写项
                 if (!valid){
