@@ -42,9 +42,6 @@
             v-model:currentPage="queryInfo.pageNo"
             v-model:page-size="queryInfo.pageSize"
             :page-sizes="[5, 10, 15, 20]"
-            :small="small"
-            :disabled="disabled"
-            :background="background"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @size-change="handleSizeChange"
@@ -54,7 +51,7 @@
         </el-card>
 
           <!-- 编辑对话框 -->
-          <el-dialog v-model="dialogFormVisible" title="编辑" width="50%" draggable="true">
+          <el-dialog v-model="dialogFormVisible" title="编辑" width="50%" draggable>
             <el-form
                 ref="editFormRef"
                 :model="editForm"
