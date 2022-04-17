@@ -220,6 +220,7 @@ data() {
                 time: '2004-10-16',
                 name: '曹英俊',
                 sex: '男',
+                age: 18,
                 job: '董事长',
                 address: '杭州'
             },
@@ -227,6 +228,7 @@ data() {
                 time: '2004-6-16',
                 name: '张小胖',
                 sex: '女',
+                age: 18,
                 job: '财务总监',
                 address: '南京'
             },
@@ -234,6 +236,7 @@ data() {
                 time: '2016-10-18',
                 name: '段铁蛋',
                 sex: '男',
+                age: 16,
                 job: 'CEO',
                 address: '郑州'
             },
@@ -241,6 +244,7 @@ data() {
                 time: '2008-09-28',
                 name: '张狗蛋',
                 sex: '男',
+                age: 19,
                 job: '体育老师',
                 address: '日照'
             },
@@ -248,6 +252,7 @@ data() {
                 time: '2006-10-18',
                 name: '孙皮蛋',
                 sex: '男',
+                age: 14,
                 job: 'CTO',
                 address: '香港'
             }])
@@ -256,30 +261,33 @@ data() {
             this.$router.push('/user/add')
         },
         handleEdit(row){
-            console.log(row.user_name)
-
-            this.editForm = row
-
+            // 编辑显示初始化
+            // TODO: 字段统一优化
+            this.editForm.user_name = row.name
+            this.editForm.user_sex = row.sex
+            this.editForm.user_age = row.age
+            this.editForm.position = row.job
 
             this.dialogFormVisible = true
+            console.log("commit", this.editForm)
         },
         async handleDelete(row) {
-            console.log(row)
             ElMessageBox.confirm('此操作将永久删除该用户. 是否继续?','提示',
             {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 draggable: true,
-            }
-        )
+            })
             .then(() => {
+                console.log("删除成功",row.name)
                 ElMessage({
                     type: 'success',
                     message: 'Delete completed',
                 })
             })
             .catch(() => {
+                console.log("取消删除",row.name)
                 ElMessage({
                     type: 'info',
                     message: 'Delete canceled',
