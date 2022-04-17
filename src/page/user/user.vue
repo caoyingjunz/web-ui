@@ -51,7 +51,7 @@
         </el-card>
 
           <!-- 编辑对话框 -->
-          <el-dialog v-model="dialogFormVisible" title="编辑" width="50%" draggable>
+          <el-dialog v-model="dialogFormVisible" title="编辑" width="50%" draggable @close="editDialogClose">
             <el-form
                 ref="editFormRef"
                 :model="editForm"
@@ -123,6 +123,7 @@
               </el-form-item>
 
             </el-form>
+
             <template #footer>
               <span class="dialog-footer">
                 <el-button @click="cancelEdit">取消</el-button>
@@ -268,11 +269,15 @@ data() {
             this.dialogFormVisible = true
         },
         confirmEdit(){
-            console.log("确定确定确定", this.editForm.user_name)
+            console.log("确定", this.editForm.user_name)
             this.dialogFormVisible =false
         },
         cancelEdit(){
+            console.log("取消", this.editForm.user_name)
             this.dialogFormVisible =false
+        },
+        editDialogClose(){
+            this.$refs.editFormRef.resetFields()
         },
         async handleDelete(row) {
             ElMessageBox.confirm('此操作将永久删除该用户. 是否继续?','提示',
