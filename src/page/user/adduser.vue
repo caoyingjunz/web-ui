@@ -127,7 +127,7 @@ export default{
             autosize: {
                 minRows: 8,
                 maxRows: 46
-             }
+            }
         }
     },
 
@@ -158,7 +158,6 @@ export default{
         },
         // 新增用户
         addUser(){
-            console.log("add user")
             this.$refs.addFormRef.validate (valid => {
                 // 校验填写项
                 if (!valid){

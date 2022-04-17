@@ -54,26 +54,85 @@
         </el-card>
 
           <!-- 编辑对话框 -->
-          <el-dialog v-model="dialogFormVisible" title="更新用户属性">
-            <el-form :model="form">
-              <el-form-item label="Promotion name" :label-width="formLabelWidth">
-                <el-input v-model="updateForm.user_name" autocomplete="off" />
+          <el-dialog v-model="dialogFormVisible" title="编辑" width="50%" draggable="true">
+            <el-form
+                ref="editFormRef"
+                :model="editForm"
+                :rules="editFormRules"
+                label-width="120px"
+                label-position="top"
+              >
+
+              <el-form-item label="用户姓名" prop="user_name">
+                <el-input v-model="editForm.user_name" />
               </el-form-item>
-              <el-form-item label="Zones" :label-width="formLabelWidth">
-                <el-select v-model="updateForm.user_name" placeholder="Please select a zone">
-                  <el-option label="Zone No.1" value="shanghai" />
-                  <el-option label="Zone No.2" value="beijing" />
-                </el-select>
+
+              <el-form-item label="性别" prop="user_sex">
+                <el-radio-group v-model="editForm.user_sex">
+                  <el-radio label="男" />
+                  <el-radio label="女" />
+                </el-radio-group>
               </el-form-item>
+
+              <el-form-item label="年龄(岁)" prop="user_age">
+                <el-input v-model="editForm.user_age" type="number"> </el-input>
+            </el-form-item>
+
+              <!-- <el-form-item label="Activity time" required>
+                <el-col :span="11">
+                  <el-form-item prop="date1">
+                    <el-date-picker
+                      v-model="editForm.date1"
+                      type="date"
+                      placeholder="Pick a date"
+                      style="width: 100%"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col class="text-center" :span="2">
+                  <span class="text-gray-500">-</span>
+                </el-col>
+                <el-col :span="11">
+                  <el-form-item prop="date2">
+                    <el-time-picker
+                      v-model="editForm.date2"
+                      placeholder="Pick a time"
+                      style="width: 100%"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-form-item> -->
+
+              <!-- <el-form-item label="Instant delivery" prop="delivery">
+                <el-switch v-model="editForm.delivery" />
+              </el-form-item> -->
+
+              <el-form-item label="工作城市" prop="cities">
+                <el-checkbox-group v-model="editForm.cities">
+                  <el-checkbox label="北京" name="type" border />
+                  <el-checkbox label="无锡" name="type" border />
+                  <el-checkbox label="宿迁" name="type" border />
+                  <el-checkbox label="杭州" name="type" border />
+                  <el-checkbox label="上海" name="type" border />
+                </el-checkbox-group>
+              </el-form-item>
+
+              <el-form-item label="职位" prop="position">
+                <el-input v-model="editForm.position"> </el-input>
+              </el-form-item>
+
+              <el-form-item label="其他描述" prop="description">
+                <el-input v-model="editForm.description" type="textarea" :autosize="autosize" />
+              </el-form-item>
+
             </el-form>
             <template #footer>
               <span class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false"
-                  >Confirm</el-button
-                >
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="dialogFormVisible = false">确定</el-button>
               </span>
             </template>
+
           </el-dialog>
 
     </div>
@@ -94,7 +153,7 @@ data() {
             pageNo:1,
             pageSize:2
         },
-        updateForm: {
+        editForm: {
                 user_name: '',
                 user_sex: '',
                 user_age: 18,
@@ -102,16 +161,38 @@ data() {
                 description: "",
                 cities: [],
         },
+        editFormRules: {
+            user_name: [
+                {required: true, message: '请输入用户姓名', trigger: 'blur'}
+            ],
+            user_sex: [
+                {required: true, message: '请输入性别', trigger: 'blur'}
+            ],
+            user_age: [
+                {required: false, message: '请输入年龄', trigger: 'blur'}
+            ],
+            position: [
+                {required: false, message: '请输入用户职位', trigger: 'blur'}
+            ],
+            description: [
+                {required: false, message: '请输入用户职位', trigger: 'blur'}
+            ],
+        },
+        editFormRef: {},
         // 用户列表
         userList: [],
         // 总数据数
         total: 0,
-        dialogFormVisible: false
+        dialogFormVisible: false,
+        autosize: {
+            minRows: 4,
+        },
       }
     },
     created() {
         this.getUserList()
-
+        // 默认初始化性别
+        // this.editForm.user_sex = "男"
     },
     methods: {
         handleSizeChange(newSize){
@@ -175,7 +256,11 @@ data() {
             this.$router.push('/user/add')
         },
         handleEdit(row){
-            console.log(row)
+            console.log(row.user_name)
+
+            this.editForm = row
+
+
             this.dialogFormVisible = true
         },
         async handleDelete(row) {
