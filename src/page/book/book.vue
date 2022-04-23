@@ -166,21 +166,14 @@ export default {
             })
             .then(() => {
                 this.deleteParam.research_id = row.research_id
-
                 this.$http.delete("/research/material/delete", {params: this.deleteParam})
-                .then(function(res){
-                    ElMessage({
-                        type: "success",
-                        message: '删除成功',
-                    })
+                .then((res)=>{
+                    this.getBookList()
+                    this.$message.success(row.name+" 删除成功")
                 })
-                .catch(function(res) {
-                    return ElMessage({
-                        type: "error",
-                        message: res,
-                    })
+                .catch((err)=> {
+                    this.$message.error(err.toString())
                 })
-
             })
         }
     },
