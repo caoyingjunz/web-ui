@@ -1,8 +1,8 @@
 <template>
-    <div class="ordering2">
-        <div class="bookheading">资料管理</div>
+    <div class="ordering">
+        <div class="heading">资料管理</div>
         <!-- 卡片视图区 -->
-        <el-card class="box-card">
+        <el-card >
 
             <el-row :gutter="20">
                 <el-col :span="6">
@@ -88,6 +88,9 @@ export default {
                 page: 1,
                 page_size: 8,
             },
+            deleteParam: {
+                research_id: 0
+            },
             bookList: [],
             dialogFormVisible: false,
             total: 0,
@@ -99,8 +102,8 @@ export default {
                 gmt_modified: '',
                 press: '',
                 description: '',
-           },
-           editFormRules: {
+            },
+            editFormRules: {
                 name: [
                     {required: true, message: '请输入资料名', trigger: 'blur'}
                 ],
@@ -147,14 +150,10 @@ export default {
             this.dialogFormVisible = true
         },
         confirmEdit(){
-            // TODO
-            console.log("确定", this.editForm.user_name)
             this.dialogFormVisible =false
             this.$message.success("更新成功")
         },
         cancelEdit(){
-            // TODO
-            console.log("取消", this.editForm.user_name)
             this.dialogFormVisible =false
         },
         async handleDelete(row) {
@@ -166,18 +165,22 @@ export default {
                 draggable: true,
             })
             .then(() => {
-                console.log("确定操作",row.name)
-                ElMessage({
-                    type: 'success',
-                    message: 'Delete completed',
+                this.deleteParam.research_id = row.research_id
+
+                this.$http.delete("/research/material/delete", {params: this.deleteParam})
+                .then(function(res){
+                    ElMessage({
+                        type: "success",
+                        message: '删除成功',
+                    })
                 })
-            })
-            .catch(() => {
-                console.log("取消操作",row.name)
-                ElMessage({
-                    type: 'info',
-                    message: 'Delete canceled',
+                .catch(function(res) {
+                    return ElMessage({
+                        type: "error",
+                        message: res,
+                    })
                 })
+
             })
         }
     },
