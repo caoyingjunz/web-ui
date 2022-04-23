@@ -5,11 +5,11 @@
             <div class="meituan-titile"> 拳皇管理系统 </div>
             <div class="meituan-user">
                 <p>账号</p>
-                <el-input v-model="account"  class="inputflex" placeholder="请输入账号" clearable />
+                <el-input v-model="user.account"  class="inputflex" placeholder="请输入账号" clearable />
             </div>
             <div class="meituan-user">
                 <p>密码</p>
-                <el-input v-model="password" class="inputflex" placeholder="请输入密码" show-password/>
+                <el-input v-model="user.password" class="inputflex" placeholder="请输入密码" show-password/>
             </div>
             <!-- 登陆和注册切换 -->
             <!-- <div class="reg-view" @click="regx = regx== '登陆' ? '注册' : '登陆' "> <p> {{regx}} </p> </div> -->
@@ -24,67 +24,30 @@
 </template>
 
 <script>
-import {reactive, toRefs, getCurrentInstance} from 'vue'
 export default {
-    setup() {
-        const {proxy} = getCurrentInstance()
-        const user = reactive({
-            account: '',
-            password: '',
-            regx: '注册',
+    data() {
+        return {
+            user: {
+                account: "",
+                password: "",
+            },
             load: false
-        })
+        }
+    },
+    methods: {
+        async signin(){
+            this.load = true
 
-        // 登陆
-        const signin = async()=>{
-            user.load = true
-
-            if (user.account == "admin" && user.password == "admin" ) {
-                user.load =false
+            if (this.user.account == "admin" && this.user.password == "admin" ) {
+                this.load =false
                 proxy.$router.push('/index')
             } else{
-                user.load =false
+                this.load =false
                 new proxy.$tips('用户名或密码错误', "error").print_message()
             }
-            // const obj = {account: user.account, password: user.password}
-            // try {
-            //     const res = await new proxy.$request(proxy.$urls.m().login, obj).doPost()
-            //     // console.log(res)
-            //     if (res.status != 200) {
-            //        new proxy.$tips(res.data.msg, "error").print_message()
-            //     } else {
-            //         // 跳转到内容页面
-            //         localStorage.setItem("token", res.data.data.token) // 缓存 token 到本地
-            //         // proxy.$router.push({name:'index'})
-            //         proxy.$router.push('/index')
-            //      }
-            // } catch (error) {
-            //     console.log(error)
-            //     new proxy.$tips('内部服务器发生错误', "error").print_message()
-            // }
-        }
-
-        // 注册
-        const register = async()=> {
-            user.load = true
-            const obj = {account: user.account, password: user.password}
-
-            try {
-                const res = await new proxy.$request(proxy.$urls.m().register, obj).doPost()
-                // console.log(res)
-                if (res.status != 200) {
-                    new proxy.$tips(res.data.msg, "error").print_message()
-                } else {
-                    new proxy.$tips(res.data.msg).print_message()
-                    user.regx = '注册'
-                 }
-            } catch (error) {
-                new proxy.$tips('内部服务器发生错误', "error").print_message()
-            }
-            user.load =false
-        }
-
-        return {...toRefs(user), signin, register}
+          },
+    components: {
+    }
     }
 }
 </script>
