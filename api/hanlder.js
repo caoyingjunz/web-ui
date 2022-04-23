@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 )
 
 // ttp拦截: 在 axios 请求发送之后，对回显处理
-instance.interceptors.request.use(
+instance.interceptors.response.use(
     response => {
         return response
     },
@@ -44,7 +44,6 @@ instance.interceptors.request.use(
                 ElMessageBox.alert(errdata, 'Title', {
                     confirmButtonText: 'OK',
                     type: "error"
-
                 })
                 // .then(res=>{
                 //     // 跳转到登陆界面
