@@ -4,6 +4,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import router from './router/index.js'
+import { ElMessage } from 'element-plus'
+
 
 // 全局引入css
 import '../style/headtap.css'
@@ -15,15 +17,44 @@ app.use(router)
 // 请求地址
 import urls from '../api/api.js'
 app.config.globalProperties.$urls = urls
+
 // 请求方法
 import request from '../api/request.js'
 app.config.globalProperties.$request = request
-// 弹窗tips
-import tips from '../config/tips.js'
-app.config.globalProperties.$tips = tips
 
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8080'
+
+// http拦截: 在 axios 请求发送之前给每个接口携带token去后端校验
+axios.interceptors.request.use(config => {
+    config.headers.Authorization = window.sessionStorage.getItem("token") // 服务端从请求头中获取 Authorization 作为 token
+    return config
+})
+// http拦截: 在 axios 请求发送之后, 最返回值进行处理
+axios.interceptors.response.use(
+    response => {
+        return response
+    },
+    error => {
+        if (error.response) {
+            let status = error.response.status
+            switch(status) {
+                case 401:
+                ElMessage({
+                    message: error.response.data,
+                    type: 'error',
+                })
+
+                window.sessionStorage.clear()
+                // 跳转到登陆界面
+                router.push("/")
+
+                break;
+            }
+        }
+        return Promise.reject("Unauthorized") // 返回错误信息
+    }
+)
 app.config.globalProperties.$http = axios
 
 app.mount('#app')
