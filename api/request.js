@@ -1,6 +1,6 @@
 // axios 请求
 
-import instance from './hanlder.js'
+import instance from './handler.js'
 
 const request = class{
     constructor(url, arg) {
