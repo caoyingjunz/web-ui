@@ -14,7 +14,7 @@
             <!-- 无子集 -->
             <el-menu-item index="/index">
                 <el-icon><Histogram /></el-icon>
-                <span>概览</span>
+                <span>总览</span>
             </el-menu-item>
 
             <!-- 无子集 -->
@@ -26,7 +26,7 @@
             <!-- 无子集 -->
             <el-menu-item index="/book">
                 <el-icon><Notebook /></el-icon>
-                <span>图书管理</span>
+                <span>资料管理</span>
             </el-menu-item>
 
             <!-- 有子集 -->
@@ -53,7 +53,6 @@
 </template>
 
 <script>
-// import {getCurrentInstance} from 'vue'
 
 import {
     Histogram,
@@ -72,18 +71,10 @@ export default {
     methods: {
         // 退出登陆
         logout(){
-            // const {proxy} = getCurrentInstance()
             // 清除本地缓存的 token 和 menuid
             localStorage.clear()
             console.log('logout')
             this.$router.push('/')
-            // this.$http.get(`/practise/get`).then(
-            //     res => {
-            //         console.log(res)
-            //         this.cuisine = res.data
-            //     }).catch(error=>{
-            //         console.log(error)
-            //     })
         }
     },
     components: {
