@@ -157,7 +157,7 @@ export default {
             this.dialogFormVisible =false
         },
         async handleDelete(row) {
-            ElMessageBox.confirm('此操作将永久删除该用户. 是否继续?','提示',
+            ElMessageBox.confirm('此操作将永久删除该资料. 是否继续?','提示',
             {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -165,8 +165,9 @@ export default {
                 draggable: true,
             })
             .then(() => {
-                this.deleteParam.research_id = row.research_id
-                this.$http.delete("/research/material/delete", {params: this.deleteParam})
+                // this.deleteParam.research_id = row.research_id
+                // this.$http.delete("/research/material/delete", {params: this.deleteParam})
+                this.$http.delete("/research/material/delete?research_id=" +row.research_id)
                 .then((res)=>{
                     this.getBookList()
                     this.$message.success(row.name+" 删除成功")
@@ -175,6 +176,8 @@ export default {
                     this.$message.error(err.toString())
                 })
             })
+            .catch(()=> {
+            }) // 捕捉取消事件
         }
     },
     components: {
