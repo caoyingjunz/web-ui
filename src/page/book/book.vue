@@ -15,7 +15,7 @@
                 </el-col>
 
                 <el-col :span="4">
-                    <el-button type="primary" @click="gotoAddPage"> 添加资料 </el-button>
+                    <el-button type="primary" @click="handleCreate"> 新建资料 </el-button>
                 </el-col>
             </el-row>
 
@@ -23,9 +23,10 @@
             <el-table :data="bookList" stripe style="width: 100%">
 
                 <el-table-column prop="research_id" label="资料编号" width="110" />
-                <el-table-column prop="name" label="资料名" width="120" />
-                <el-table-column prop="gmt_create" label="创建时间" width="280"/>
-                <el-table-column prop="press" label="出版社" width="110"/>
+                <el-table-column prop="name" label="资料名" width="180" />
+                <el-table-column prop="gmt_create" label="创建时间" width="200"/>
+                <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
+                <el-table-column prop="press" label="出版社" width="160"/>
 
                 <el-table-column fixed="right" label="操作" width="180">
                     <template #default="scope">
@@ -40,7 +41,7 @@
             <el-pagination
             v-model:currentPage="pageInfo.page"
             v-model:page-size="pageInfo.page_size"
-            :page-sizes="[5, 10, 15, 20]"
+            :page-sizes="[10, 20, 50]"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
             @size-change="handleSizeChange"
@@ -49,7 +50,39 @@
 
           </el-card>
 
-          <el-dialog v-model="dialogFormVisible" title="编辑" width="50%" draggable @close="editDialogClose">
+          <!-- 创建对话框区域 -->
+          <el-dialog v-model="createDialogFormVisible" title="创建" width="60%" draggable @close="createDialogClose">
+            <el-form
+                ref="createFormRef"
+                :model="createForm"
+                :rules="createFormRules"
+                label-width="10px"
+                label-position="top"
+              >
+              <el-form-item label="资料名" prop="name">
+                <el-input v-model="createForm.name" placeholder="请输入资料名"/>
+              </el-form-item>
+
+              <el-form-item label="出版社" prop="press">
+                <el-input v-model="createForm.press" placeholder="请输入出版社" />
+              </el-form-item>
+
+              <el-form-item label="描述" prop="description">
+                <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
+              </el-form-item>
+
+            </el-form>
+
+            <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="cancelCreate">取消</el-button>
+                  <el-button type="primary" @click="confirmCreate">确定</el-button>
+                </span>
+              </template>
+            </el-dialog>
+
+          <!-- 编辑对话框区域 -->
+          <el-dialog v-model="dialogFormVisible" title="编辑" width="60%" draggable @close="editDialogClose">
             <el-form
                 ref="editFormRef"
                 :model="editForm"
@@ -59,10 +92,23 @@
               >
 
               <el-form-item label="资料编号" prop="research_id">
-                <el-input v-model="editForm.research_id" />
+                <el-input v-model="editForm.research_id" disabled/>
               </el-form-item>
+
               <el-form-item label="资料名" prop="name">
                 <el-input v-model="editForm.name" />
+              </el-form-item>
+
+              <el-form-item label="创建时间" prop="gmt_create">
+                <el-input v-model="editForm.gmt_create" disabled/>
+              </el-form-item>
+
+              <el-form-item label="出版社" prop="press">
+                <el-input v-model="editForm.press" />
+              </el-form-item>
+
+              <el-form-item label="描述" prop="description">
+                <el-input v-model="editForm.description" type="textarea" :autosize="autosize"/>
               </el-form-item>
 
             </el-form>
@@ -74,6 +120,7 @@
                 </span>
               </template>
             </el-dialog>
+
     </div>
 </template>
 
@@ -86,14 +133,34 @@ export default {
             pageInfo: {
                 query: '',
                 page: 1,
-                page_size: 8,
+                page_size: 10, // 默认值需要是分页定义的值
             },
             deleteParam: {
                 research_id: 0
             },
             bookList: [],
+            createDialogFormVisible: false,
             dialogFormVisible: false,
             total: 0,
+            autosize: {
+                minRows: 4,
+            },
+            createForm: {
+                name: '',
+                press: '',
+                description: '',
+            },
+            createFormRules: {
+                name: [
+                    {required: true, message: '请输入资料名', trigger: 'blur'}
+                ],
+                press: [
+                    {required: false, message: '请输入出版社', trigger: 'blur'}
+                ],
+                description: [
+                    {required: false, message: '请输入简介', trigger: 'blur'}
+                ],
+            },
             editForm: {
                 research_id: 0,
                 resource_version: 0,
@@ -120,6 +187,12 @@ export default {
         this.getBookList()
     },
     methods: {
+        editDialogClose(){
+            this.$refs.editFormRef.resetFields()
+        },
+        createDialogClose(){
+            this.$refs.createFormRef.resetFields()
+        },
         handleSizeChange(newSize){
             this.pageInfo.page_size = newSize
             this.getBookList()
@@ -138,6 +211,25 @@ export default {
             this.bookList = res.result.research_materials
             this.total = res.result.total
         },
+        handleCreate(){
+            this.createDialogFormVisible = true
+        },
+        confirmCreate(){
+            this.createDialogFormVisible =false
+
+            this.$http.post("/research/material/create", this.createForm)
+                .then((res)=>{
+                    this.getBookList()
+                    return this.$message.success(this.createForm.name+" 创建成功")
+                })
+                .catch((err)=> {
+                    return this.$message.error(err.toString())
+                })
+        },
+        cancelCreate(){
+            console.log("取消")
+            this.createDialogFormVisible =false
+        },
         handleEdit(row){
             this.editForm.research_id = row.research_id
             this.editForm.resource_version = row.resource_version
@@ -151,7 +243,15 @@ export default {
         },
         confirmEdit(){
             this.dialogFormVisible =false
-            this.$message.success("更新成功")
+
+            this.$http.put("/research/material/update", this.editForm)
+                .then((res)=>{
+                    this.getBookList()
+                    return this.$message.success(this.editForm.research_id+" 更新成功")
+                })
+                .catch((err)=> {
+                    return this.$message.error(err.toString())
+                })
         },
         cancelEdit(){
             this.dialogFormVisible =false
@@ -170,10 +270,10 @@ export default {
                 this.$http.delete("/research/material/delete?research_id=" +row.research_id)
                 .then((res)=>{
                     this.getBookList()
-                    this.$message.success(row.name+" 删除成功")
+                    return this.$message.success(row.name+" 删除成功")
                 })
                 .catch((err)=> {
-                    this.$message.error(err.toString())
+                    return this.$message.error(err.toString())
                 })
             })
             .catch(()=> {

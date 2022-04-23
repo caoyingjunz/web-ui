@@ -147,7 +147,7 @@ data() {
          queryInfo: {
             query: '',
             pageNo: 1,
-            pageSize: 2
+            pageSize: 5
         },
         editForm: {
                 user_name: '',
