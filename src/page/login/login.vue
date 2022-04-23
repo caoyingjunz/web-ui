@@ -5,7 +5,7 @@
             <div class="meituan-titile"> 拳皇管理系统 </div>
             <div class="meituan-user">
                 <p>账号</p>
-                <el-input v-model="user.account"  class="inputflex" placeholder="请输入账号" clearable />
+                <el-input v-model="user.account" class="inputflex" placeholder="请输入账号" clearable />
             </div>
             <div class="meituan-user">
                 <p>密码</p>
@@ -13,7 +13,7 @@
             </div>
 
             <div class="reg-view"> </div>
-            <el-button @click="login"  type="success" :loading="load" class="meituan-btn">登陆</el-button>
+            <el-button @click="login" type="success" :loading="load" class="meituan-btn">登陆</el-button>
 
             </div>
         </div>
@@ -37,6 +37,9 @@ export default {
             if (this.user.account == "admin" && this.user.password == "admin" ) {
                 this.load =false
                 this.$message.success("登陆成功")
+                // 缓存 token 到本地
+                window.sessionStorage.setItem("token", "faketoken")
+
                 this.$router.push('/index')
             } else {
                 this.load =false

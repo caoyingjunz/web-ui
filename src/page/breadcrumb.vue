@@ -2,7 +2,7 @@
     <div class="ordering">
 
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item v-for="v in lists" :key="v.path"> {{v.path }} </el-breadcrumb-item>
+            <!-- <el-breadcrumb-item v-for="v in lists" :key="v.path"> {{v.path }} </el-breadcrumb-item> -->
         </el-breadcrumb>
     </div>
 </template>

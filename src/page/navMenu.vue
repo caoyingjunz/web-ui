@@ -72,8 +72,8 @@ export default {
         // 退出登陆
         logout(){
             // 清除本地缓存的 token 和 menuid
-            localStorage.clear()
-            console.log('logout')
+            window.sessionStorage.clear()
+            // 跳转到登陆页面
             this.$router.push('/')
         }
     },
