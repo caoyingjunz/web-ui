@@ -3,7 +3,7 @@
 
     <!-- <div class="u-head_head_yingjun">
         <span class="u-head_logo_yingjun">
-            <a class="u-head_logo_icon_yingjun" ></a>
+            <a class="u-head_logo_icon_yingjun"> </a>
             <span class="u-head_logo_title_yingjun" > </span>
         </span>
 
@@ -263,7 +263,7 @@ export default {
     margin-left: 10px;
     margin-right: 50px;
     display: inline-block;
-    height: 64px;
+    height: 65px;
 }
 
 a[class^=u-head_logo_icon_] {
