@@ -222,11 +222,15 @@ export default {
     display: table;
     background: transparent;
     width: 1160px;
-    min-height: 600px;
+    /* min-height: 600px; */
     margin: 0 auto;
     padding-top: 26px;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+}
 
 /* 有用 */
 .login_form_body_CFs_DNF {
