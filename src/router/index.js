@@ -59,4 +59,18 @@ const router = createRouter({
     routes
 })
 
+// 路由导航守卫
+router.beforeEach((to, from, next)=>{
+    if (to.path == '/') {
+        next()
+    } else {
+        const token = window.sessionStorage.getItem('token')
+        if (!token) {
+            next('/')
+        } else {
+            next()
+        }
+    }
+})
+
 export default router
