@@ -36,10 +36,10 @@
               </el-menu-item>
 
               <!-- 无子集 -->
-              <el-menu-item index="/user">
+              <!-- <el-menu-item index="/user">
                   <el-icon><UserFilled /></el-icon>
                   <span>用户列表</span>
-              </el-menu-item>
+              </el-menu-item> -->
 
               <!-- 无子集 -->
               <el-menu-item index="/book">
@@ -71,7 +71,7 @@
         </el-aside>
 
         <!-- 主体 -->
-        <el-main></el-main>
+        <el-main><router-view /></el-main>
       </el-container>
     </el-container>
 
