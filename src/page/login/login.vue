@@ -28,13 +28,13 @@
                                             </ul>
                                         </div>
 
-                                        <el-input v-model="user.account" :prefix-icon="UserFilled" placeholder="请输入账号" clearable  maxlength="128">
+                                        <el-input v-model="user.account" :prefix-icon="UserFilled" placeholder="请输入账号" clearable  maxlength="128" @keyup.enter.native="login">
                                             <template #prefix>
                                               <el-icon class="el-input__icon"><user-filled /></el-icon>
                                             </template>
                                         </el-input>
 
-                                        <el-input v-model="user.password"  :prefix-icon="Lock" placeholder="请输入密码" show-password clearable  maxlength="128">
+                                        <el-input v-model="user.password"  :prefix-icon="Lock" placeholder="请输入密码" show-password clearable  maxlength="128" @keyup.enter.native="login">
                                             <template #prefix>
                                               <el-icon class="el-input__icon"><lock /></el-icon>
                                             </template>
