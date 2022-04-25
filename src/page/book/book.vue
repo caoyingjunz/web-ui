@@ -1,15 +1,18 @@
 <template>
-    <div class="ordering">
-        <div class="heading">资料管理</div>
-        <!-- 卡片视图区 -->
-        <el-card >
+    <div>
+        <!-- 面包屑导航 -->
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>资料管理</el-breadcrumb-item>
+        </el-breadcrumb>
 
+        <el-card >
             <el-row :gutter="20">
                 <el-col :span="6">
                     <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @clear="getBookList">
                     <template #append>
                         <el-icon><Search /></el-icon>
-                      <el-button :span="8" :icon="Search" @click="getBookList" />
+                        <el-button span="8" type="primary" :icon="Search" size="default" @click="getBookList" ></el-button>
                     </template>
                   </el-input>
                 </el-col>
@@ -37,6 +40,7 @@
 
             </el-table>
 
+
             <!-- 分页区域 -->
             <el-pagination
             v-model:currentPage="pageInfo.page"
@@ -47,7 +51,6 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             />
-
           </el-card>
 
           <!-- 创建对话框区域 -->
@@ -120,16 +123,19 @@
                 </span>
               </template>
             </el-dialog>
-
     </div>
 </template>
 
 <script>
 import { ElMessage, ElMessageBox } from 'element-plus'
+import {
+    Search,
+} from '@element-plus/icons-vue'
 
 export default {
     data() {
         return{
+            Search: '',
             pageInfo: {
                 query: '',
                 page: 1,
@@ -281,46 +287,15 @@ export default {
         }
     },
     components: {
-
+        Search
     }
 }
 </script>
 
 <style scoped>
-.ordering2 {
-    position: absolute;
-    top: 40px;
-    left: 180px;
-    right: 0;
-    padding: 10px 0;
-    margin: 0 auto;
-    max-width: 1400px;
-}
-
-.bookheading {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 18px;
-}
-
-.box-card {
-  width: 1000px;
-  min-height: auto;
-  height: 300px;
+.el-icon {
+    vertical-align: middle;
+    text-align: center;
 }
 
 </style>
