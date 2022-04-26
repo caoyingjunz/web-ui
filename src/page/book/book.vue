@@ -20,7 +20,9 @@
                 </el-col>
 
                 <el-col :span="4">
-                    <el-button type="primary" @click="handleCreate"> 新建资料 </el-button>
+                    <el-button type="primary" @click="handleCreate">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;" ><plus /></el-icon> 新建资料
+                    </el-button>
                 </el-col>
             </el-row>
 
@@ -151,13 +153,15 @@ import {
     Search,
     Delete,
     Edit,
-    ArrowDown
+    ArrowDown,
+    Plus
 } from '@element-plus/icons-vue'
 
 export default {
     data() {
         return{
             Search: '',
+            Plus: '',
             Delete: '',
             Edit: '',
             ArrowDown: '',
@@ -314,7 +318,8 @@ export default {
         Search,
         Edit,
         Delete,
-        ArrowDown
+        ArrowDown,
+        Plus
     }
 }
 </script>
