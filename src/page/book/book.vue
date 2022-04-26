@@ -6,13 +6,15 @@
             <el-breadcrumb-item>资料管理</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card >
-            <el-row :gutter="20">
+        <el-card style="margin-top: 40px;">
+            <el-row :gutter="40">
+
                 <el-col :span="6">
                     <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @clear="getBookList">
                     <template #append>
-                        <el-icon><Search /></el-icon>
-                        <el-button span="8" type="primary" :icon="Search" size="default" @click="getBookList" ></el-button>
+                        <el-button span="8" type="primary" size="default" @click="getBookList" >
+                            <el-icon style="vertical-align: middle;" ><Search /></el-icon>
+                        </el-button>
                     </template>
                   </el-input>
                 </el-col>
@@ -23,7 +25,7 @@
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="bookList" stripe style="width: 100%">
+            <el-table :data="bookList" stripe  style="margin-top: 20px; width: 100%">
 
                 <el-table-column prop="research_id" label="资料编号" width="110" />
                 <el-table-column prop="name" label="资料名" width="180" />
@@ -31,18 +33,35 @@
                 <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
                 <el-table-column prop="press" label="出版社" width="160"/>
 
-                <el-table-column fixed="right" label="操作" width="180">
+                <el-table-column fixed="right" label="操作" width="500">
                     <template #default="scope">
-                      <el-button type="primary" size="small" @click="handleEdit(scope.row)">编辑</el-button>
-                      <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
+                      <el-button type="primary" size="small" @click="handleEdit(scope.row)">
+                        <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
+                      </el-button>
+
+                      <el-button type="danger" size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
+                        <el-icon style="vertical-align: middle;margin-right: 5px;" ><Delete /></el-icon> 删除
+                      </el-button>
+
+                        <!-- <el-dropdown>
+                          <el-button type="primary" size="small">
+                             其他
+                             <el-icon style="vertical-align: middle; margin-left: 5px;"><arrow-down /></el-icon>
+                          </el-button>
+                          <template #dropdown>
+                            <el-dropdown-menu>
+                              <el-dropdown-item>下载</el-dropdown-item>
+                            </el-dropdown-menu>
+                          </template>
+                        </el-dropdown> -->
+
                     </template>
                 </el-table-column>
 
             </el-table>
 
-
             <!-- 分页区域 -->
-            <el-pagination
+            <el-pagination style="margin-top: 20px;"
             v-model:currentPage="pageInfo.page"
             v-model:page-size="pageInfo.page_size"
             :page-sizes="[10, 20, 50]"
@@ -130,12 +149,18 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
     Search,
+    Delete,
+    Edit,
+    ArrowDown
 } from '@element-plus/icons-vue'
 
 export default {
     data() {
         return{
             Search: '',
+            Delete: '',
+            Edit: '',
+            ArrowDown: '',
             pageInfo: {
                 query: '',
                 page: 1,
@@ -233,7 +258,6 @@ export default {
                 })
         },
         cancelCreate(){
-            console.log("取消")
             this.createDialogFormVisible =false
         },
         handleEdit(row){
@@ -287,7 +311,10 @@ export default {
         }
     },
     components: {
-        Search
+        Search,
+        Edit,
+        Delete,
+        ArrowDown
     }
 }
 </script>
