@@ -22,7 +22,7 @@
               background-color="rgb(51, 55, 68)"
               class="el-menu-vertical-demo"
               border-right="none"
-              default-active="4"
+              :default-active="activeIndex"
               text-color="#fff"
               @open="handleOpen"
               @close="handleClose"
@@ -30,7 +30,7 @@
             >
 
               <!-- 无子集 -->
-              <el-menu-item index="/index">
+              <el-menu-item index="/index" @click='saveActiveIndex("/index")'>
                   <el-icon><Histogram /></el-icon>
                   <span>总览</span>
               </el-menu-item>
@@ -42,7 +42,7 @@
               </el-menu-item> -->
 
               <!-- 无子集 -->
-              <el-menu-item index="/book">
+              <el-menu-item index="/book" @click='saveActiveIndex("/book")'>
                   <el-icon><Notebook /></el-icon>
                   <span>资料管理</span>
               </el-menu-item>
@@ -54,11 +54,11 @@
                   <span>系统设置</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="/setting">
+                  <el-menu-item index="/setting" @click='saveActiveIndex("/setting")'>
                       <el-icon><Lock /></el-icon>
                       <span>权限设置</span>
                   </el-menu-item>
-                  <el-menu-item index="/role">
+                  <el-menu-item index="/role" @click='saveActiveIndex("/role")'>
                       <el-icon><UserFilled /></el-icon>
                       <span>角色设置</span>
                   </el-menu-item>
@@ -88,13 +88,20 @@ import {
 
 export default {
     data() {
-        return{
+        return {
           Histogram: '',
           Notebook: '',
           Setting: '',
           Lock: '',
           UserFilled: '',
+          activeIndex: '',
         }
+    },
+    created(){
+      this.activeIndex = window.sessionStorage.getItem('activeIndex')
+      if (!this.activeIndex) {
+        this.activeIndex = '/index'
+      }
     },
     methods: {
       logout(){
@@ -102,6 +109,10 @@ export default {
         window.sessionStorage.clear()
         // 跳转到登陆页面
         this.$router.push('/')
+      },
+      saveActiveIndex(activeIndex) {
+        window.sessionStorage.setItem('activeIndex', activeIndex)
+        this.activeIndex = activeIndex
       }
     },
     components: {
