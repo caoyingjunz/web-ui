@@ -8,12 +8,18 @@
     min-height: 100vh;
 }
 
-/* #app {
-    height: 100%;
+#app {
+    height: 100vh;
+    /* margin: 0; */
+    /* padding: 0; */
+    /* min-width: 1366px; */
+}
+
+* {
     margin: 0;
     padding: 0;
-    min-width: 1366px;
-} */
+}
+
 
 .meituan-content {
     position:absolute;

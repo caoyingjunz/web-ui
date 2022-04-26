@@ -1,9 +1,5 @@
 <template>
-    <div class="ordering">
-        <h1>角色设置</h1>
-
         <div>TODO</div>
-    </div>
 </template>
 
 <script>
