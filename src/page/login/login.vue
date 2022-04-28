@@ -270,20 +270,4 @@ export default {
     height: 65px;
 }
 
-a[class^=u-head_logo_icon_] {
-    width: 160px !important;
-    background-image: url(../../../static/kof97.logo.png) !important;
-    background-size: contain !important;
-    background-position: center !important;
-    margin-left: 10px;
-}
-
-/* 有用 */
-.u-head_logo_icon_yingjun {
-    display: inline-block;
-    width: 40px;
-    height: 64px;
-    background: url(../../../static/kof97.logo.png) no-repeat;
-}
-
 </style>
