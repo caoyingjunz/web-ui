@@ -1,14 +1,14 @@
 <template>
-    <el-container class="home_container">
-      <el-header>
+    <el-container class="modules-header-cf-header-container">
+      <el-header style="display: flex; background-color: rgb(40, 43, 51); align-items: stretch; justify-content: space-between; height: 50px; padding: 0px 10px; color: rgb(173, 176, 184); fill: rgb(173, 176, 184);">
         <!-- header有两部分 -->
-        <div>
-          <img src="../../../static/favicon.jpeg" width="80" height="60"/>
-          <span> 云资料系统 </span>
+        <div style="display: flex; align-items:center;">
+          <img src="../../../static/huawei.logo.png"/>
+          <span style="font-size:medium;"> 华为云 </span>
         </div>
 
-        <div>
-          <el-button type="primary" @click="logout"> 退出 </el-button>
+        <div style="display: flex; align-items:center;">
+          <el-button style="margin: 0px 20px;"  type="text" @click="logout"> 退出 </el-button>
         </div>
       </el-header>
 
@@ -130,6 +130,36 @@ export default {
   height: 100%;
 }
 
+
+.modules-plain-text-cf-header-console-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: inherit;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.modules-header-cf-header-container{
+  height: 100%;
+  width: 100%;
+  font-weight: 400;
+  font-style: normal;
+  position: fixed;
+  min-width: 1120px;
+  z-index: 1002;
+  top: 0;
+  left: 0;
+  background-color: #ebe7e7;
+}
+
+.modules-user-info-user-info-menu-wrapper-user-info-multi-user-info {
+    line-height: 130%;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 210px;
+}
+
 .el-header{
   background: rgb(55, 61, 61);
   display: flex;
@@ -142,7 +172,9 @@ export default {
 .el-header img {
   vertical-align: middle;
   /* 调整图片高度 */
-  height: 60%;
+  height: 80%;
+  width: auto;
+  margin: 5px;
 }
 
 .el-aside{
@@ -154,6 +186,12 @@ export default {
 .el-menu {
   border-right: none;
   width: 200px;
+}
+
+.modules-user-info-user-info-menu-wrapper-user-info-text {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
 .el-main{
