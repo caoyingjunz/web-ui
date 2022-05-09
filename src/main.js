@@ -52,7 +52,7 @@ axios.interceptors.response.use(
                 break;
             }
         }
-        return Promise.reject("Unauthorized") // 返回错误信息
+        return Promise.reject(error.response) // 返回错误信息
     }
 )
 app.config.globalProperties.$http = axios

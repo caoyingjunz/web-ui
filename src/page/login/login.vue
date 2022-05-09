@@ -28,13 +28,13 @@
                                             </ul>
                                         </div>
 
-                                        <el-input v-model="user.account" :prefix-icon="UserFilled" placeholder="请输入账号" clearable  maxlength="128" @keyup.enter.native="login">
+                                        <el-input v-model="loginInfo.name" :prefix-icon="UserFilled" placeholder="请输入账号" clearable  maxlength="128" @keyup.enter.native="login">
                                             <template #prefix>
                                               <el-icon class="el-input__icon"><user-filled /></el-icon>
                                             </template>
                                         </el-input>
 
-                                        <el-input v-model="user.password"  :prefix-icon="Lock" placeholder="请输入密码" show-password clearable  maxlength="128" @keyup.enter.native="login">
+                                        <el-input v-model="loginInfo.password" :prefix-icon="Lock" placeholder="请输入密码" show-password clearable  maxlength="128" @keyup.enter.native="login">
                                             <template #prefix>
                                               <el-icon class="el-input__icon"><lock /></el-icon>
                                             </template>
@@ -66,8 +66,8 @@ import { UserFilled, Lock } from '@element-plus/icons-vue'
 export default {
     data() {
         return {
-            user: {
-                account: "",
+            loginInfo: {
+                name: "",
                 password: "",
             },
             load: false,
@@ -78,22 +78,28 @@ export default {
     },
     methods: {
         forget(){
-            console.info("忘记忘记")
-
+            this.$message.error("忘记密码，请联系管理员")
         },
         async login(){
             this.load = true
-            if (this.user.account == "admin" && this.user.password == "admin" ) {
-                this.load =false
-                this.$message.success("登陆成功")
-                // 缓存 token 到本地
-                window.sessionStorage.setItem("token", "faketoken")
 
-                this.$router.push('/index')
-            } else {
-                this.load =false
-                this.$message.error("用户名或密码错误")
-            }
+            // 发送登陆请求
+            this.$http.post("/user/login", this.loginInfo)
+                .then((res)=>{
+                    const token = res.data.result
+                    window.sessionStorage.setItem("token", token)
+
+                    this.$message.success("登陆成功")
+                    this.$router.push('/index')
+                })
+                .catch((err)=> {
+                    this.load =false
+                    if (err.status == 500) {
+                        return this.$message.error(err.statusText)
+                    }
+
+                    return this.$message.error(err.data.message)
+                })
         },
     },
     components: {

@@ -60,7 +60,7 @@
                   </el-menu-item>
                   <el-menu-item index="/role" @click='saveActiveIndex("/role")'>
                       <el-icon><UserFilled /></el-icon>
-                      <span>角色设置</span>
+                      <span>用户管理</span>
                   </el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
