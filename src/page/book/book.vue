@@ -262,7 +262,7 @@ export default {
                 })
         },
         cancelCreate(){
-            this.createDialogFormVisible =false
+            this.createDialogFormVisible = false
         },
         handleEdit(row){
             this.editForm.research_id = row.research_id
@@ -276,7 +276,7 @@ export default {
             this.dialogFormVisible = true
         },
         confirmEdit(){
-            this.dialogFormVisible =false
+            this.dialogFormVisible = false
 
             this.$http.put("/research/material/update", this.editForm)
                 .then((res)=>{
