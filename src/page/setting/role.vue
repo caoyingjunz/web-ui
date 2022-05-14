@@ -11,7 +11,7 @@
             <el-row :gutter="40">
 
                 <el-col :span="6">
-                    <el-input placeholder="请输入内容" v-model="userInfo.query" clearable @clear="getUserList">
+                    <el-input placeholder="请输入用户名称" v-model="userInfo.query" clearable @clear="getUserList">
                     <template #append>
                         <el-button span="8" type="primary" size="default" @click="getUserList" >
                             <el-icon style="vertical-align: middle;" ><Search /></el-icon>
@@ -39,7 +39,7 @@
             label-position="top"
             >
             <el-form-item label="用户名" prop="name">
-            <el-input v-model="createUserForm.name" placeholder="请输入资料名"/>
+            <el-input v-model="createUserForm.name" placeholder="请输入用户名"/>
             </el-form-item>
 
             <el-form-item label="密码" prop="password">
