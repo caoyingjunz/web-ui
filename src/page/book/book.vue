@@ -6,7 +6,7 @@
             <el-breadcrumb-item>资料管理</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 40px;">
+        <el-card style="margin-top: 30px;">
             <el-row :gutter="40">
 
                 <el-col :span="6">
