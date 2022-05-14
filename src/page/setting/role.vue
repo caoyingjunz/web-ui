@@ -9,7 +9,6 @@
         <el-card style="margin-top: 30px;">
 
             <el-row :gutter="40">
-
                 <el-col :span="6">
                     <el-input placeholder="请输入用户名称" v-model="userInfo.query" clearable @clear="getUserList">
                     <template #append>
@@ -43,7 +42,15 @@
             </el-form-item>
 
             <el-form-item label="密码" prop="password">
-            <el-input v-model="createUserForm.password" placeholder="请输入密码"/>
+            <el-input v-model="createUserForm.password" placeholder="请输入密码" show-password/>
+            </el-form-item>
+
+            <el-form-item label="角色">
+            <el-radio-group v-model="radio" change="changeRadio">
+                <el-radio :label="1">普通用户</el-radio>
+                <el-radio :label="2">管理员</el-radio>
+                <el-radio :label="3">超级管理员 </el-radio>
+              </el-radio-group>
             </el-form-item>
 
             <el-form-item label="描述" prop="description">
@@ -85,6 +92,7 @@ export default {
             autosize: {
                 minRows: 4,
             },
+            radio: 2,
             userList: [],
             createUserForm: {
                 name: '',
@@ -108,8 +116,12 @@ export default {
             },
         }
     },
+    created() {
+        this.getUserList()
+    },
     methods: {
         getUserList(){
+            console.log('user list')
         },
         createUser(){
             this.createUserDialogFormVisible = true
@@ -124,6 +136,9 @@ export default {
         },
         createUserDialogClose(){
             this.$refs.createUserFormRef.resetFields()
+        },
+        changeRadio(){
+            console.log(this.radio)
         },
     },
 
