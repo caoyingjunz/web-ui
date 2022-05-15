@@ -6,7 +6,7 @@
             <el-breadcrumb-item>资料管理</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 40px;">
+        <el-card style="margin-top: 30px;">
             <el-row :gutter="40">
 
                 <el-col :span="6">
@@ -250,7 +250,7 @@ export default {
             this.createDialogFormVisible = true
         },
         confirmCreate(){
-            this.createDialogFormVisible =false
+            this.createDialogFormVisible = false
 
             this.$http.post("/research/material/create", this.createForm)
                 .then((res)=>{
@@ -262,7 +262,7 @@ export default {
                 })
         },
         cancelCreate(){
-            this.createDialogFormVisible =false
+            this.createDialogFormVisible = false
         },
         handleEdit(row){
             this.editForm.research_id = row.research_id
@@ -276,7 +276,7 @@ export default {
             this.dialogFormVisible = true
         },
         confirmEdit(){
-            this.dialogFormVisible =false
+            this.dialogFormVisible = false
 
             this.$http.put("/research/material/update", this.editForm)
                 .then((res)=>{
