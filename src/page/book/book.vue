@@ -250,7 +250,7 @@ export default {
             this.createDialogFormVisible = true
         },
         confirmCreate(){
-            this.createDialogFormVisible =false
+            this.createDialogFormVisible = false
 
             this.$http.post("/research/material/create", this.createForm)
                 .then((res)=>{

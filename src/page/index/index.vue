@@ -54,13 +54,13 @@
                   <span>系统设置</span>
                 </template>
                 <el-menu-item-group>
+                  <el-menu-item index="/role" @click='saveActiveIndex("/role")'>
+                    <el-icon><UserFilled /></el-icon>
+                    <span>用户管理</span>
+                  </el-menu-item>
                   <el-menu-item index="/setting" @click='saveActiveIndex("/setting")'>
                       <el-icon><Lock /></el-icon>
                       <span>权限设置</span>
-                  </el-menu-item>
-                  <el-menu-item index="/role" @click='saveActiveIndex("/role")'>
-                      <el-icon><UserFilled /></el-icon>
-                      <span>用户管理</span>
                   </el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
