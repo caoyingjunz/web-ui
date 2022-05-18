@@ -152,6 +152,7 @@ export default {
         return{
             userInfo: {
                 query: '', // 带所有的用户名称关键字
+                use_page: true,
                 page: 1,
                 page_size: 10, // 默认值需要是分页定义的值
             },
@@ -199,7 +200,6 @@ export default {
                 description: '',
             },
             editUserFormRules: {
-
             }
         }
     },
@@ -208,21 +208,24 @@ export default {
     },
     methods: {
         async getUserList(){
-            const {data: res} = await this.$http.get('/user/list',{params: this.userInfo})
+            const {data: res} = await this.$http.get('/user/list', {params: this.userInfo})
             if (res.code != 200){
                 return this.$message.error('获取资源列表失败');
             }
-            this.userList = res.result
+            this.userInfo.page = res.result.page
+            this.userInfo.page_size = res.result.page_size
+            this.total = res.result.total
+            this.userList = res.result.result
         },
         createUser(){
             this.createUserDialogFormVisible = true
         },
         handleUserSizeChange(newSize){
-            this.pageInfo.page_size = newSize
+            this.userInfo.page_size = newSize
             this.getUserList()
         },
         handleUserCurrentChange(newPage){
-            this.pageInfo.page = newPage
+            this.userInfo.page = newPage
             this.getUserList()
         },
         confirmUserCreate(){
@@ -274,7 +277,7 @@ export default {
             this.$refs.editUserFormRef.resetFields()
         },
         async handleUserDelete(row){
-            this.$confirm('此操作将永久删除 ' + row.name +' , 是否继续?', '提示',
+            this.$confirm('此操作将永久删除用户 ' + row.name +' , 是否继续?', '提示',
                 {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
