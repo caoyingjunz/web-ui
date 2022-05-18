@@ -1,4 +1,7 @@
-# web-ui
+# Web-UI
+
+## Login Page
+![login](./static/beijing.simple.jpeg)
 
 ## Project setup
 ```
