@@ -272,6 +272,8 @@ export default {
         },
         confirmEditUser(){
             this.editDialogFormVisible = false
+
+            this.editUserForm.role = this.radio
             this.$http.put("/user/update", this.editUserForm)
                 .then((res)=>{
                     this.getUserList()
