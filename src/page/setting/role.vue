@@ -79,9 +79,9 @@
 
             <el-form-item label="角色">
             <el-radio-group v-model="radio" change="changeRadio">
-                <el-radio :label="1">普通用户</el-radio>
-                <el-radio :label="2">管理员</el-radio>
-                <el-radio :label="3">超级管理员 </el-radio>
+                <el-radio :label="0">普通用户</el-radio>
+                <el-radio :label="1">管理员</el-radio>
+                <el-radio :label="2">超级管理员 </el-radio>
               </el-radio-group>
             </el-form-item>
 
@@ -116,8 +116,16 @@
             <el-input v-model="editUserForm.name" />
             </el-form-item>
 
+            <el-form-item label="角色">
+                <el-radio-group v-model="radio" change="changeRadio">
+                    <el-radio :label="0">普通用户</el-radio>
+                    <el-radio :label="1">管理员</el-radio>
+                    <el-radio :label="2">超级管理员 </el-radio>
+                </el-radio-group>
+            </el-form-item>
+
             <el-form-item label="创建时间" prop="gmt_create">
-            <el-input v-model="editUserForm.gmt_create" disabled/>
+                <el-input v-model="editUserForm.gmt_create" disabled/>
             </el-form-item>
 
             <el-form-item label="描述" prop="description">
@@ -133,7 +141,6 @@
             </span>
             </template>
         </el-dialog>
-
 
     </div>
 </template>
@@ -162,7 +169,7 @@ export default {
             autosize: {
                 minRows: 4,
             },
-            radio: 2,
+            radio: 0,
             userList: [],
             createUserForm: {
                 name: '',
@@ -230,6 +237,8 @@ export default {
         },
         confirmUserCreate(){
             this.createUserDialogFormVisible = false
+            // 赋值 role 权限
+            this.createUserForm.role = this.radio
             this.$http.post("/user/create", this.createUserForm)
                 .then((res)=>{
                     this.getUserList()
@@ -256,11 +265,15 @@ export default {
             this.editUserForm.gmt_modified = row.gmt_modified
             this.editUserForm.permission = row.permission
             this.editUserForm.description = row.description
+            this.editUserForm.role = row.role
+            this.radio = this.editUserForm.role
 
             this.editDialogFormVisible = true
         },
         confirmEditUser(){
             this.editDialogFormVisible = false
+
+            this.editUserForm.role = this.radio
             this.$http.put("/user/update", this.editUserForm)
                 .then((res)=>{
                     this.getUserList()
