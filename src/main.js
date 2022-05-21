@@ -14,14 +14,6 @@ const app = createApp(App)
 app.use(ElementPlus, {locale: zhCn})
 app.use(router)
 
-// 请求地址
-import urls from '../api/api.js'
-app.config.globalProperties.$urls = urls
-
-// 请求方法
-import request from '../api/request.js'
-app.config.globalProperties.$request = request
-
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8080'
 
