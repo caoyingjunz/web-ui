@@ -21,7 +21,7 @@
 
                 <el-col :span="4">
                     <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;" ><plus /></el-icon> 新建资料
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 新建资料
                     </el-button>
                 </el-col>
             </el-row>
@@ -34,6 +34,7 @@
                 <el-table-column prop="gmt_create" label="创建时间" width="200"/>
                 <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
                 <el-table-column prop="press" label="出版社" width="160"/>
+                <el-table-column prop="label" label="标签" width="260"/>
 
                 <el-table-column fixed="right" label="操作" width="500">
                     <template #default="scope">
@@ -45,17 +46,21 @@
                         <el-icon style="vertical-align: middle;margin-right: 5px;" ><Delete /></el-icon> 删除
                       </el-button>
 
-                        <!-- <el-dropdown>
+                        <el-dropdown>
                           <el-button type="primary" size="small">
-                             其他
+                             更多
                              <el-icon style="vertical-align: middle; margin-left: 5px;"><arrow-down /></el-icon>
                           </el-button>
+
                           <template #dropdown>
                             <el-dropdown-menu>
-                              <el-dropdown-item>下载</el-dropdown-item>
+                              <el-dropdown-item @click="downloadFile(scope.row)">下载</el-dropdown-item>
+                            </el-dropdown-menu>
+                            <el-dropdown-menu>
+                                <el-dropdown-item @click="uploadFile(scope.row)">重新上传</el-dropdown-item>
                             </el-dropdown-menu>
                           </template>
-                        </el-dropdown> -->
+                        </el-dropdown>
 
                     </template>
                 </el-table-column>
@@ -89,6 +94,10 @@
 
               <el-form-item label="出版社" prop="press">
                 <el-input v-model="createForm.press" placeholder="请输入出版社" />
+              </el-form-item>
+
+              <el-form-item label="标签" prop="label">
+                <el-input v-model="createForm.label" placeholder="请输入标签"/>
               </el-form-item>
 
               <el-form-item label="描述" prop="description">
@@ -131,6 +140,10 @@
                 <el-input v-model="editForm.press" />
               </el-form-item>
 
+              <el-form-item label="标签" prop="label">
+                <el-input v-model="editForm.label"/>
+              </el-form-item>
+
               <el-form-item label="描述" prop="description">
                 <el-input v-model="editForm.description" type="textarea" :autosize="autosize"/>
               </el-form-item>
@@ -144,11 +157,50 @@
                 </span>
               </template>
             </el-dialog>
+
+
+          <!-- 上传对话框区域 -->
+          <el-dialog v-model="uploadDialogFormVisible" title="重新上传" width="60%" draggable @close="uploadDialogClose">
+            <el-form
+                ref="uploadFormRef"
+                :model="uploadForm"
+                :rules="uploadFormRules"
+                label-width="120px"
+                label-position="top"
+              >
+
+              <el-form-item label="资料编号" prop="research_id">
+                <el-input v-model="uploadForm.research_id" disabled/>
+              </el-form-item>
+              <el-form-item label="资料名" prop="name">
+                <el-input v-model="uploadForm.name" disabled/>
+              </el-form-item>
+
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="doUpload"
+                :limit="1"
+                :before-upload="beforeUpload">
+                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            </el-upload>
+
+            </el-form>
+
+            <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="cancelUpload">取消</el-button>
+                  <el-button type="primary" @click="confirmUpload">确定</el-button>
+                </span>
+              </template>
+            </el-dialog>
+
     </div>
 </template>
 
 <script>
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox, UploadInstance } from 'element-plus'
+import { ref } from 'vue'
 import {
     Search,
     Delete,
@@ -160,6 +212,7 @@ import {
 export default {
     data() {
         return{
+            file:'',
             Search: '',
             Plus: '',
             Delete: '',
@@ -167,6 +220,7 @@ export default {
             ArrowDown: '',
             pageInfo: {
                 query: '',
+                use_page: true, // 默认启用分页效果
                 page: 1,
                 page_size: 10, // 默认值需要是分页定义的值
             },
@@ -176,6 +230,7 @@ export default {
             bookList: [],
             createDialogFormVisible: false,
             dialogFormVisible: false,
+            uploadDialogFormVisible: false,
             total: 0,
             autosize: {
                 minRows: 4,
@@ -183,6 +238,7 @@ export default {
             createForm: {
                 name: '',
                 press: '',
+                label: '',
                 description: '',
             },
             createFormRules: {
@@ -191,6 +247,9 @@ export default {
                 ],
                 press: [
                     {required: false, message: '请输入出版社', trigger: 'blur'}
+                ],
+                label: [
+                    {required: false, message: '请输入标签', trigger: 'blur'}
                 ],
                 description: [
                     {required: false, message: '请输入简介', trigger: 'blur'}
@@ -216,17 +275,37 @@ export default {
                     {required: false, message: '请输入简介', trigger: 'blur'}
                 ],
             },
+            uploadForm: {
+                research_id: 0,
+                name: '',
+            }
         }
     },
     created() {
         this.getBookList()
     },
     methods: {
+        beforeUpload(file){
+            this.file = file
+            return false // 返回false不会自动上传
+        },
+        downloadFile(row){
+            console.log(row)
+        },
+        uploadFile(row){
+            console.log(row)
+            this.uploadForm.research_id = row.research_id
+            this.uploadForm.name = row.name
+            this.uploadDialogFormVisible = true
+        },
         editDialogClose(){
             this.$refs.editFormRef.resetFields()
         },
         createDialogClose(){
             this.$refs.createFormRef.resetFields()
+        },
+        uploadDialogClose(){
+            this.$refs.uploadFormRef.resetFields()
         },
         handleSizeChange(newSize){
             this.pageInfo.page_size = newSize
@@ -237,13 +316,13 @@ export default {
             this.getBookList()
         },
         async getBookList(){
-            const {data: res} = await this.$http.get('/research/material/pagelist',{params: this.pageInfo})
+            const {data: res} = await this.$http.get('/research/list',{params: this.pageInfo})
             if (res.code != 200){
                 return this.$message.error('获取资源列表失败');
             }
             this.pageInfo.page = res.result.page
             this.pageInfo.page_size = res.result.page_size
-            this.bookList = res.result.research_materials
+            this.bookList = res.result.result
             this.total = res.result.total
         },
         handleCreate(){
@@ -251,8 +330,7 @@ export default {
         },
         confirmCreate(){
             this.createDialogFormVisible = false
-
-            this.$http.post("/research/material/create", this.createForm)
+            this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     this.getBookList()
                     return this.$message.success(this.createForm.name+" 创建成功")
@@ -271,6 +349,7 @@ export default {
             this.editForm.gmt_create = row.gmt_create
             this.editForm.gmt_modified = row.gmt_modified
             this.editForm.press = row.press
+            this.editForm.label = row.label
             this.editForm.description = row.description
 
             this.dialogFormVisible = true
@@ -278,7 +357,7 @@ export default {
         confirmEdit(){
             this.dialogFormVisible = false
 
-            this.$http.put("/research/material/update", this.editForm)
+            this.$http.put("/research/update", this.editForm)
                 .then((res)=>{
                     this.getBookList()
                     return this.$message.success(this.editForm.research_id+" 更新成功")
@@ -290,6 +369,31 @@ export default {
         cancelEdit(){
             this.dialogFormVisible =false
         },
+        confirmUpload(){
+            if (this.file == ''){
+                return this.$message.error('请选择要上传的文件！')
+            }
+            let fileFormData = new FormData();
+            fileFormData.append('file', this.file, this.file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+            let requestConfig = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+            }
+            this.$http.post("/research/upload?research_id=" + this.uploadForm.research_id, fileFormData, requestConfig)
+                .then((res)=>{
+                    return this.$message.success(this.uploadForm.name+" 上传成功")
+                })
+                .catch((err)=> {
+                    return this.$message.error(err.toString())
+                })
+            // 重置
+            this.file = ''
+            this.uploadDialogFormVisible = false
+        },
+        cancelUpload(){
+            this.uploadDialogFormVisible = false
+        },
         async handleDelete(row) {
             ElMessageBox.confirm('此操作将永久删除该资料. 是否继续?','提示',
             {
@@ -299,9 +403,7 @@ export default {
                 draggable: true,
             })
             .then(() => {
-                // this.deleteParam.research_id = row.research_id
-                // this.$http.delete("/research/material/delete", {params: this.deleteParam})
-                this.$http.delete("/research/material/delete?research_id=" +row.research_id)
+                this.$http.delete("/research/delete?research_id=" + row.research_id)
                 .then((res)=>{
                     this.getBookList()
                     return this.$message.success(row.name+" 删除成功")
