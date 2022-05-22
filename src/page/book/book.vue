@@ -30,9 +30,10 @@
             <el-table :data="bookList" stripe  style="margin-top: 20px; width: 100%">
 
                 <el-table-column prop="research_id" label="资料编号" width="110" />
-                <el-table-column prop="name" label="资料名" width="180" />
+                <el-table-column prop="name" label="资料名" width="140" />
+                <el-table-column prop="rtype" label="类型" width="60" />
                 <el-table-column prop="gmt_create" label="创建时间" width="200"/>
-                <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
+                <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
                 <el-table-column prop="press" label="出版社" width="160"/>
                 <el-table-column prop="label" label="标签" width="260"/>
 
@@ -172,9 +173,6 @@
               <el-form-item label="资料编号" prop="research_id">
                 <el-input v-model="uploadForm.research_id" disabled/>
               </el-form-item>
-              <el-form-item label="资料名" prop="name">
-                <el-input v-model="uploadForm.name" disabled/>
-              </el-form-item>
 
             <el-upload
                 class="upload-demo"
@@ -199,8 +197,7 @@
 </template>
 
 <script>
-import { ElMessage, ElMessageBox, UploadInstance } from 'element-plus'
-import { ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import {
     Search,
     Delete,
@@ -277,7 +274,6 @@ export default {
             },
             uploadForm: {
                 research_id: 0,
-                name: '',
             }
         }
     },
@@ -290,12 +286,10 @@ export default {
             return false // 返回false不会自动上传
         },
         downloadFile(row){
-            console.log(row)
+            window.open('/research/download?research_id=' + row.research_id)
         },
         uploadFile(row){
-            console.log(row)
             this.uploadForm.research_id = row.research_id
-            this.uploadForm.name = row.name
             this.uploadDialogFormVisible = true
         },
         editDialogClose(){
@@ -382,13 +376,14 @@ export default {
             }
             this.$http.post("/research/upload?research_id=" + this.uploadForm.research_id, fileFormData, requestConfig)
                 .then((res)=>{
-                    return this.$message.success(this.uploadForm.name+" 上传成功")
+                    this.getBookList()
+                    this.$message.success("上传资料成功")
+                    // 重置
+                    this.file = ''
                 })
                 .catch((err)=> {
                     return this.$message.error(err.toString())
                 })
-            // 重置
-            this.file = ''
             this.uploadDialogFormVisible = false
         },
         cancelUpload(){

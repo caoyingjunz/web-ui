@@ -4,7 +4,7 @@
         <!-- header有两部分 -->
         <div style="display: flex; align-items:center;">
           <img src="../../../static/huawei.logo.png"/>
-          <span style="font-size:medium;"> 华为云 </span>
+          <span style="font-size:medium;"> Pixiu Cloud </span>
         </div>
 
         <div style="display: flex; align-items:center;">
@@ -44,7 +44,7 @@
               <!-- 无子集 -->
               <el-menu-item index="/book" @click='saveActiveIndex("/book")'>
                   <el-icon><Notebook /></el-icon>
-                  <span>资料管理</span>
+                  <span>研究资料</span>
               </el-menu-item>
 
               <!-- 有子集 -->
