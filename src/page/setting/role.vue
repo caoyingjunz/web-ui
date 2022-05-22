@@ -25,12 +25,12 @@
                     </el-button>
                 </el-col>
 
-                <el-table :data="userList" stripe  style="margin-top: 20px; width: 100%">
+                <el-table :data="userList" stripe style="margin-top: 20px; width: 100%">
                     <el-table-column prop="user_id" label="用户ID" width="110" />
                     <el-table-column prop="name" label="用户名" width="180" />
                     <el-table-column prop="gmt_create" label="创建时间" width="200"/>
                     <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
-                    <el-table-column prop="password" label="密码" width="160"/>
+                    <el-table-column prop="email" label="邮箱" width="160"/>
 
                     <el-table-column fixed="right" label="操作" width="500">
                         <template #default="scope">
@@ -85,6 +85,10 @@
               </el-radio-group>
             </el-form-item>
 
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="createUserForm.email" placeholder="请输入邮箱, 格式 <email_name>@163.com"/>
+            </el-form-item>
+
             <el-form-item label="描述" prop="description">
             <el-input v-model="createUserForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
             </el-form-item>
@@ -126,6 +130,10 @@
 
             <el-form-item label="创建时间" prop="gmt_create">
                 <el-input v-model="editUserForm.gmt_create" disabled/>
+            </el-form-item>
+
+            <el-form-item label="邮箱" prop="email">
+                <el-input v-model="editUserForm.email" placeholder="请输入邮箱, 格式 <email_name>@163.com"/>
             </el-form-item>
 
             <el-form-item label="描述" prop="description">
@@ -175,6 +183,7 @@ export default {
                 name: '',
                 password: '',
                 role: 0,
+                email: '',
                 description: '',
             },
             createUserFormRules: {
@@ -204,6 +213,7 @@ export default {
                 },
                 gmt_create: '',
                 gmt_modified: '',
+                email: '',
                 description: '',
             },
             editUserFormRules: {
@@ -264,6 +274,7 @@ export default {
             this.editUserForm.gmt_create = row.gmt_create
             this.editUserForm.gmt_modified = row.gmt_modified
             this.editUserForm.permission = row.permission
+            this.editUserForm.email = row.email
             this.editUserForm.description = row.description
             this.editUserForm.role = row.role
             this.radio = this.editUserForm.role
