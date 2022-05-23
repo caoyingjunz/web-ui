@@ -61,10 +61,17 @@
 
                           <template #dropdown>
                             <el-dropdown-menu>
-                              <el-dropdown-item @click="downloadFile(scope.row)">下载</el-dropdown-item>
+                              <el-dropdown-item @click="downloadFile(scope.row)">
+                                <el-icon style="vertical-align: middle; margin-right: 5px;"><Download /></el-icon>
+                                  下载
+                                </el-dropdown-item>
                             </el-dropdown-menu>
+
                             <el-dropdown-menu>
-                                <el-dropdown-item @click="uploadFile(scope.row)">重新上传</el-dropdown-item>
+                                <el-dropdown-item @click="uploadFile(scope.row)">
+                                    <el-icon style="vertical-align: middle; margin-right: 5px;"><Upload /></el-icon>
+                                    重新上传
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                           </template>
                         </el-dropdown>
@@ -208,7 +215,9 @@ import {
     Delete,
     Edit,
     ArrowDown,
-    Plus
+    Plus,
+    Upload,
+    Download
 } from '@element-plus/icons-vue'
 
 export default {
@@ -438,7 +447,9 @@ export default {
         Edit,
         Delete,
         ArrowDown,
-        Plus
+        Plus,
+        Upload,
+        Download
     }
 }
 </script>
