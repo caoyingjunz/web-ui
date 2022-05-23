@@ -3,7 +3,7 @@
         <!-- 面包屑导航 -->
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>资料管理</el-breadcrumb-item>
+            <el-breadcrumb-item>研究资料</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-card style="margin-top: 30px;">

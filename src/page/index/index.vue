@@ -59,8 +59,8 @@
                     <span>用户管理</span>
                   </el-menu-item>
                   <el-menu-item index="/setting" @click='saveActiveIndex("/setting")'>
-                      <el-icon><Lock /></el-icon>
-                      <span>权限设置</span>
+                      <el-icon><Promotion /></el-icon>
+                      <span>标签管理</span>
                   </el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
@@ -83,6 +83,7 @@ import {
     Setting,
     Notebook,
     UserFilled,
+    Promotion,
     Lock,
 } from '@element-plus/icons-vue'
 
@@ -120,6 +121,7 @@ export default {
       Notebook,
       Setting,
       Lock,
+      Promotion,
       UserFilled
     }
 }
