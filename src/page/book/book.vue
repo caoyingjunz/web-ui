@@ -3,7 +3,7 @@
         <!-- 面包屑导航 -->
         <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>资料管理</el-breadcrumb-item>
+            <el-breadcrumb-item>研究资料</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-card style="margin-top: 30px;">
@@ -24,20 +24,26 @@
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 新建资料
                     </el-button>
                 </el-col>
+
+                <el-col :span="4" :offset="10">
+                    <el-button type="primary" @click="handleBulkDelete" style="padding-right: 10px;">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+                    </el-button>
+                </el-col>
             </el-row>
 
             <!-- table 表格区域 -->
             <el-table :data="bookList" stripe  style="margin-top: 20px; width: 100%">
-
-                <el-table-column prop="research_id" label="资料编号" width="110" />
-                <el-table-column prop="name" label="资料名" width="140" />
+                <el-table-column type="selection" width="40" />
+                <el-table-column prop="research_id" label="资料编号" width="110" sortable/>
+                <el-table-column prop="name" label="资料名" width="200" />
                 <el-table-column prop="rtype" label="类型" width="60" />
-                <el-table-column prop="gmt_create" label="创建时间" width="200"/>
+                <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
                 <el-table-column prop="press" label="出版社" width="160"/>
-                <el-table-column prop="label" label="标签" width="260"/>
+                <el-table-column prop="label" label="标签"/>
 
-                <el-table-column fixed="right" label="操作" width="500">
+                <el-table-column fixed="right" label="操作" width="250">
                     <template #default="scope">
                       <el-button type="primary" size="small" @click="handleEdit(scope.row)">
                         <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
@@ -55,10 +61,17 @@
 
                           <template #dropdown>
                             <el-dropdown-menu>
-                              <el-dropdown-item @click="downloadFile(scope.row)">下载</el-dropdown-item>
+                              <el-dropdown-item @click="downloadFile(scope.row)">
+                                <el-icon style="vertical-align: middle; margin-right: 5px;"><Download /></el-icon>
+                                  下载
+                                </el-dropdown-item>
                             </el-dropdown-menu>
+
                             <el-dropdown-menu>
-                                <el-dropdown-item @click="uploadFile(scope.row)">重新上传</el-dropdown-item>
+                                <el-dropdown-item @click="uploadFile(scope.row)">
+                                    <el-icon style="vertical-align: middle; margin-right: 5px;"><Upload /></el-icon>
+                                    重新上传
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                           </template>
                         </el-dropdown>
@@ -197,13 +210,14 @@
 </template>
 
 <script>
-import { ElMessage, ElMessageBox } from 'element-plus'
 import {
     Search,
     Delete,
     Edit,
     ArrowDown,
-    Plus
+    Plus,
+    Upload,
+    Download
 } from '@element-plus/icons-vue'
 
 export default {
@@ -389,14 +403,31 @@ export default {
         cancelUpload(){
             this.uploadDialogFormVisible = false
         },
-        async handleDelete(row) {
-            ElMessageBox.confirm('此操作将永久删除该资料. 是否继续?','提示',
-            {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                draggable: true,
+        handleBulkDelete(){
+            this.$confirm('此操作将永久批量删除资料, 是否继续?', '提示',
+                {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    draggable: true,
+                }
+            )
+            .then(() => {
+                console.log("删除 删除")
             })
+            .catch(()=> {
+            }) // 捕捉取消事件
+
+        },
+        async handleDelete(row) {
+            this.$confirm('此操作将永久删除资料 ' + row.name +' , 是否继续?', '提示',
+                {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    draggable: true,
+                }
+            )
             .then(() => {
                 this.$http.delete("/research/delete?research_id=" + row.research_id)
                 .then((res)=>{
@@ -416,7 +447,9 @@ export default {
         Edit,
         Delete,
         ArrowDown,
-        Plus
+        Plus,
+        Upload,
+        Download
     }
 }
 </script>

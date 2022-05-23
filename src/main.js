@@ -6,7 +6,6 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import router from './router/index.js'
 import { ElMessage } from 'element-plus'
 
-
 // 全局引入css
 import '../style/headtap.css'
 

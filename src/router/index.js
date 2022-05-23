@@ -41,7 +41,7 @@ const routes = [
             { // 权限设置页面
                 path: '/setting',
                 name: 'setting',
-                meta: {title: '权限管理'},
+                meta: {title: '标签管理'},
                 component:()=> import(/*webpackChunkName:'Setting'*/ '@/page/setting/index.vue')
             },
             { // 角色设置页面
