@@ -26,13 +26,14 @@
                 </el-col>
 
                 <el-table :data="userList" stripe style="margin-top: 20px; width: 100%">
-                    <el-table-column prop="user_id" label="用户ID" width="110" />
+                    <el-table-column type="selection" width="40" />
+                    <el-table-column prop="user_id" label="用户ID" width="110" sortable/>
                     <el-table-column prop="name" label="用户名" width="180" />
-                    <el-table-column prop="gmt_create" label="创建时间" width="200"/>
+                    <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                     <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
                     <el-table-column prop="email" label="邮箱" width="160"/>
-
-                    <el-table-column fixed="right" label="操作" width="500">
+                    <el-table-column prop="description" label="描述" />
+                    <el-table-column fixed="right" label="操作" width="250">
                         <template #default="scope">
                           <el-button type="primary" size="small" @click="handleUserEdit(scope.row)">
                             <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
