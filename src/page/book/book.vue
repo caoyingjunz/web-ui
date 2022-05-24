@@ -33,12 +33,6 @@
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
                     </el-button>
                 </el-col>
-
-                <el-col :span="4" :offset="10">
-                    <el-button type="primary" @click="handleBulkDelete" style="padding-right: 10px;">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
-                    </el-button>
-                </el-col>
             </el-row>
 
             <!-- table 表格区域 -->
