@@ -8,9 +8,8 @@
 
         <el-card style="margin-top: 30px;">
             <el-row :gutter="40">
-
                 <el-col :span="6">
-                    <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @clear="getBookList">
+                    <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList">
                     <template #append>
                         <el-button span="8" type="primary" size="default" @click="getBookList" >
                             <el-icon style="vertical-align: middle;" ><Search /></el-icon>
@@ -21,26 +20,40 @@
 
                 <el-col :span="4">
                     <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 新建资料
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
+
+                    <el-button  @click="getBookList">
+                        <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
+                    </el-button>
+
                 </el-col>
 
+
                 <el-col :span="4" :offset="10">
-                    <el-button type="primary" @click="handleBulkDelete" style="padding-right: 10px;">
+                    <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
+                    </el-button>
+                    <el-button  @click="handleBulkDelete" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
                     </el-button>
                 </el-col>
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="bookList" stripe  style="margin-top: 20px; width: 100%">
+            <el-table :data="bookList"
+                stripe
+                style="margin-top: 20px; width: 100%"
+                v-loading="loading"
+                >
+
                 <el-table-column type="selection" width="40" />
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable/>
                 <el-table-column prop="name" label="资料名" width="200" />
                 <el-table-column prop="rtype" label="类型" width="60" />
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
-                <el-table-column prop="press" label="出版社" width="160"/>
+                <el-table-column prop="press" label="出版机构" width="160"/>
                 <el-table-column prop="label" label="标签"/>
 
                 <el-table-column fixed="right" label="操作" width="250">
@@ -54,25 +67,25 @@
                       </el-button>
 
                         <el-dropdown>
-                          <el-button type="primary" size="small">
+                          <el-button type="info" size="small">
                              更多
                              <el-icon style="vertical-align: middle; margin-left: 5px;"><arrow-down /></el-icon>
                           </el-button>
 
                           <template #dropdown>
                             <el-dropdown-menu>
-                              <el-dropdown-item @click="downloadFile(scope.row)">
-                                <el-icon style="vertical-align: middle; margin-right: 5px;"><Download /></el-icon>
-                                  下载
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-
-                            <el-dropdown-menu>
                                 <el-dropdown-item @click="uploadFile(scope.row)">
                                     <el-icon style="vertical-align: middle; margin-right: 5px;"><Upload /></el-icon>
                                     重新上传
                                 </el-dropdown-item>
                             </el-dropdown-menu>
+
+                            <el-dropdown-menu>
+                                <el-dropdown-item @click="downloadFile(scope.row)">
+                                  <el-icon style="vertical-align: middle; margin-right: 5px;"><Download /></el-icon>
+                                    下载
+                                  </el-dropdown-item>
+                              </el-dropdown-menu>
                           </template>
                         </el-dropdown>
 
@@ -94,7 +107,7 @@
           </el-card>
 
           <!-- 创建对话框区域 -->
-          <el-dialog v-model="createDialogFormVisible" title="创建" width="60%" draggable @close="createDialogClose">
+          <el-dialog v-model="createDialogFormVisible" title="资料上传" width="60%" draggable @close="createDialogClose">
             <el-form
                 ref="createFormRef"
                 :model="createForm"
@@ -211,6 +224,7 @@
 
 <script>
 import {
+    Refresh,
     Search,
     Delete,
     Edit,
@@ -223,6 +237,7 @@ import {
 export default {
     data() {
         return{
+            loading: false,
             file:'',
             Search: '',
             Plus: '',
@@ -324,7 +339,9 @@ export default {
             this.getBookList()
         },
         async getBookList(){
+            this.loading = true
             const {data: res} = await this.$http.get('/research/list',{params: this.pageInfo})
+            this.loading = false
             if (res.code != 200){
                 return this.$message.error('获取资源列表失败');
             }
@@ -403,6 +420,9 @@ export default {
         cancelUpload(){
             this.uploadDialogFormVisible = false
         },
+        handleBulkDownload(){
+            console.log("handleBulkDownload")
+        },
         handleBulkDelete(){
             this.$confirm('此操作将永久批量删除资料, 是否继续?', '提示',
                 {
@@ -449,7 +469,8 @@ export default {
         ArrowDown,
         Plus,
         Upload,
-        Download
+        Download,
+        Refresh
     }
 }
 </script>
