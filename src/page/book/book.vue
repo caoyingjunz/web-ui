@@ -22,6 +22,11 @@
                     <el-button type="primary" @click="handleCreate">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
+
+                    <el-button  @click="getBookList">
+                        <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
+                    </el-button>
+
                 </el-col>
 
 
@@ -29,21 +34,26 @@
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
-                    <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
+                    <el-button  @click="handleBulkDelete" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
                     </el-button>
                 </el-col>
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="bookList" stripe  style="margin-top: 20px; width: 100%">
+            <el-table :data="bookList"
+                stripe
+                style="margin-top: 20px; width: 100%"
+                v-loading="loading"
+                >
+
                 <el-table-column type="selection" width="40" />
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable/>
                 <el-table-column prop="name" label="资料名" width="200" />
                 <el-table-column prop="rtype" label="类型" width="60" />
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
-                <el-table-column prop="press" label="出版社" width="160"/>
+                <el-table-column prop="press" label="出版机构" width="160"/>
                 <el-table-column prop="label" label="标签"/>
 
                 <el-table-column fixed="right" label="操作" width="250">
@@ -214,6 +224,7 @@
 
 <script>
 import {
+    Refresh,
     Search,
     Delete,
     Edit,
@@ -226,6 +237,7 @@ import {
 export default {
     data() {
         return{
+            loading: false,
             file:'',
             Search: '',
             Plus: '',
@@ -327,7 +339,9 @@ export default {
             this.getBookList()
         },
         async getBookList(){
+            this.loading = true
             const {data: res} = await this.$http.get('/research/list',{params: this.pageInfo})
+            this.loading = false
             if (res.code != 200){
                 return this.$message.error('获取资源列表失败');
             }
@@ -406,6 +420,9 @@ export default {
         cancelUpload(){
             this.uploadDialogFormVisible = false
         },
+        handleBulkDownload(){
+            console.log("handleBulkDownload")
+        },
         handleBulkDelete(){
             this.$confirm('此操作将永久批量删除资料, 是否继续?', '提示',
                 {
@@ -452,7 +469,8 @@ export default {
         ArrowDown,
         Plus,
         Upload,
-        Download
+        Download,
+        Refresh
     }
 }
 </script>
