@@ -10,7 +10,7 @@
 
             <el-row :gutter="40">
                 <el-col :span="6">
-                    <el-input placeholder="请输入用户名称" v-model="userInfo.query" clearable @clear="getUserList">
+                    <el-input placeholder="请输入用户名称" v-model="userInfo.query" @input="getUserList" clearable @clear="getUserList">
                     <template #append>
                         <el-button span="8" type="primary" size="default" @click="getUserList" >
                             <el-icon style="vertical-align: middle;" ><Search /></el-icon>
@@ -23,9 +23,14 @@
                     <el-button type="primary" @click="createUser">
                         <el-icon style="vertical-align: middle;margin-right: 8px;" ><plus /></el-icon> 新增用户
                     </el-button>
+
+                    <el-button  @click="getUserList">
+                        <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
+                    </el-button>
+
                 </el-col>
 
-                <el-table :data="userList" stripe style="margin-top: 20px; width: 100%">
+                <el-table :data="userList" stripe style="margin-top: 20px; width: 100%" v-loading="loading">
                     <el-table-column type="selection" width="40" />
                     <el-table-column prop="user_id" label="用户ID" width="110" sortable/>
                     <el-table-column prop="name" label="用户名" width="180" />
@@ -156,6 +161,7 @@
 
 <script>
 import {
+    Refresh,
     Search,
     Delete,
     Edit,
@@ -166,6 +172,7 @@ import {
 export default {
     data() {
         return{
+            loading: false,
             userInfo: {
                 query: '', // 带所有的用户名称关键字
                 use_page: true,
@@ -226,7 +233,9 @@ export default {
     },
     methods: {
         async getUserList(){
+            this.loading = true
             const {data: res} = await this.$http.get('/user/list', {params: this.userInfo})
+            this.loading = false
             if (res.code != 200){
                 return this.$message.error('获取资源列表失败');
             }
@@ -333,7 +342,8 @@ export default {
         Edit,
         Delete,
         ArrowDown,
-        Plus
+        Plus,
+        Refresh
     }
 }
 </script>
