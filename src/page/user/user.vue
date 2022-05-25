@@ -14,7 +14,7 @@
                   </el-input>
                 </el-col>
 
-                <el-col :span="4">
+                <el-col :span="6">
                     <el-button type="primary" @click="gotoAddPage"> 添加用户 </el-button>
                 </el-col>
             </el-row>
