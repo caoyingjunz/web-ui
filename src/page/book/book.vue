@@ -172,7 +172,11 @@
               </el-form-item>
 
               <el-form-item label="资料名" prop="name">
-                <el-input v-model="editForm.name" />
+                <el-input v-model="editForm.name" disabled/>
+              </el-form-item>
+
+              <el-form-item label="类型" prop="rtype">
+                <el-input v-model="editForm.rtype" disabled/>
               </el-form-item>
 
               <el-form-item label="创建时间" prop="gmt_create">
@@ -414,6 +418,7 @@ export default {
             this.editForm.research_id = row.research_id
             this.editForm.resource_version = row.resource_version
             this.editForm.name = row.name
+            this.editForm.rtype = row.rtype
             this.editForm.gmt_create = row.gmt_create
             this.editForm.gmt_modified = row.gmt_modified
             this.editForm.press = row.press
