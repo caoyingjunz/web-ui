@@ -18,7 +18,7 @@
                   </el-input>
                 </el-col>
 
-                <el-col :span="4">
+                <el-col :span="6">
                     <el-button type="primary" @click="handleCreate">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
@@ -26,11 +26,9 @@
                     <el-button  @click="getBookList">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
-
                 </el-col>
 
-
-                <el-col :span="4" :offset="10">
+                <el-col :span="6" :offset="6">
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
@@ -115,12 +113,30 @@
                 label-width="10px"
                 label-position="top"
               >
-              <el-form-item label="资料名" prop="name">
-                <el-input v-model="createForm.name" placeholder="请输入资料名"/>
-              </el-form-item>
 
-              <el-form-item label="出版社" prop="press">
-                <el-input v-model="createForm.press" placeholder="请输入出版社" />
+              <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="doUpload"
+                drag
+                multiple
+                :limit="1"
+                :before-upload="beforeUpload">
+
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    Drop file here or <em>click to upload</em>
+                </div>
+                <template #tip>
+                    <div class="el-upload__tip">
+                      files with a size less than 500kb
+                    </div>
+                  </template>
+                 <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
+              </el-upload>
+
+              <el-form-item label="出版机构" prop="press">
+                <el-input v-model="createForm.press" placeholder="请输入出版机构" />
               </el-form-item>
 
               <el-form-item label="标签" prop="label">
@@ -136,7 +152,7 @@
             <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="cancelCreate">取消</el-button>
-                  <el-button type="primary" @click="confirmCreate">确定</el-button>
+                  <el-button type="primary" @click="confirmCreate2">确定</el-button>
                 </span>
               </template>
             </el-dialog>
@@ -156,14 +172,18 @@
               </el-form-item>
 
               <el-form-item label="资料名" prop="name">
-                <el-input v-model="editForm.name" />
+                <el-input v-model="editForm.name" disabled/>
+              </el-form-item>
+
+              <el-form-item label="类型" prop="rtype">
+                <el-input v-model="editForm.rtype" disabled/>
               </el-form-item>
 
               <el-form-item label="创建时间" prop="gmt_create">
                 <el-input v-model="editForm.gmt_create" disabled/>
               </el-form-item>
 
-              <el-form-item label="出版社" prop="press">
+              <el-form-item label="出版机构" prop="press">
                 <el-input v-model="editForm.press" />
               </el-form-item>
 
@@ -231,7 +251,8 @@ import {
     ArrowDown,
     Plus,
     Upload,
-    Download
+    Download,
+    UploadFilled
 } from '@element-plus/icons-vue'
 
 export default {
@@ -239,11 +260,6 @@ export default {
         return{
             loading: false,
             file:'',
-            Search: '',
-            Plus: '',
-            Delete: '',
-            Edit: '',
-            ArrowDown: '',
             pageInfo: {
                 query: '',
                 use_page: true, // 默认启用分页效果
@@ -353,9 +369,40 @@ export default {
         handleCreate(){
             this.createDialogFormVisible = true
         },
+        confirmCreate2(){
+            this.createDialogFormVisible = false
+            if (this.file == ''){
+                return this.$message.error('请选择要上传的文件！')
+            }
+
+            this.$http.post("/research/create", this.createForm)
+                .then((res)=>{
+                    let fileFormData = new FormData();
+                    fileFormData.append('file', this.file, this.file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+                    let requestConfig = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                    }
+                    // TODO： 先创建后，生成id之后然后上传
+                    this.$http.post("/research/upload?research_id=" + res.data.result.research_id, fileFormData, requestConfig)
+                        .then((res)=>{
+                            this.file = ''
+                            this.getBookList()
+                            this.$message.success("上传资料成功")
+                            this.uploadDialogFormVisible = false
+                        })
+                        .catch((err)=> {
+                            this.$message.error(err.toString())
+                        })
+                })
+                .catch((err)=> {
+                    return this.$message.error(err.toString())
+                })
+        },
         confirmCreate(){
             this.createDialogFormVisible = false
-            this.$http.post("/research/create", this.createForm)
+            const {data: res} =  this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     this.getBookList()
                     return this.$message.success(this.createForm.name+" 创建成功")
@@ -371,6 +418,7 @@ export default {
             this.editForm.research_id = row.research_id
             this.editForm.resource_version = row.resource_version
             this.editForm.name = row.name
+            this.editForm.rtype = row.rtype
             this.editForm.gmt_create = row.gmt_create
             this.editForm.gmt_modified = row.gmt_modified
             this.editForm.press = row.press
@@ -413,6 +461,7 @@ export default {
                     this.file = ''
                 })
                 .catch((err)=> {
+                    this.file = ''
                     return this.$message.error(err.toString())
                 })
             this.uploadDialogFormVisible = false
@@ -470,7 +519,8 @@ export default {
         Plus,
         Upload,
         Download,
-        Refresh
+        Refresh,
+        UploadFilled
     }
 }
 </script>
