@@ -19,7 +19,7 @@
                   </el-input>
                 </el-col>
 
-                <el-col :span="4">
+                <el-col :span="6">
                     <el-button type="primary" @click="createUser">
                         <el-icon style="vertical-align: middle;margin-right: 8px;" ><plus /></el-icon> 新增用户
                     </el-button>
