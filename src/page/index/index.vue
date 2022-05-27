@@ -52,7 +52,7 @@
                   <span>研究资料</span>
               </el-menu-item>
 
-              <el-menu-item index="/tag" @click='saveActiveIndex("/tag")'>
+              <el-menu-item index="/label" @click='saveActiveIndex("/label")'>
                 <el-icon><Promotion /></el-icon>
                 <span>标签管理</span>
             </el-menu-item>
