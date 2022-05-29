@@ -38,6 +38,12 @@ const routes = [
                 meta: {title: '图书管理'},
                 component:()=> import(/*webpackChunkName:'Book'*/ '@/page/book/book.vue')
             },
+            {
+                path: '/label',
+                name: 'label',
+                meta: {title: '标签管理'},
+                component:()=> import(/*webpackChunkName:'Book'*/ '@/page/book/label.vue')
+            },
             { // 权限设置页面
                 path: '/setting',
                 name: 'setting',

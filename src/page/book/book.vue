@@ -125,13 +125,14 @@
 
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
-                    Drop file here or <em>click to upload</em>
+                    将文件拖到此处，或 <em>点击上传</em>
                 </div>
+
                 <template #tip>
                     <div class="el-upload__tip">
-                      files with a size less than 500kb
+                        只能上传jpg/png文件，且不超过500kb
                     </div>
-                  </template>
+                </template>
                  <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
               </el-upload>
 

@@ -8,7 +8,12 @@
         </div>
 
         <div style="display: flex; align-items:center;">
-          <el-button style="margin: 0px 20px;"  type="text" @click="logout"> 退出 </el-button>
+
+          <!-- <div class="block" style="margin: 30px 0px 10px;">
+            <el-avatar :size="40" :src="circleUrl"/>
+          </div> -->
+
+          <el-button style="margin: 0px 20px;" type="text" @click="logout"> 退出 </el-button>
         </div>
       </el-header>
 
@@ -46,6 +51,11 @@
                   <el-icon><Notebook /></el-icon>
                   <span>研究资料</span>
               </el-menu-item>
+
+              <el-menu-item index="/label" @click='saveActiveIndex("/label")'>
+                <el-icon><Promotion /></el-icon>
+                <span>标签管理</span>
+            </el-menu-item>
 
               <!-- 有子集 -->
               <el-sub-menu index="4">
@@ -90,12 +100,8 @@ import {
 export default {
     data() {
         return {
-          Histogram: '',
-          Notebook: '',
-          Setting: '',
-          Lock: '',
-          UserFilled: '',
           activeIndex: '',
+          circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
         }
     },
     created(){
