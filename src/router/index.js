@@ -44,10 +44,16 @@ const routes = [
                 meta: {title: '标签管理'},
                 component:()=> import(/*webpackChunkName:'Book'*/ '@/page/book/label.vue')
             },
+            {
+                path: '/labelDetail',
+                name: 'labelDetail',
+                meta: {title: '标签详情'},
+                component:()=> import(/*webpackChunkName:'Book'*/ '@/page/book/labeldetail.vue')
+            },
             { // 权限设置页面
                 path: '/setting',
                 name: 'setting',
-                meta: {title: '标签管理'},
+                meta: {title: '设置'},
                 component:()=> import(/*webpackChunkName:'Setting'*/ '@/page/setting/index.vue')
             },
             { // 角色设置页面
