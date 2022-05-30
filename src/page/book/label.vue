@@ -31,9 +31,21 @@
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="labelList" stripe style="margin-top: 20px; width: 100%" v-loading="loading">
+            <el-table
+                :data="labelList"
+                stripe style="margin-top: 20px; width: 100%"
+                v-loading="loading"
+                >
+
                 <el-table-column type="selection" width="40" />
-                <el-table-column prop="name" label="标签名称" width="200" sortable/>
+
+                <el-table-column prop="name" label="标签名称" width="200" sortable>
+                    <template #default="scope">
+                        <router-link tag="a" :to="{path: '/labelDetail', query: {label_id: scope.row.label_id}}"> {{ scope.row.name }}  </router-link>
+                    </template>
+
+                </el-table-column>
+
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <el-table-column prop="content" label="标签值"/>
 
@@ -92,7 +104,7 @@
             </el-dialog>
 
           <!-- 编辑对话框区域 -->
-          <el-dialog v-model="dialogFormVisible" title="编辑" width="60%" draggable @close="editDialogClose">
+          <el-dialog v-model="dialogFormVisible" title="编辑标签" width="60%" draggable @close="editDialogClose">
             <el-form
                 ref="editFormRef"
                 :model="editForm"
@@ -101,32 +113,16 @@
                 label-position="top"
               >
 
-              <el-form-item label="资料编号" prop="research_id">
-                <el-input v-model="editForm.research_id" disabled/>
-              </el-form-item>
-
-              <el-form-item label="资料名" prop="name">
+              <el-form-item label="标签名称" prop="name">
                 <el-input v-model="editForm.name" disabled/>
-              </el-form-item>
-
-              <el-form-item label="类型" prop="rtype">
-                <el-input v-model="editForm.rtype" disabled/>
               </el-form-item>
 
               <el-form-item label="创建时间" prop="gmt_create">
                 <el-input v-model="editForm.gmt_create" disabled/>
               </el-form-item>
 
-              <el-form-item label="出版机构" prop="press">
-                <el-input v-model="editForm.press" />
-              </el-form-item>
-
-              <el-form-item label="标签" prop="label">
-                <el-input v-model="editForm.label"/>
-              </el-form-item>
-
-              <el-form-item label="描述" prop="description">
-                <el-input v-model="editForm.description" type="textarea" :autosize="autosize"/>
+              <el-form-item label="标签值" prop="label">
+                <el-input v-model="editForm.content"/>
               </el-form-item>
 
             </el-form>
@@ -159,15 +155,11 @@ export default {
     data() {
         return{
             loading: false,
-            file:'',
             pageInfo: {
                 query: '',
                 use_page: true, // 默认启用分页效果
                 page: 1,
                 page_size: 10, // 默认值需要是分页定义的值
-            },
-            deleteParam: {
-                research_id: 0
             },
             labelList: [],
             createDialogFormVisible: false,
@@ -191,27 +183,18 @@ export default {
                 ]
             },
             editForm: {
-                research_id: 0,
+                label_id: 0,
                 resource_version: 0,
+                parent_id: 0,
                 name: '',
                 gmt_create: '',
                 gmt_modified: '',
-                press: '',
-                description: '',
+                content: '',
             },
             editFormRules: {
                 name: [
                     {required: true, message: '请输入资料名', trigger: 'blur'}
-                ],
-                press: [
-                    {required: false, message: '请输入出版社', trigger: 'blur'}
-                ],
-                description: [
-                    {required: false, message: '请输入简介', trigger: 'blur'}
-                ],
-            },
-            uploadForm: {
-                research_id: 0,
+                ]
             }
         }
     },
@@ -245,7 +228,7 @@ export default {
             }
             this.pageInfo.page = res.result.page
             this.pageInfo.page_size = res.result.page_size
-            this.labelList = res.result.result
+            this.labelList = res.result
             this.total = 10
         },
         handleCreate(){
@@ -266,6 +249,13 @@ export default {
             this.createDialogFormVisible = false
         },
         handleEdit(row){
+            this.editForm.name = row.name
+            this.editForm.label_id = row.label_id
+            this.editForm.resource_version = row.resource_version
+            this.editForm.gmt_create = row.gmt_create
+            this.editForm.gmt_modified = row.gmt_modified
+            this.editForm.content = row.content
+
             this.dialogFormVisible = true
         },
         confirmEdit(){
@@ -284,7 +274,7 @@ export default {
             this.dialogFormVisible =false
         },
         async handleDelete(row) {
-            this.$confirm('此操作将永久删除资料 ' + row.name +' , 是否继续?', '提示',
+            this.$confirm('此操作将永久删除标签 ' + row.name +' , 是否继续?', '提示',
                 {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -293,9 +283,9 @@ export default {
                 }
             )
             .then(() => {
-                this.$http.delete("/research/label/delete?research_id=" + row.research_id)
+                this.$http.delete("/research/label/delete?label_id=" + row.label_id)
                 .then((res)=>{
-                    this.getBookList()
+                    this.getLabelList()
                     return this.$message.success(row.name+" 删除成功")
                 })
                 .catch((err)=> {
@@ -325,5 +315,4 @@ export default {
     vertical-align: middle;
     text-align: center;
 }
-
 </style>
