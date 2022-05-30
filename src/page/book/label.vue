@@ -194,8 +194,8 @@ export default {
             editFormRules: {
                 name: [
                     {required: true, message: '请输入资料名', trigger: 'blur'}
-                ]
-            }
+                ],
+            },
         }
     },
     created() {
@@ -255,7 +255,6 @@ export default {
             this.editForm.gmt_create = row.gmt_create
             this.editForm.gmt_modified = row.gmt_modified
             this.editForm.content = row.content
-
             this.dialogFormVisible = true
         },
         confirmEdit(){
