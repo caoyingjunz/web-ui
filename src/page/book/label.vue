@@ -41,7 +41,8 @@
 
                 <el-table-column prop="name" label="标签名称" width="200" sortable>
                     <template #default="scope">
-                        <router-link tag="a" :to="{path: '/labelDetail', query: {label_id: scope.row.label_id}}"> {{ scope.row.name }}  </router-link>
+                        <el-link type="primary" @click="jumpRoute(scope.row.label_id)"> {{ scope.row.name }} </el-link>
+                        <!-- <router-link tag="a" :to="{path: '/labelDetail', query: {label_id: scope.row.label_id}}"> {{ scope.row.name }}  </router-link> -->
                     </template>
 
                 </el-table-column>
@@ -49,7 +50,7 @@
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <el-table-column prop="content" label="标签值"/>
 
-                <el-table-column fixed="right" label="操作" width="250">
+                <el-table-column fixed="right" label="操作" width="200">
                     <template #default="scope">
                       <el-button type="primary" size="small" @click="handleEdit(scope.row)">
                         <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
@@ -202,6 +203,14 @@ export default {
         this.getLabelList()
     },
     methods: {
+        jumpRoute(label_id){
+            this.$router.push({
+                name: 'labelDetail',
+                params: {
+                    label_id: label_id,
+                }
+            })
+        },
         editDialogClose(){
             this.$refs.editFormRef.resetFields()
         },

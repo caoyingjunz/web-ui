@@ -38,7 +38,7 @@
                     <el-table-column prop="gmt_modified" label="更新时间" width="200"/>
                     <el-table-column prop="email" label="邮箱" width="160"/>
                     <el-table-column prop="description" label="描述" />
-                    <el-table-column fixed="right" label="操作" width="250">
+                    <el-table-column fixed="right" label="操作" width="200">
                         <template #default="scope">
                           <el-button type="primary" size="small" @click="handleUserEdit(scope.row)">
                             <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
