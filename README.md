@@ -4,4 +4,4 @@
 ![login](./static/loginpage.png)
 
 ## Install WEB-UI
-[Installation](./install.md).
+[Installation](./install.md)

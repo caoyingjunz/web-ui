@@ -49,7 +49,7 @@
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <el-table-column prop="content" label="标签值"/>
 
-                <el-table-column fixed="right" label="操作" width="250">
+                <el-table-column fixed="right" label="操作" width="200">
                     <template #default="scope">
                       <el-button type="primary" size="small" @click="handleEdit(scope.row)">
                         <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
