@@ -68,10 +68,10 @@
                     <el-icon><UserFilled /></el-icon>
                     <span>用户管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/setting" @click='saveActiveIndex("/setting")'>
+                  <!-- <el-menu-item index="/setting" @click='saveActiveIndex("/setting")'>
                       <el-icon><Promotion /></el-icon>
                       <span>标签管理</span>
-                  </el-menu-item>
+                  </el-menu-item> -->
                 </el-menu-item-group>
               </el-sub-menu>
 

@@ -41,7 +41,8 @@
 
                 <el-table-column prop="name" label="标签名称" width="200" sortable>
                     <template #default="scope">
-                        <router-link tag="a" :to="{path: '/labelDetail', query: {label_id: scope.row.label_id}}"> {{ scope.row.name }}  </router-link>
+                        <el-link type="primary" @click="jumpRoute(scope.row.label_id)"> {{ scope.row.name }} </el-link>
+                        <!-- <router-link tag="a" :to="{path: '/labelDetail', query: {label_id: scope.row.label_id}}"> {{ scope.row.name }}  </router-link> -->
                     </template>
 
                 </el-table-column>
@@ -202,6 +203,14 @@ export default {
         this.getLabelList()
     },
     methods: {
+        jumpRoute(label_id){
+            this.$router.push({
+                name: 'labelDetail',
+                params: {
+                    label_id: label_id,
+                }
+            })
+        },
         editDialogClose(){
             this.$refs.editFormRef.resetFields()
         },

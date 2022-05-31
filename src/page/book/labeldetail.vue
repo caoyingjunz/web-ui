@@ -17,12 +17,14 @@ export default {
   },
   created() {
       this.activeName = window.sessionStorage.getItem("activeName")
-      this.label_id = this.$route.query.label_id
+      this.label_id = this.$route.params.label_id
   },
   methods: {
       handleClick(tab, event) {
           this.activeName = tab.props.name
           window.sessionStorage.setItem("activeName", this.activeName)
+      },
+      handleOpen(){
       }
   },
   components: {
