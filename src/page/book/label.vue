@@ -194,8 +194,6 @@ export default {
             editFormRules: {
                 name: [
                     {required: true, message: '请输入资料名', trigger: 'blur'}
-                ]
-            }
         }
     },
     created() {
