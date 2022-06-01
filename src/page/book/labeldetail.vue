@@ -1,10 +1,18 @@
 <template>
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane label="详情" name="first">User</el-tab-pane>
-        <el-tab-pane label="标签列表" name="second">Config</el-tab-pane>
-        <el-tab-pane label="Role" name="third">Role</el-tab-pane>
-        <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
-    </el-tabs>
+    <div>
+        <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item><a href="/#/label">标签管理</a></el-breadcrumb-item>
+            <el-breadcrumb-item>标签详情</el-breadcrumb-item>
+        </el-breadcrumb>
+
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+            <el-tab-pane label="详情" name="first">User</el-tab-pane>
+            <el-tab-pane label="标签列表" name="second">Config</el-tab-pane>
+            <el-tab-pane label="Role" name="third">Role</el-tab-pane>
+            <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
+        </el-tabs>
+    </div>
 </template>
 
 <script>
