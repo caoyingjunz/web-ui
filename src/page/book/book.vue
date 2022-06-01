@@ -52,7 +52,15 @@
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
                 <el-table-column prop="press" label="出版机构" width="160"/>
-                <el-table-column prop="label" label="标签"/>
+
+                <el-table-column prop="label" label="标签值">
+                    <template #default="scope">
+                        <span v-for="(item, index) in (scope.row.label || '').split(',')">
+                            <el-tag class="ml-1"> {{ item }} </el-tag>
+                        </span>
+                    </template>
+                </el-table-column>
+
 
                 <el-table-column fixed="right" label="操作" width="250">
                     <template #default="scope">
@@ -532,4 +540,7 @@ export default {
     text-align: center;
 }
 
+.ml-1 {
+    margin: 2px;
+}
 </style>
