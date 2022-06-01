@@ -48,7 +48,14 @@
                 </el-table-column>
 
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
-                <el-table-column prop="content" label="标签值"/>
+
+                <el-table-column prop="content" label="标签值">
+                    <template #default="scope">
+                        <span v-for="(item, index) in (scope.row.content || '').split(',')">
+                            <el-tag class="ml-1"> {{ item }} </el-tag>
+                        </span>
+                    </template>
+                </el-table-column>
 
                 <el-table-column fixed="right" label="操作" width="200">
                     <template #default="scope">
@@ -322,5 +329,9 @@ export default {
 .el-icon {
     vertical-align: middle;
     text-align: center;
+}
+
+.ml-1 {
+    margin: 2px;
 }
 </style>
