@@ -42,28 +42,29 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                label_id: 0,
-                activeName: "first"
-            }
-        },
-        created() {
-            this.activeName = window.sessionStorage.getItem("activeName")
-            this.label_id = this.$route.params.label_id
-        },
-        methods: {
-            handleClick(tab, event) {
-                this.activeName = tab.props.name
-                window.sessionStorage.setItem("activeName", this.activeName)
-            },
-            handleOpen() {}
-        },
-        components: {
+export default {
+  data() {
+      return {
+          label_id: 0,
+          activeName: "first"
+      }
+  },
+  created() {
+      this.activeName = window.sessionStorage.getItem("activeName")
+      this.label_id = this.$route.params.label_id
+  },
+  methods: {
+      handleClick(tab, event) {
+          this.activeName = tab.props.name
+          window.sessionStorage.setItem("activeName", this.activeName)
+      },
+      handleOpen(){
+      }
+  },
+  components: {
 
-        },
-    }
+  },
+}
 </script>
 
 <style>
