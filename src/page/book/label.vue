@@ -332,6 +332,7 @@
         vertical-align: middle;
         text-align: center;
     }
+
     .ml-1 {
         margin: 2px;
     }
