@@ -149,7 +149,27 @@
               </el-form-item>
 
               <el-form-item label="标签" prop="label">
-                <el-input v-model="createForm.label" placeholder="请输入标签"/>
+                <el-tag
+                :key="tag"
+                v-for="tag in dynamicTags"
+                closable
+                :disable-transitions="false"
+                @close="handleClose(tag)">
+                {{tag}}
+              </el-tag>
+              <el-input
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleInputConfirm"
+                @blur="handleInputConfirm"
+              >
+              </el-input>
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+
+                <!-- <el-input v-model="createForm.label" placeholder="请输入标签"/> -->
               </el-form-item>
 
               <el-form-item label="描述" prop="description">
@@ -197,7 +217,27 @@
               </el-form-item>
 
               <el-form-item label="标签" prop="label">
-                <el-input v-model="editForm.label"/>
+                <el-tag
+                :key="tag"
+                v-for="tag in dynamicTags"
+                closable
+                :disable-transitions="false"
+                @close="handleClose(tag)">
+                {{tag}}
+              </el-tag>
+
+              <el-input
+                class="input-new-tag"
+                v-if="inputVisible"
+                v-model="inputValue"
+                ref="saveTagInput"
+                size="small"
+                @keyup.enter.native="handleInputConfirm"
+                @blur="handleInputConfirm"
+              >
+              </el-input>
+
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
               </el-form-item>
 
               <el-form-item label="描述" prop="description">
@@ -267,6 +307,10 @@ import {
 export default {
     data() {
         return{
+            dynamicTags: [],
+            inputVisible: false,
+            inputValue: '',
+
             loading: false,
             file:'',
             pageInfo: {
@@ -335,6 +379,24 @@ export default {
         this.getBookList()
     },
     methods: {
+        handleClose(tag) {
+          this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+        },
+        showInput() {
+            this.inputVisible = true;
+            this.$nextTick(_ => {
+            this.$refs.saveTagInput.$refs.input.focus();
+            });
+        },
+        handleInputConfirm() {
+            let inputValue = this.inputValue;
+            if (inputValue) {
+            this.dynamicTags.push(inputValue);
+            }
+            this.inputVisible = false;
+            this.inputValue = '';
+        },
+
         beforeUpload(file){
             this.file = file
             return false // 返回false不会自动上传
@@ -383,7 +445,8 @@ export default {
             if (this.file == ''){
                 return this.$message.error('请选择要上传的文件！')
             }
-
+            this.createForm.label = this.dynamicTags.join(",")
+            this.dynamicTags = []
             this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     let fileFormData = new FormData();
@@ -409,19 +472,9 @@ export default {
                     return this.$message.error(err.toString())
                 })
         },
-        confirmCreate(){
-            this.createDialogFormVisible = false
-            const {data: res} =  this.$http.post("/research/create", this.createForm)
-                .then((res)=>{
-                    this.getBookList()
-                    return this.$message.success(this.createForm.name+" 创建成功")
-                })
-                .catch((err)=> {
-                    return this.$message.error(err.toString())
-                })
-        },
         cancelCreate(){
             this.createDialogFormVisible = false
+            this.dynamicTags = []
         },
         handleEdit(row){
             this.editForm.research_id = row.research_id
@@ -432,13 +485,15 @@ export default {
             this.editForm.gmt_modified = row.gmt_modified
             this.editForm.press = row.press
             this.editForm.label = row.label
+            this.dynamicTags = row.label.split(',')
             this.editForm.description = row.description
 
             this.dialogFormVisible = true
         },
         confirmEdit(){
             this.dialogFormVisible = false
-
+            this.editForm.label = this.dynamicTags.join(',')
+            this.dynamicTags = []
             this.$http.put("/research/update", this.editForm)
                 .then((res)=>{
                     this.getBookList()
@@ -450,6 +505,7 @@ export default {
         },
         cancelEdit(){
             this.dialogFormVisible =false
+            this.dynamicTags = []
         },
         confirmUpload(){
             if (this.file == ''){
@@ -542,5 +598,24 @@ export default {
 
 .ml-1 {
     margin: 2px;
+}
+
+
+.el-tag + .el-tag {
+    margin-left: 6px;
+}
+
+.button-new-tag {
+    margin-left: 10px;
+    /* height: 32px; */
+    /* line-height: 30px; */
+    /* padding-top: 0;
+    padding-bottom: 0; */
+}
+
+.input-new-tag {
+    width: 120px;
+    margin-left: 10px;
+    vertical-align: bottom;
 }
 </style>
