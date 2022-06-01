@@ -8,35 +8,36 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                label_id: 0,
-                activeName: "first"
-            }
-        },
-        created() {
-            this.activeName = window.sessionStorage.getItem("activeName")
-            this.label_id = this.$route.params.label_id
-        },
-        methods: {
-            handleClick(tab, event) {
-                this.activeName = tab.props.name
-                window.sessionStorage.setItem("activeName", this.activeName)
-            },
-            handleOpen() {}
-        },
-        components: {
+export default {
+  data() {
+      return {
+          label_id: 0,
+          activeName: "first"
+      }
+  },
+  created() {
+      this.activeName = window.sessionStorage.getItem("activeName")
+      this.label_id = this.$route.params.label_id
+  },
+  methods: {
+      handleClick(tab, event) {
+          this.activeName = tab.props.name
+          window.sessionStorage.setItem("activeName", this.activeName)
+      },
+      handleOpen(){
+      }
+  },
+  components: {
 
-        },
-    }
+  },
+}
 </script>
 
 <style>
-    .demo-tabs>.el-tabs__content {
-        padding: 32px;
-        color: #6b778c;
-        font-size: 32px;
-        font-weight: 600;
-    }
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
 </style>
