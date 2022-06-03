@@ -191,7 +191,6 @@
                 </el-dialog>
 
             </el-tab-pane>
-            <el-tab-pane label="其他信息" name="third">TODO</el-tab-pane>
         </el-tabs>
     </div>
 </template>
