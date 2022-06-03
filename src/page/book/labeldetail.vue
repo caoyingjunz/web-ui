@@ -154,7 +154,7 @@
                     @current-change="handleCurrentChange" />
 
                 <!-- 创建对话框区域 -->
-                <el-dialog v-model="createDialogFormVisible" title="新建标签" width="60%" draggable
+                <el-dialog v-model="createDialogFormVisible" title="新建子标签" width="60%" draggable
                     @close="createDialogClose">
                     <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
                         label-position="top">
@@ -217,6 +217,7 @@
                 inputValue: '',
                 dynamicTags: [],
                 subDynamicTags: [],
+
                 labelList: [],
                 pageInfo: {
                     query: '',
@@ -292,13 +293,32 @@
         },
         methods: {
             handleClose(tag) {
-                this.subDynamicTags.splice(this.subDynamicTags.indexOf(tag), 1);
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
             },
             showInput() {
                 this.inputVisible = true;
                 this.$nextTick(_ => {
                     this.$refs.saveTagInput.$refs.input.focus();
                 });
+            },
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.dynamicTags.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+
+            },
+            comfirmTagUpdate(){
+                this.label_info.content = this.dynamicTags.join(',')
+                this.$http.put("/research/label/update", this.label_info)
+                .then((res)=>{
+                    this.getLabelDetail(this.label_id)
+                })
+                .catch((err)=> {
+                     this.$message.error(err.toString())
+                })
             },
             handleSizeChange(newSize) {
                 this.pageInfo.page_size = newSize
@@ -307,14 +327,6 @@
             handleCurrentChange(newPage) {
                 this.pageInfo.page = newPage
                 this.getLabelList()
-            },
-            handleInputConfirm() {
-                let inputValue = this.inputValue;
-                if (inputValue) {
-                    this.subDynamicTags.push(inputValue);
-                }
-                this.inputVisible = false;
-                this.inputValue = '';
             },
             handleClick(tab, event) {
                 this.activeName = tab.props.name
