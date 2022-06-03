@@ -273,6 +273,8 @@ export default {
             this.inputValue = '';
         },
         jumpRoute(label_id){
+            window.sessionStorage.setItem("activeLableId",label_id)
+            window.sessionStorage.setItem("activeName","first")
             this.$router.push({
                 name: 'labelDetail',
                 params: {
