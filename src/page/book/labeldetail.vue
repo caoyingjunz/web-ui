@@ -29,6 +29,12 @@
                             </el-col>
 
                             <el-col :span="6">
+                                <el-form-item label="标签ID:">
+                                    <div>{{ label_info.label_id }}</div>
+                                </el-form-item>
+                            </el-col>
+
+                            <el-col :span="6">
                                 <el-form-item label="创建时间:">
                                     <div>{{ label_info.gmt_create }}</div>
                                 </el-form-item>
@@ -66,7 +72,8 @@
                 </div>
 
             </el-tab-pane>
-            <el-tab-pane label="标签列表" name="second">
+
+            <el-tab-pane label="子标签列表" name="second">
                 <el-row :gutter="40">
                     <el-col :span="6">
                         <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getLabelList"
@@ -85,7 +92,7 @@
                         <el-button type="primary" @click="handleCreate">
                             <el-icon style="vertical-align: middle;margin-right: 8px;">
                                 <plus />
-                            </el-icon> 新建标签
+                            </el-icon> 新建子标签
                         </el-button>
 
                         <el-button @click="getLabelList">
@@ -140,6 +147,49 @@
 
                 </el-table>
 
+                <!-- 分页区域 -->
+                <el-pagination style="margin-top: 20px;" v-model:currentPage="pageInfo.page"
+                    v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange" />
+
+                <!-- 创建对话框区域 -->
+                <el-dialog v-model="createDialogFormVisible" title="新建标签" width="60%" draggable
+                    @close="createDialogClose">
+                    <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
+                        label-position="top">
+
+                        <el-form-item label="所属标签" prop="owner">
+                            <el-input v-model="createForm.owner" disabled />
+                        </el-form-item>
+
+                        <el-form-item label="标签名称" prop="name">
+                            <el-input v-model="createForm.name" placeholder="请输入标签名称" />
+                        </el-form-item>
+
+                        <el-form-item label="标签值" prop="content">
+                            <el-tag :key="tag" v-for="tag in subDynamicTags" closable :disable-transitions="false"
+                                @close="handleClose(tag)">
+                                {{tag}}
+                            </el-tag>
+                            <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput"
+                                size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                            </el-input>
+                            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag
+                            </el-button>
+                            <!-- <el-input v-model="createForm.content" placeholder="请输入标签" type="textarea" :autosize="autosize"/> -->
+                        </el-form-item>
+
+                    </el-form>
+
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="cancelCreate">取消</el-button>
+                            <el-button type="primary" @click="confirmCreate">确定</el-button>
+                        </span>
+                    </template>
+                </el-dialog>
+
             </el-tab-pane>
             <el-tab-pane label="其他信息" name="third">TODO</el-tab-pane>
         </el-tabs>
@@ -166,9 +216,11 @@
                 inputVisible: false,
                 inputValue: '',
                 dynamicTags: [],
+                subDynamicTags: [],
                 labelList: [],
                 pageInfo: {
                     query: '',
+                    pid: 0,
                     use_page: true, // 默认启用分页效果
                     page: 1,
                     page_size: 10, // 默认值需要是分页定义的值
@@ -183,7 +235,43 @@
                     "gmt_modified": ""
                 },
                 label_id: 0,
-                activeName: "first"
+                activeName: "first",
+
+                createDialogFormVisible: false,
+                dialogFormVisible: false,
+                uploadDialogFormVisible: false,
+                total: 0,
+                autosize: {
+                    minRows: 4,
+                },
+                createForm: {
+                    name: '',
+                    parent_id: 0,
+                    owner: "",
+                    content: '',
+                },
+                createFormRules: {
+                    name: [
+                        { required: true, message: '请输入标签名称', trigger: 'blur' }
+                    ],
+                    content: [
+                        { required: false, message: '', trigger: 'blur' }
+                    ]
+                },
+                editForm: {
+                    label_id: 0,
+                    resource_version: 0,
+                    parent_id: 0,
+                    name: '',
+                    gmt_create: '',
+                    gmt_modified: '',
+                    content: '',
+                },
+                editFormRules: {
+                    name: [
+                        { required: true, message: '请输入资料名', trigger: 'blur' }
+                    ],
+                },
             }
         },
         created() {
@@ -199,11 +287,12 @@
             }
 
             this.getLabelDetail(this.label_id)
+            this.pageInfo.pid = this.label_id
             this.getLabelList()
         },
         methods: {
             handleClose(tag) {
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                this.subDynamicTags.splice(this.subDynamicTags.indexOf(tag), 1);
             },
             showInput() {
                 this.inputVisible = true;
@@ -211,10 +300,18 @@
                     this.$refs.saveTagInput.$refs.input.focus();
                 });
             },
+            handleSizeChange(newSize) {
+                this.pageInfo.page_size = newSize
+                this.getLabelList()
+            },
+            handleCurrentChange(newPage) {
+                this.pageInfo.page = newPage
+                this.getLabelList()
+            },
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
-                    this.dynamicTags.push(inputValue);
+                    this.subDynamicTags.push(inputValue);
                 }
                 this.inputVisible = false;
                 this.inputValue = '';
@@ -223,7 +320,63 @@
                 this.activeName = tab.props.name
                 window.sessionStorage.setItem("activeName", this.activeName)
             },
+            async handleDelete(row) {
+                this.$confirm('此操作将永久删除标签 ' + row.name + ' , 是否继续?', '提示',
+                    {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning',
+                        draggable: true,
+                    }
+                )
+                    .then(() => {
+                        this.$http.delete("/research/label/delete?label_id=" + row.label_id)
+                            .then((res) => {
+                                this.getLabelList()
+                                return this.$message.success(row.name + " 删除成功")
+                            })
+                            .catch((err) => {
+                                return this.$message.error(err.toString())
+                            })
+                    })
+                    .catch(() => {
+                    }) // 捕捉取消事件
+            },
             handleOpen() {
+            },
+            handleCreate() {
+                this.createForm.owner = this.label_info.name
+                this.createForm.parent_id = parseInt(this.label_id)
+
+                this.createDialogFormVisible = true
+            },
+            confirmCreate() {
+                this.createDialogFormVisible = false
+
+                this.createForm.content = this.subDynamicTags.join(",")
+                const { data: res } = this.$http.post("/research/label/create", this.createForm)
+                    .then((res) => {
+                        this.getLabelList()
+                        this.$message.success(this.createForm.name + " 创建成功")
+                    })
+                    .catch((err) => {
+                        this.$message.error(err.toString())
+                    })
+                // 重置 createForm， 看起来this.$refs.createForm 有问题
+                this.subDynamicTags = []
+                this.createForm.name = ""
+                this.createForm.owner = ""
+                this.createForm.parent_id = 0
+                this.createForm.content = ""
+            },
+            cancelCreate() {
+                this.createDialogFormVisible = false
+
+                this.subDynamicTags = []
+                this.createForm.name = ""
+                this.createForm.owner = ""
+                this.createForm.parent_id = 0
+                this.createForm.content = ""
             },
             async getLabelList() {
                 this.loading = true
