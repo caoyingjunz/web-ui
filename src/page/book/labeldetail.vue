@@ -477,6 +477,12 @@
                 this.createForm.parent_id = 0
                 this.createForm.content = ""
             },
+            editDialogClose() {
+                this.$refs.editFormRef.resetFields()
+            },
+            createDialogClose() {
+                this.$refs.createFormRef.resetFields()
+            },
             async getLabelList() {
                 this.loading = true
                 const { data: res } = await this.$http.get('/research/label/list', { params: this.pageInfo })
