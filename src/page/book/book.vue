@@ -8,14 +8,14 @@
 
         <el-card style="margin-top: 30px;">
             <el-row :gutter="40">
-                <el-col :span="6">
-
-                    <div class="mt-4">
-                        <el-input placeholder="请输入搜索内容" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
+                <el-col :span="9">
+                    <div>
+                        <el-input placeholder="请输入搜索内容" style="width: 400px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
                           <template #prepend>
-                            <el-select v-model="pageInfo.select" style="width: 90px">
+                            <el-select v-model="pageInfo.select" style="width: 100px">
                               <el-option label="资料名" value="1" />
                               <el-option label="标签" value="2" />
+                              <el-option label="精准查找" value="3" />
                             </el-select>
                           </template>
 
@@ -25,16 +25,11 @@
                             </el-button>
                           </template>
                         </el-input>
-                      </div>
-
+                    </div>
                 </el-col>
 
-                <el-col :span="6">
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
-                    </el-button>
-
-                    <el-button  @click="getBookList">
+                <el-col :span="2">
+                    <el-button @click="getBookList">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
                 </el-col>
@@ -43,9 +38,15 @@
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
-                    <el-button  @click="handleBulkDelete" style="padding-right: 10px;">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+
+                    <!-- <el-button @click="handleBulkDelete" style="padding-right: 10px;">
+                       <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+                    </el-button> -->
+
+                    <el-button type="primary" @click="handleCreate">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
+
                 </el-col>
             </el-row>
 
