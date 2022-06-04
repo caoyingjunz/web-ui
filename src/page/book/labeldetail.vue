@@ -168,12 +168,12 @@
                         </el-form-item>
 
                         <el-form-item label="标签值" prop="content">
-                            <el-tag :key="tag" v-for="tag in subDynamicTags" closable :disable-transitions="false"
+                            <el-tag hit :key="tag" v-for="tag in subDynamicTags" closable :disable-transitions="false"
                                 @close="handleClose(tag)">
                                 {{tag}}
                             </el-tag>
                             <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput"
-                                size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
+                                size="small" @keyup.enter.native="handleSubInputConfirm" @blur="handleSubInputConfirm">
                             </el-input>
                             <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag
                             </el-button>
@@ -190,11 +190,50 @@
                     </template>
                 </el-dialog>
 
+
+                <!-- 编辑对话框区域 -->
+                <el-dialog v-model="dialogFormVisible" title="编辑标签" width="60%" draggable @close="editDialogClose">
+                    <el-form ref="editFormRef" :model="editForm" :rules="editFormRules" label-width="120px"
+                        label-position="top">
+
+                        <el-form-item label="标签名称" prop="name">
+                            <el-input v-model="editForm.name" disabled />
+                        </el-form-item>
+
+                        <el-form-item label="创建时间" prop="gmt_create">
+                            <el-input v-model="editForm.gmt_create" disabled />
+                        </el-form-item>
+
+                        <el-form-item label="标签值" prop="label">
+
+                            <el-tag :key="tag" v-for="tag in subDynamicTags" closable :disable-transitions="false"
+                                @close="handleSubClose(tag)">
+                                {{tag}}
+                            </el-tag>
+
+                            <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput"
+                                size="small" @keyup.enter.native="handleSubInputConfirm" @blur="handleSubInputConfirm">
+                            </el-input>
+
+                            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag
+                            </el-button>
+
+                        </el-form-item>
+
+                    </el-form>
+
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="cancelEdit">取消</el-button>
+                            <el-button type="primary" @click="confirmEdit">确定</el-button>
+                        </span>
+                    </template>
+                </el-dialog>
+
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
-
 
 <script>
     import {
@@ -291,8 +330,27 @@
             this.getLabelList()
         },
         methods: {
+            handleSubClose(tag) {
+                this.subDynamicTags.splice(this.subDynamicTags.indexOf(tag), 1);
+            },
+            showSubInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            handleSubInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.subDynamicTags.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
             handleClose(tag) {
                 this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+
+                this.comfirmTagUpdate()
             },
             showInput() {
                 this.inputVisible = true;
@@ -308,16 +366,17 @@
                 this.inputVisible = false;
                 this.inputValue = '';
 
+                this.comfirmTagUpdate()
             },
-            comfirmTagUpdate(){
+            comfirmTagUpdate() {
                 this.label_info.content = this.dynamicTags.join(',')
                 this.$http.put("/research/label/update", this.label_info)
-                .then((res)=>{
-                    this.getLabelDetail(this.label_id)
-                })
-                .catch((err)=> {
-                     this.$message.error(err.toString())
-                })
+                    .then((res) => {
+                        this.getLabelDetail(this.label_id)
+                    })
+                    .catch((err) => {
+                        this.$message.error(err.toString())
+                    })
             },
             handleSizeChange(newSize) {
                 this.pageInfo.page_size = newSize
@@ -379,6 +438,35 @@
                 this.createForm.owner = ""
                 this.createForm.parent_id = 0
                 this.createForm.content = ""
+            },
+            handleEdit(row) {
+                this.editForm.name = row.name
+                this.editForm.label_id = row.label_id
+                this.editForm.resource_version = row.resource_version
+                this.editForm.gmt_create = row.gmt_create
+                this.editForm.gmt_modified = row.gmt_modified
+                this.editForm.content = row.content
+                this.subDynamicTags = row.content.split(',')
+
+                this.dialogFormVisible = true
+            },
+            confirmEdit() {
+                this.dialogFormVisible = false
+
+                this.editForm.content = this.subDynamicTags.join(',')
+                this.subDynamicTags = []
+                this.$http.put("/research/label/update", this.editForm)
+                    .then((res) => {
+                        this.getLabelList()
+                        return this.$message.success(this.editForm.research_id + " 更新成功")
+                    })
+                    .catch((err) => {
+                        return this.$message.error(err.toString())
+                    })
+            },
+            cancelEdit() {
+                this.dialogFormVisible = false
+                this.subDynamicTags = []
             },
             cancelCreate() {
                 this.createDialogFormVisible = false
@@ -462,12 +550,16 @@
         margin-left: 6px;
     }
 
+    .ml-1 {
+        margin: 2px;
+    }
+
     .button-new-tag {
         margin-left: 10px;
         /* height: 32px; */
         /* line-height: 30px; */
         /* padding-top: 0;
-    padding-bottom: 0; */
+     padding-bottom: 0; */
     }
 
     .input-new-tag {
