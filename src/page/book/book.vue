@@ -6,7 +6,7 @@
             <el-breadcrumb-item>研究资料</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 30px;">
+        <el-card style="margin-top: 20px;">
             <el-row :gutter="40">
                 <el-col :span="9">
                     <div>
@@ -35,6 +35,10 @@
                 </el-col>
 
                 <el-col :span="6" :offset="6">
+                    <el-button type="primary" @click="handleCreate">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
+                    </el-button>
+
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
@@ -42,10 +46,6 @@
                     <!-- <el-button @click="handleBulkDelete" style="padding-right: 10px;">
                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
                     </el-button> -->
-
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
-                    </el-button>
 
                 </el-col>
             </el-row>
