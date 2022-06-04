@@ -10,7 +10,7 @@
             <el-row :gutter="40">
                 <el-col :span="9">
                     <div>
-                        <el-input placeholder="请输入搜索内容" style="width: 400px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
+                        <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
                           <template #prepend>
                             <el-select v-model="pageInfo.select" style="width: 100px">
                               <el-option label="资料名" value="1" />
@@ -29,7 +29,7 @@
                 </el-col>
 
                 <el-col :span="2">
-                    <el-button @click="getBookList">
+                    <el-button @click="getBookList" style="margin-left: 2px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
                 </el-col>
