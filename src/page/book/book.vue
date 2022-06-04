@@ -6,7 +6,7 @@
             <el-breadcrumb-item>研究资料</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 30px;">
+        <el-card style="margin-top: 20px;">
             <el-row :gutter="40">
                 <el-col :span="9">
                     <div>
