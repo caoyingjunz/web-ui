@@ -8,22 +8,28 @@
 
         <el-card style="margin-top: 30px;">
             <el-row :gutter="40">
-                <el-col :span="6">
-                    <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList">
-                    <template #append>
-                        <el-button span="8" type="primary" size="default" @click="getBookList" >
-                            <el-icon style="vertical-align: middle;" ><Search /></el-icon>
-                        </el-button>
-                    </template>
-                  </el-input>
+                <el-col :span="9">
+                    <div>
+                        <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
+                          <template #prepend>
+                            <el-select v-model="pageInfo.select" style="width: 100px">
+                              <el-option label="资料名" value="1" />
+                              <el-option label="标签" value="2" />
+                              <el-option label="精准查找" value="3" />
+                            </el-select>
+                          </template>
+
+                          <template #append>
+                            <el-button span="8" type="primary" size="default" @click="getBookList" >
+                                <el-icon style="vertical-align: middle;" ><Search /></el-icon>
+                            </el-button>
+                          </template>
+                        </el-input>
+                    </div>
                 </el-col>
 
-                <el-col :span="6">
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
-                    </el-button>
-
-                    <el-button  @click="getBookList">
+                <el-col :span="2">
+                    <el-button @click="getBookList" style="margin-left: 2px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
                 </el-col>
@@ -32,9 +38,15 @@
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
-                    <el-button  @click="handleBulkDelete" style="padding-right: 10px;">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+
+                    <!-- <el-button @click="handleBulkDelete" style="padding-right: 10px;">
+                       <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+                    </el-button> -->
+
+                    <el-button type="primary" @click="handleCreate">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
+
                 </el-col>
             </el-row>
 
@@ -49,9 +61,9 @@
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable/>
                 <el-table-column prop="name" label="资料名" width="200" />
                 <el-table-column prop="rtype" label="类型" width="60" />
-                <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
+                <el-table-column prop="gmt_create" label="创建时间" width="168" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
-                <el-table-column prop="press" label="出版机构" width="160"/>
+                <!-- <el-table-column prop="press" label="出版机构" width="80"/> -->
 
                 <el-table-column prop="label" label="标签值">
                     <template #default="scope">
@@ -307,6 +319,7 @@ import {
 export default {
     data() {
         return{
+            // tag 属性设置
             dynamicTags: [],
             inputVisible: false,
             inputValue: '',
@@ -314,6 +327,8 @@ export default {
             loading: false,
             file:'',
             pageInfo: {
+                // 搜索下拉分类
+                select: '资料名',
                 query: '',
                 use_page: true, // 默认启用分页效果
                 page: 1,
@@ -591,6 +606,10 @@ export default {
 </script>
 
 <style scoped>
+.input-with-select .el-input-group__prepend {
+  background-color: var(--el-fill-color-blank);
+}
+
 .el-icon {
     vertical-align: middle;
     text-align: center;
