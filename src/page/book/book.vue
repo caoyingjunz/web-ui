@@ -184,6 +184,13 @@
                 <!-- <el-input v-model="createForm.label" placeholder="请输入标签"/> -->
               </el-form-item>
 
+              <div>
+                <el-cascader
+                  :options="options"
+                  :props="{ multiple: true, checkStrictly: true }"
+                  clearable></el-cascader>
+              </div>
+
               <el-form-item label="描述" prop="description">
                 <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
               </el-form-item>
@@ -319,6 +326,7 @@ import {
 export default {
     data() {
         return{
+            options: [],
             // tag 属性设置
             dynamicTags: [],
             inputVisible: false,
@@ -392,6 +400,7 @@ export default {
     },
     created() {
         this.getBookList()
+        this.getOptionList()
     },
     methods: {
         handleClose(tag) {
@@ -451,6 +460,13 @@ export default {
             this.pageInfo.page_size = res.result.page_size
             this.bookList = res.result.result
             this.total = res.result.total
+        },
+        async getOptionList(){
+            const {data: res} = await this.$http.get('/research/label/cascade/list')
+            if (res.code != 200){
+                return this.$message.error('获取label失败');
+            }
+            this.options = res.result
         },
         handleCreate(){
             this.createDialogFormVisible = true
