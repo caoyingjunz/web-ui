@@ -212,15 +212,23 @@
 
               <el-form-item label="标签" prop="label">
                 <el-tag
-                :key="tag"
-                v-for="tag in dynamicTags"
-                closable
-                :disable-transitions="false"
-                @close="handleClose(tag)">
-                {{tag}}
-              </el-tag>
+                    :key="tag"
+                    v-for="tag in dynamicTags"
+                    closable
+                    :disable-transitions="false"
+                    @close="handleClose(tag)">
+                    {{tag}}
+                </el-tag>
 
-              <el-input
+                <el-cascader style="margin-left: 10px"
+                    :options="options"
+                    :props="{ multiple: true, checkStrictly: true }"
+                    v-model="cascaderValue"
+                    @change="handleCascaderChange"
+                    clearable>
+                </el-cascader>
+
+              <!-- <el-input
                 class="input-new-tag"
                 v-if="inputVisible"
                 v-model="inputValue"
@@ -231,7 +239,7 @@
               >
               </el-input>
 
-              <!-- <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
               </el-form-item>
 
               <el-form-item label="出版机构" prop="press">
@@ -410,7 +418,6 @@ export default {
             this.inputVisible = false;
             this.inputValue = '';
         },
-
         beforeUpload(file){
             this.file = file
             return false // 返回false不会自动上传
@@ -515,8 +522,19 @@ export default {
         },
         confirmEdit(){
             this.dialogFormVisible = false
-            this.editForm.label = this.dynamicTags.join(',')
+
+            var localSlice = []
+            for (var i=0, len=this.cascaderValue.length; i<len; i++)
+            {
+                localSlice.push(this.cascaderValue[i].join("/"))
+            }
+            localSlice.push(...this.dynamicTags) // TODO 去重
+            this.editForm.label = localSlice.join(",")
+
+            // 原有标签值
             this.dynamicTags = []
+            this.cascaderValue = []
+
             this.$http.put("/research/update", this.editForm)
                 .then((res)=>{
                     this.getBookList()
@@ -627,7 +645,6 @@ export default {
 .ml-1 {
     margin: 2px;
 }
-
 
 .el-tag + .el-tag {
     margin-left: 6px;
