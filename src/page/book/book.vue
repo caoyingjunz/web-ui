@@ -185,7 +185,7 @@
             </el-dialog>
 
           <!-- 编辑对话框区域 -->
-          <el-dialog v-model="dialogFormVisible" title="编辑" width="60%" draggable @close="editDialogClose">
+          <el-dialog v-model="dialogFormVisible" title="资料更新" width="60%" draggable @close="editDialogClose">
             <el-form
                 ref="editFormRef"
                 :model="editForm"
@@ -325,7 +325,7 @@ export default {
             file:'',
             pageInfo: {
                 // 搜索下拉分类
-                select: '资料名',
+                select: '标签',
                 query: '',
                 use_page: true, // 默认启用分页效果
                 page: 1,
