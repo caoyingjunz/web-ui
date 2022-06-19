@@ -474,7 +474,8 @@ export default {
                 return this.$message.error('请选择要上传的文件！')
             }
             // this.createForm.label = this.dynamicTags.join(",")
-            // this.dynamicTags = []
+            this.dynamicTags = []
+            this.cascaderValue = []
 
             this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
