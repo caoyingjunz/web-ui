@@ -325,7 +325,7 @@ export default {
             file:'',
             pageInfo: {
                 // 搜索下拉分类
-                select: '标签',
+                select: '资料名',
                 query: '',
                 use_page: true, // 默认启用分页效果
                 page: 1,
