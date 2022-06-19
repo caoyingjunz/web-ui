@@ -156,40 +156,19 @@
                  <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
               </el-upload>
 
+              <el-form-item label="标签" prop="label">
+                <el-cascader
+                    :options="options"
+                    :props="{ multiple: true, checkStrictly: true }"
+                    v-model="cascaderValue"
+                    @change="handleCascaderChange"
+                    clearable>
+                 </el-cascader>
+              </el-form-item>
+
               <el-form-item label="出版机构" prop="press">
                 <el-input v-model="createForm.press" placeholder="请输入出版机构" />
               </el-form-item>
-
-              <el-form-item label="标签" prop="label">
-                <el-tag
-                :key="tag"
-                v-for="tag in dynamicTags"
-                closable
-                :disable-transitions="false"
-                @close="handleClose(tag)">
-                {{tag}}
-              </el-tag>
-              <el-input
-                class="input-new-tag"
-                v-if="inputVisible"
-                v-model="inputValue"
-                ref="saveTagInput"
-                size="small"
-                @keyup.enter.native="handleInputConfirm"
-                @blur="handleInputConfirm"
-              >
-              </el-input>
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-
-                <!-- <el-input v-model="createForm.label" placeholder="请输入标签"/> -->
-              </el-form-item>
-
-              <div>
-                <el-cascader
-                  :options="options"
-                  :props="{ multiple: true, checkStrictly: true }"
-                  clearable></el-cascader>
-              </div>
 
               <el-form-item label="描述" prop="description">
                 <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
@@ -231,21 +210,25 @@
                 <el-input v-model="editForm.gmt_create" disabled/>
               </el-form-item>
 
-              <el-form-item label="出版机构" prop="press">
-                <el-input v-model="editForm.press" />
-              </el-form-item>
-
               <el-form-item label="标签" prop="label">
                 <el-tag
-                :key="tag"
-                v-for="tag in dynamicTags"
-                closable
-                :disable-transitions="false"
-                @close="handleClose(tag)">
-                {{tag}}
-              </el-tag>
+                    :key="tag"
+                    v-for="tag in dynamicTags"
+                    closable
+                    :disable-transitions="false"
+                    @close="handleClose(tag)">
+                    {{tag}}
+                </el-tag>
 
-              <el-input
+                <el-cascader style="margin-left: 10px"
+                    :options="options"
+                    :props="{ multiple: true, checkStrictly: true }"
+                    v-model="cascaderValue"
+                    @change="handleCascaderChange"
+                    clearable>
+                </el-cascader>
+
+              <!-- <el-input
                 class="input-new-tag"
                 v-if="inputVisible"
                 v-model="inputValue"
@@ -256,7 +239,11 @@
               >
               </el-input>
 
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
+              </el-form-item>
+
+              <el-form-item label="出版机构" prop="press">
+                <el-input v-model="editForm.press" />
               </el-form-item>
 
               <el-form-item label="描述" prop="description">
@@ -327,6 +314,8 @@ export default {
     data() {
         return{
             options: [],
+            cascaderValue: [],
+
             // tag 属性设置
             dynamicTags: [],
             inputVisible: false,
@@ -403,6 +392,15 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleCascaderChange(cascaderValue){
+            var localSlice = []
+            for (var i=0, len=cascaderValue.length; i<len; i++)
+            {
+                localSlice.push(cascaderValue[i].join("/"))
+            }
+
+            this.createForm.label = localSlice.join(',')
+        },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         },
@@ -420,7 +418,6 @@ export default {
             this.inputVisible = false;
             this.inputValue = '';
         },
-
         beforeUpload(file){
             this.file = file
             return false // 返回false不会自动上传
@@ -476,8 +473,9 @@ export default {
             if (this.file == ''){
                 return this.$message.error('请选择要上传的文件！')
             }
-            this.createForm.label = this.dynamicTags.join(",")
-            this.dynamicTags = []
+            // this.createForm.label = this.dynamicTags.join(",")
+            // this.dynamicTags = []
+
             this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     let fileFormData = new FormData();
@@ -505,6 +503,7 @@ export default {
         },
         cancelCreate(){
             this.createDialogFormVisible = false
+            this.cascaderValue = []
             this.dynamicTags = []
         },
         handleEdit(row){
@@ -523,8 +522,19 @@ export default {
         },
         confirmEdit(){
             this.dialogFormVisible = false
-            this.editForm.label = this.dynamicTags.join(',')
+
+            var localSlice = []
+            for (var i=0, len=this.cascaderValue.length; i<len; i++)
+            {
+                localSlice.push(this.cascaderValue[i].join("/"))
+            }
+            localSlice.push(...this.dynamicTags) // TODO 去重
+            this.editForm.label = localSlice.join(",")
+
+            // 原有标签值
             this.dynamicTags = []
+            this.cascaderValue = []
+
             this.$http.put("/research/update", this.editForm)
                 .then((res)=>{
                     this.getBookList()
@@ -536,6 +546,7 @@ export default {
         },
         cancelEdit(){
             this.dialogFormVisible =false
+            this.cascaderValue = []
             this.dynamicTags = []
         },
         confirmUpload(){
@@ -634,7 +645,6 @@ export default {
 .ml-1 {
     margin: 2px;
 }
-
 
 .el-tag + .el-tag {
     margin-left: 6px;
