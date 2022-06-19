@@ -210,10 +210,6 @@
                 <el-input v-model="editForm.gmt_create" disabled/>
               </el-form-item>
 
-              <el-form-item label="出版机构" prop="press">
-                <el-input v-model="editForm.press" />
-              </el-form-item>
-
               <el-form-item label="标签" prop="label">
                 <el-tag
                 :key="tag"
@@ -235,7 +231,11 @@
               >
               </el-input>
 
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+              <!-- <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
+              </el-form-item>
+
+              <el-form-item label="出版机构" prop="press">
+                <el-input v-model="editForm.press" />
               </el-form-item>
 
               <el-form-item label="描述" prop="description">
@@ -496,6 +496,7 @@ export default {
         },
         cancelCreate(){
             this.createDialogFormVisible = false
+            this.cascaderValue = []
             this.dynamicTags = []
         },
         handleEdit(row){
@@ -527,6 +528,7 @@ export default {
         },
         cancelEdit(){
             this.dialogFormVisible =false
+            this.cascaderValue = []
             this.dynamicTags = []
         },
         confirmUpload(){
