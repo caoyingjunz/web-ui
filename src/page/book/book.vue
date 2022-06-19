@@ -156,40 +156,19 @@
                  <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
               </el-upload>
 
+              <el-form-item label="标签" prop="label">
+                <el-cascader
+                    :options="options"
+                    :props="{ multiple: true, checkStrictly: true }"
+                    v-model="cascaderValue"
+                    @change="handleCascaderChange"
+                    clearable>
+                 </el-cascader>
+              </el-form-item>
+
               <el-form-item label="出版机构" prop="press">
                 <el-input v-model="createForm.press" placeholder="请输入出版机构" />
               </el-form-item>
-
-              <el-form-item label="标签" prop="label">
-                <el-tag
-                :key="tag"
-                v-for="tag in dynamicTags"
-                closable
-                :disable-transitions="false"
-                @close="handleClose(tag)">
-                {{tag}}
-              </el-tag>
-              <el-input
-                class="input-new-tag"
-                v-if="inputVisible"
-                v-model="inputValue"
-                ref="saveTagInput"
-                size="small"
-                @keyup.enter.native="handleInputConfirm"
-                @blur="handleInputConfirm"
-              >
-              </el-input>
-              <!-- <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
-                <!-- <el-input v-model="createForm.label" placeholder="请输入标签"/> -->
-              </el-form-item>
-
-              <el-cascader
-                :options="options"
-                :props="{ multiple: true, checkStrictly: true }"
-                v-model="cascaderValue"
-                @change="handleCascaderChange"
-                clearable>
-              </el-cascader>
 
               <el-form-item label="描述" prop="description">
                 <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
