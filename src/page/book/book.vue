@@ -179,17 +179,17 @@
                 @blur="handleInputConfirm"
               >
               </el-input>
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-
+              <!-- <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
                 <!-- <el-input v-model="createForm.label" placeholder="请输入标签"/> -->
               </el-form-item>
 
-              <div>
-                <el-cascader
-                  :options="options"
-                  :props="{ multiple: true, checkStrictly: true }"
-                  clearable></el-cascader>
-              </div>
+              <el-cascader
+                :options="options"
+                :props="{ multiple: true, checkStrictly: true }"
+                v-model="cascaderValue"
+                @change="handleCascaderChange"
+                clearable>
+              </el-cascader>
 
               <el-form-item label="描述" prop="description">
                 <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
@@ -327,6 +327,8 @@ export default {
     data() {
         return{
             options: [],
+            cascaderValue: [],
+
             // tag 属性设置
             dynamicTags: [],
             inputVisible: false,
@@ -403,6 +405,15 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleCascaderChange(cascaderValue){
+            var localSlice = []
+            for (var i=0, len=cascaderValue.length; i<len; i++)
+            {
+                localSlice.push(cascaderValue[i].join("/"))
+            }
+
+            this.createForm.label = localSlice.join(',')
+        },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         },
@@ -476,8 +487,9 @@ export default {
             if (this.file == ''){
                 return this.$message.error('请选择要上传的文件！')
             }
-            this.createForm.label = this.dynamicTags.join(",")
-            this.dynamicTags = []
+            // this.createForm.label = this.dynamicTags.join(",")
+            // this.dynamicTags = []
+
             this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     let fileFormData = new FormData();
