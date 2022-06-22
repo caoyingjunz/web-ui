@@ -28,6 +28,18 @@
                     </div>
                 </el-col>
 
+                <div v-if="pageInfo.select == 3">
+                    <el-cascader style="margin-left: 10px"
+                    :options="options"
+                    :props="{ checkStrictly: true }"
+                    @change="handleCascaderSelectChange"
+                    clearable>
+                </el-cascader>
+                </div>
+                <!-- <div v-else>
+                    Now you don't
+                </div> -->
+
                 <el-col :span="2">
                     <el-button @click="getBookList" style="margin-left: 2px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
@@ -330,6 +342,7 @@ export default {
                 use_page: true, // 默认启用分页效果
                 page: 1,
                 page_size: 10, // 默认值需要是分页定义的值
+                cascader_label: '',
             },
             deleteParam: {
                 research_id: 0
@@ -400,6 +413,14 @@ export default {
             }
 
             this.createForm.label = localSlice.join(',')
+        },
+        handleCascaderSelectChange(cascaderSelectValue){
+            if (cascaderSelectValue == null ){
+                return
+            }
+
+            this.pageInfo.cascader_label = cascaderSelectValue.join("/")
+            console.log(this.pageInfo)
         },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
