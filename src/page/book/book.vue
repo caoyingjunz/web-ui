@@ -8,7 +8,7 @@
 
         <el-card style="margin-top: 20px;">
             <el-row :gutter="40">
-                <el-col :span="9">
+                <el-col :span="8">
                     <div>
                         <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
                           <template #prepend>
@@ -28,13 +28,25 @@
                     </div>
                 </el-col>
 
-                <el-col :span="2">
+                <div v-if="pageInfo.select == 3">
+                    <el-cascader style="margin-left: 10px"
+                    :options="options"
+                    :props="{ checkStrictly: true }"
+                    @change="handleCascaderSelectChange"
+                    clearable>
+                </el-cascader>
+                </div>
+                <!-- <div v-else>
+                    Now you don't
+                </div> -->
+
+                <el-col :span="1">
                     <el-button @click="getBookList" style="margin-left: 2px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
                 </el-col>
 
-                <el-col :span="6" :offset="6">
+                <el-col :span="4" :offset="6">
                     <el-button type="primary" @click="handleCreate">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
@@ -185,7 +197,7 @@
             </el-dialog>
 
           <!-- 编辑对话框区域 -->
-          <el-dialog v-model="dialogFormVisible" title="编辑" width="60%" draggable @close="editDialogClose">
+          <el-dialog v-model="dialogFormVisible" title="资料更新" width="60%" draggable @close="editDialogClose">
             <el-form
                 ref="editFormRef"
                 :model="editForm"
@@ -330,6 +342,7 @@ export default {
                 use_page: true, // 默认启用分页效果
                 page: 1,
                 page_size: 10, // 默认值需要是分页定义的值
+                cascader_label: '',
             },
             deleteParam: {
                 research_id: 0
@@ -400,6 +413,14 @@ export default {
             }
 
             this.createForm.label = localSlice.join(',')
+        },
+        handleCascaderSelectChange(cascaderSelectValue){
+            if (cascaderSelectValue == null ){
+                return
+            }
+
+            this.pageInfo.cascader_label = cascaderSelectValue.join("/")
+            console.log(this.pageInfo)
         },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
