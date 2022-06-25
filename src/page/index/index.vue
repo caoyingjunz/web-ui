@@ -55,7 +55,7 @@
               <el-menu-item index="/label" @click='saveActiveIndex("/label")'>
                 <el-icon><Promotion /></el-icon>
                 <span>标签管理</span>
-            </el-menu-item>
+              </el-menu-item>
 
               <!-- 有子集 -->
               <el-sub-menu index="4">

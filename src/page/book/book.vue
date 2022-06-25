@@ -29,10 +29,11 @@
                 </el-col>
 
                 <div v-if="pageInfo.select == 3">
-                    <el-cascader style="margin-left: 10px"
+                    <el-cascader style="margin-left: 10px; width: 230px;"
                     :options="options"
-                    :props="{ checkStrictly: true }"
+                    placeholder="标签搜索"
                     @change="handleCascaderSelectChange"
+                    filterable
                     clearable>
                 </el-cascader>
                 </div>

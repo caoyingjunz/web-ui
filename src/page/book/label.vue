@@ -48,14 +48,16 @@
                 </el-table-column>
 
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable/>
+                <el-table-column prop="gmt_modified" label="更新时间" width="200" sortable/>
+                <el-table-column prop="description" label="描述"/>
 
-                <el-table-column prop="content" label="标签值">
+                <!-- <el-table-column prop="content" label="标签值">
                     <template #default="scope">
                         <span v-for="(item, index) in (scope.row.content || '').split(',')">
                             <el-tag class="ml-1"> {{ item }} </el-tag>
                         </span>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
 
                 <el-table-column fixed="right" label="操作" width="200">
                     <template #default="scope">
@@ -95,6 +97,10 @@
 
               <el-form-item label="标签名称" prop="name">
                 <el-input v-model="createForm.name" placeholder="请输入标签名称"/>
+              </el-form-item>
+
+              <el-form-item label="描述" prop="description">
+                <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
               </el-form-item>
 
               <el-form-item label="标签值" prop="content">
@@ -146,6 +152,10 @@
 
               <el-form-item label="创建时间" prop="gmt_create">
                 <el-input v-model="editForm.gmt_create" disabled/>
+              </el-form-item>
+
+              <el-form-item label="描述" prop="description">
+                <el-input v-model="editForm.description" placeholder="请输入简介描述" type="textarea" :autosize="autosize"/>
               </el-form-item>
 
               <el-form-item label="标签值" prop="label">
@@ -226,6 +236,7 @@ export default {
                 name: '',
                 parent_id: 0,
                 content: '',
+                description: '',
             },
             createFormRules: {
                 name: [
@@ -243,6 +254,7 @@ export default {
                 gmt_create: '',
                 gmt_modified: '',
                 content: '',
+                description: '',
             },
             editFormRules: {
                 name: [
@@ -339,6 +351,7 @@ export default {
             this.editForm.gmt_create = row.gmt_create
             this.editForm.gmt_modified = row.gmt_modified
             this.editForm.content = row.content
+            this.editForm.description = row.description
             this.dynamicTags = row.content.split(',')
 
             this.dialogFormVisible = true
