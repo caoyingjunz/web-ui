@@ -68,6 +68,7 @@
                 stripe
                 style="margin-top: 20px; width: 100%"
                 v-loading="loading"
+                @selection-change="handleSelectionChange"
                 >
 
                 <el-table-column type="selection" width="40" />
@@ -406,6 +407,9 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleSelectionChange(val){
+            console.log(val)
+        },
         handleCascaderChange(cascaderValue){
             var localSlice = []
             for (var i=0, len=cascaderValue.length; i<len; i++)
