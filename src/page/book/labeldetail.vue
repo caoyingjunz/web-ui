@@ -22,11 +22,11 @@
                     <el-form>
                         <el-row :gutter="40">
 
-                            <el-col :span="6">
+                            <!-- <el-col :span="6">
                                 <el-form-item label="标签名称:">
                                     <div>{{ label_info.name }}</div>
                                 </el-form-item>
-                            </el-col>
+                            </el-col> -->
 
                             <el-col :span="6">
                                 <el-form-item label="标签ID:">
@@ -64,11 +64,11 @@
                                 </el-input>
                                 <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag
                                 </el-button>
-
                             </el-form-item>
-                        </el-form>
-                    </el-form>
 
+                        </el-form>
+
+                    </el-form>
                 </div>
 
             </el-tab-pane>
@@ -490,8 +490,15 @@
                 if (res.code != 200) {
                     return this.$message.error('获取标签列表失败');
                 }
-                this.pageInfo.page = res.result.page
-                this.pageInfo.page_size = res.result.page_size
+
+                // TODO 暂时后端没有做分页
+                if (res.result != null) {
+                    this.pageInfo.page = res.result.page
+                }
+                if ( res.result != null) {
+                    this.pageInfo.page_size = res.result.page_size
+                }
+
                 this.labelList = res.result
                 this.total = 10
             },
@@ -504,7 +511,12 @@
                 }
 
                 this.label_info = res.result
-                this.dynamicTags = res.result.content.split(',')
+
+                if (res.result.content== undefined ) {
+                    this.dynamicTags = []
+                } else {
+                    this.dynamicTags = res.result.content.split(',')
+                }
             },
         },
         components: {
