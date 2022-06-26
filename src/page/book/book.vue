@@ -21,7 +21,7 @@
 
                           <template #append>
                             <el-button span="8" type="primary" size="default" @click="getBookList" >
-                                <el-icon style="vertical-align: middle;" ><Search /></el-icon>
+                                <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
                             </el-button>
                           </template>
                         </el-input>
@@ -31,34 +31,32 @@
                 <div v-if="pageInfo.select == 3">
                     <el-cascader style="margin-left: 10px; width: 230px;"
                     :options="options"
-                    placeholder="标签搜索"
+                    v-model="cascaderSelectValue"
+                    :props="{ checkStrictly: true }"
                     @change="handleCascaderSelectChange"
                     filterable
-                    clearable>
+                    >
                 </el-cascader>
                 </div>
-                <!-- <div v-else>
-                    Now you don't
-                </div> -->
 
-                <el-col :span="1">
+                <el-col :span="4" :offset="1">
                     <el-button @click="getBookList" style="margin-left: 2px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
-                </el-col>
 
-                <el-col :span="4" :offset="6">
                     <el-button type="primary" @click="handleCreate">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
+                </el-col>
 
+                <el-col :span="4" :offset="1">
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
 
-                    <!-- <el-button @click="handleBulkDelete" style="padding-right: 10px;">
+                    <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
-                    </el-button> -->
+                    </el-button>
 
                 </el-col>
             </el-row>
@@ -68,6 +66,7 @@
                 stripe
                 style="margin-top: 20px; width: 100%"
                 v-loading="loading"
+                @selection-change="handleSelectionChange"
                 >
 
                 <el-table-column type="selection" width="40" />
@@ -323,16 +322,23 @@ import {
     UploadFilled
 } from '@element-plus/icons-vue'
 
+import { ElNotification } from 'element-plus'
+
 export default {
     data() {
         return{
             options: [],
             cascaderValue: [],
+            cascaderSelectValue: [],
 
             // tag 属性设置
             dynamicTags: [],
             inputVisible: false,
             inputValue: '',
+
+            // 批量处理
+            bulkIds: [],
+            bulkValues: [],
 
             loading: false,
             file:'',
@@ -406,6 +412,9 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleSelectionChange(val){
+            this.bulkValues = val
+        },
         handleCascaderChange(cascaderValue){
             var localSlice = []
             for (var i=0, len=cascaderValue.length; i<len; i++)
@@ -417,11 +426,10 @@ export default {
         },
         handleCascaderSelectChange(cascaderSelectValue){
             if (cascaderSelectValue == null ){
+                this.pageInfo.cascader_label = ''
                 return
             }
-
             this.pageInfo.cascader_label = cascaderSelectValue.join("/")
-            console.log(this.pageInfo)
         },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -486,6 +494,11 @@ export default {
                 return this.$message.error('获取label失败');
             }
             this.options = res.result
+
+            // 添加默认值
+            if (this.options.length > 0 ){
+                this.cascaderSelectValue.push(this.options[0].label)
+            }
         },
         handleCreate(){
             this.createDialogFormVisible = true
@@ -600,9 +613,33 @@ export default {
             this.uploadDialogFormVisible = false
         },
         handleBulkDownload(){
+            if (this.bulkValues.length == 0){
+                return ElNotification({
+                    message: '批量操作时至少需选中一个对象',
+                    type: 'warning',
+                })
+            }
+
+            var localIds = []
+            for (var i=0; i<this.bulkValues.length; i++){
+                localIds.push(this.bulkValues[i].research_id)
+            }
+
             console.log("handleBulkDownload")
         },
         handleBulkDelete(){
+            if (this.bulkValues.length == 0){
+                return ElNotification({
+                    message: '批量操作时至少需选中一个对象',
+                    type: 'warning',
+                })
+            }
+
+            var localIds = []
+            for (var i=0; i<this.bulkValues.length; i++){
+                localIds.push(this.bulkValues[i].research_id)
+            }
+
             this.$confirm('此操作将永久批量删除资料, 是否继续?', '提示',
                 {
                     confirmButtonText: '确定',
@@ -612,11 +649,21 @@ export default {
                 }
             )
             .then(() => {
-                console.log("删除 删除")
+                // 批量优化
+                for (var i=0; i<localIds.length; i++){
+                    this.$http.delete("/research/delete?research_id=" + localIds[i])
+                    .then(()=>{
+                        console.log("delete ok")
+                        this.getBookList()
+                    })
+                    .catch((err)=> {
+                        console.log("delete error")
+                    })
+                }
             })
             .catch(()=> {
+                console.log("cancel")
             }) // 捕捉取消事件
-
         },
         async handleDelete(row) {
             this.$confirm('此操作将永久删除资料 ' + row.name +' , 是否继续?', '提示',
