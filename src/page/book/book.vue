@@ -37,28 +37,25 @@
                     clearable>
                 </el-cascader>
                 </div>
-                <!-- <div v-else>
-                    Now you don't
-                </div> -->
 
-                <el-col :span="1">
+                <el-col :span="4" :offset="1">
                     <el-button @click="getBookList" style="margin-left: 2px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
-                </el-col>
 
-                <el-col :span="4" :offset="6">
                     <el-button type="primary" @click="handleCreate">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                     </el-button>
+                </el-col>
 
+                <el-col :span="4" :offset="1">
                     <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                         <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
                     </el-button>
 
-                    <!-- <el-button @click="handleBulkDelete" style="padding-right: 10px;">
+                    <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
                        <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
-                    </el-button> -->
+                    </el-button>
 
                 </el-col>
             </el-row>
@@ -335,6 +332,9 @@ export default {
             inputVisible: false,
             inputValue: '',
 
+            // 批量处理
+            bulkIds: [],
+
             loading: false,
             file:'',
             pageInfo: {
@@ -408,7 +408,10 @@ export default {
     },
     methods: {
         handleSelectionChange(val){
-            console.log(val)
+            this.bulkIds= []
+            for (var i=0; i<val.length; i++){
+                this.bulkIds.push(val[i].research_id)
+            }
         },
         handleCascaderChange(cascaderValue){
             var localSlice = []
