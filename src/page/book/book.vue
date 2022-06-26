@@ -21,7 +21,7 @@
 
                           <template #append>
                             <el-button span="8" type="primary" size="default" @click="getBookList" >
-                                <el-icon style="vertical-align: middle;" ><Search /></el-icon>
+                                <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
                             </el-button>
                           </template>
                         </el-input>
@@ -32,6 +32,7 @@
                     <el-cascader style="margin-left: 10px; width: 230px;"
                     :options="options"
                     placeholder="标签搜索"
+                    :props="{ checkStrictly: true }"
                     @change="handleCascaderSelectChange"
                     filterable
                     clearable>
@@ -424,11 +425,10 @@ export default {
         },
         handleCascaderSelectChange(cascaderSelectValue){
             if (cascaderSelectValue == null ){
+                this.pageInfo.cascader_label = ''
                 return
             }
-
             this.pageInfo.cascader_label = cascaderSelectValue.join("/")
-            console.log(this.pageInfo)
         },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -476,6 +476,15 @@ export default {
             this.getBookList()
         },
         async getBookList(){
+            if (this.pageInfo.select== 3){
+                if (this.pageInfo.cascader_label == ""){
+                    return ElNotification({
+                        message: '精准查找时需指定分类标签',
+                        type: 'warning',
+                    })
+                }
+            }
+
             this.loading = true
             const {data: res} = await this.$http.get('/research/list',{params: this.pageInfo})
             this.loading = false
