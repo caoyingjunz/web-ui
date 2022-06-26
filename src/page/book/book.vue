@@ -321,6 +321,8 @@ import {
     UploadFilled
 } from '@element-plus/icons-vue'
 
+import { ElNotification } from 'element-plus'
+
 export default {
     data() {
         return{
@@ -605,9 +607,28 @@ export default {
             this.uploadDialogFormVisible = false
         },
         handleBulkDownload(){
+            if (this.bulkValues.length == 0){
+                return ElNotification({
+                    message: '批量操作时至少需选中一个对象',
+                    type: 'warning',
+                })
+            }
+
+            var localIds = []
+            for (var i=0; i<this.bulkValues.length; i++){
+                localIds.push(this.bulkValues[i].research_id)
+            }
+
             console.log("handleBulkDownload")
         },
         handleBulkDelete(){
+            if (this.bulkValues.length == 0){
+                return ElNotification({
+                    message: '批量操作时至少需选中一个对象',
+                    type: 'warning',
+                })
+            }
+
             var localIds = []
             for (var i=0; i<this.bulkValues.length; i++){
                 localIds.push(this.bulkValues[i].research_id)
