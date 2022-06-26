@@ -334,6 +334,7 @@ export default {
 
             // 批量处理
             bulkIds: [],
+            bulkValues: [],
 
             loading: false,
             file:'',
@@ -408,10 +409,7 @@ export default {
     },
     methods: {
         handleSelectionChange(val){
-            this.bulkIds= []
-            for (var i=0; i<val.length; i++){
-                this.bulkIds.push(val[i].research_id)
-            }
+            this.bulkValues = val
         },
         handleCascaderChange(cascaderValue){
             var localSlice = []
@@ -610,6 +608,11 @@ export default {
             console.log("handleBulkDownload")
         },
         handleBulkDelete(){
+            var localIds = []
+            for (var i=0; i<this.bulkValues.length; i++){
+                localIds.push(this.bulkValues[i].research_id)
+            }
+
             this.$confirm('此操作将永久批量删除资料, 是否继续?', '提示',
                 {
                     confirmButtonText: '确定',
@@ -619,11 +622,21 @@ export default {
                 }
             )
             .then(() => {
-                console.log("删除 删除")
+                // 批量优化
+                for (var i=0; i<localIds.length; i++){
+                    this.$http.delete("/research/delete?research_id=" + localIds[i])
+                    .then(()=>{
+                        console.log("delete ok")
+                        this.getBookList()
+                    })
+                    .catch((err)=> {
+                        console.log("delete error")
+                    })
+                }
             })
             .catch(()=> {
+                console.log("cancel")
             }) // 捕捉取消事件
-
         },
         async handleDelete(row) {
             this.$confirm('此操作将永久删除资料 ' + row.name +' , 是否继续?', '提示',
