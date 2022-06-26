@@ -31,11 +31,11 @@
                 <div v-if="pageInfo.select == 3">
                     <el-cascader style="margin-left: 10px; width: 230px;"
                     :options="options"
-                    placeholder="标签搜索"
+                    v-model="cascaderSelectValue"
                     :props="{ checkStrictly: true }"
                     @change="handleCascaderSelectChange"
                     filterable
-                    clearable>
+                    >
                 </el-cascader>
                 </div>
 
@@ -329,6 +329,7 @@ export default {
         return{
             options: [],
             cascaderValue: [],
+            cascaderSelectValue: [],
 
             // tag 属性设置
             dynamicTags: [],
@@ -476,15 +477,6 @@ export default {
             this.getBookList()
         },
         async getBookList(){
-            if (this.pageInfo.select== 3){
-                if (this.pageInfo.cascader_label == ""){
-                    return ElNotification({
-                        message: '精准查找时需指定分类标签',
-                        type: 'warning',
-                    })
-                }
-            }
-
             this.loading = true
             const {data: res} = await this.$http.get('/research/list',{params: this.pageInfo})
             this.loading = false
@@ -502,6 +494,11 @@ export default {
                 return this.$message.error('获取label失败');
             }
             this.options = res.result
+
+            // 添加默认值
+            if (this.options.length > 0 ){
+                this.cascaderSelectValue.push(this.options[0].label)
+            }
         },
         handleCreate(){
             this.createDialogFormVisible = true
