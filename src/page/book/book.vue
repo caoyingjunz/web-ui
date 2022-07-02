@@ -73,7 +73,7 @@
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable/>
                 <el-table-column prop="name" label="资料名" width="200" />
                 <el-table-column prop="rtype" label="类型" width="60" />
-                <el-table-column prop="gmt_create" label="创建时间" width="168" sortable/>
+                <el-table-column prop="gmt_create" label="创建时间" width="170" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
                 <!-- <el-table-column prop="press" label="出版机构" width="80"/> -->
 
@@ -85,6 +85,8 @@
                     </template>
                 </el-table-column>
 
+                <el-table-column v-if="pageInfo.select == 3" prop="contents" label="内容">
+                </el-table-column>
 
                 <el-table-column fixed="right" label="操作" width="250">
                     <template #default="scope">
@@ -148,24 +150,21 @@
 
               <el-upload
                 class="upload-demo"
-                ref="upload"
-                action="doUpload"
                 drag
                 multiple
+                :on-preview="handlePreview"
+                :on-change="handleChange"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
                 :limit="1"
-                :before-upload="beforeUpload">
+                :file-list="fileList"
+                :auto-upload="false"
+                >
 
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     将文件拖到此处，或 <em>点击上传</em>
                 </div>
-
-                <template #tip>
-                    <div class="el-upload__tip">
-                        只能上传jpg/png文件，且不超过500kb
-                    </div>
-                </template>
-                 <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
               </el-upload>
 
               <el-form-item label="标签" prop="label">
@@ -191,7 +190,7 @@
             <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="cancelCreate">取消</el-button>
-                  <el-button type="primary" @click="confirmCreate2">确定</el-button>
+                  <el-button type="primary" @click="confirmCreate">确定</el-button>
                 </span>
               </template>
             </el-dialog>
@@ -327,6 +326,8 @@ import { ElNotification } from 'element-plus'
 export default {
     data() {
         return{
+            fileList: [],
+
             options: [],
             cascaderValue: [],
             cascaderSelectValue: [],
@@ -341,7 +342,6 @@ export default {
             bulkValues: [],
 
             loading: false,
-            file:'',
             pageInfo: {
                 // 搜索下拉分类
                 select: '资料名',
@@ -412,6 +412,23 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleChange(file, fileList) {
+            console.log(file, fileList)
+            this.fileList = fileList
+        },
+        handleRemove(file, fileList) {
+            console.log(file, fileList)
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        handleExceed(files, fileList) {
+            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        },
+        beforeRemove(file, fileList) {
+            return this.$confirm(`确定移除 ${ file.name }？`);
+        },
+
         handleSelectionChange(val){
             this.bulkValues = val
         },
@@ -504,19 +521,22 @@ export default {
         handleCreate(){
             this.createDialogFormVisible = true
         },
-        confirmCreate2(){
-            this.createDialogFormVisible = false
-            if (this.file == ''){
+        confirmCreate(){
+            if (this.fileList.length == 0){
                 return this.$message.error('请选择要上传的文件！')
             }
+            this.createDialogFormVisible = false
+            var file = this.fileList[0].raw
+
             // this.createForm.label = this.dynamicTags.join(",")
             this.dynamicTags = []
             this.cascaderValue = []
+            this.fileList = []
 
             this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     let fileFormData = new FormData();
-                    fileFormData.append('file', this.file, this.file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+                    fileFormData.append('file', file, file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
                     let requestConfig = {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -525,7 +545,6 @@ export default {
                     // TODO： 先创建后，生成id之后然后上传
                     this.$http.post("/research/upload?research_id=" + res.data.result.research_id, fileFormData, requestConfig)
                         .then((res)=>{
-                            this.file = ''
                             this.getBookList()
                             this.$message.success("上传资料成功")
                             this.uploadDialogFormVisible = false
@@ -542,6 +561,7 @@ export default {
             this.createDialogFormVisible = false
             this.cascaderValue = []
             this.dynamicTags = []
+            this.fileList = []
         },
         handleEdit(row){
             this.editForm.research_id = row.research_id
