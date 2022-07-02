@@ -522,10 +522,10 @@ export default {
             this.createDialogFormVisible = true
         },
         confirmCreate(){
-            this.createDialogFormVisible = false
             if (this.fileList.length == 0){
                 return this.$message.error('请选择要上传的文件！')
             }
+            this.createDialogFormVisible = false
             var file = this.fileList[0].raw
 
             // this.createForm.label = this.dynamicTags.join(",")
