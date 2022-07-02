@@ -561,6 +561,7 @@ export default {
             this.createDialogFormVisible = false
             this.cascaderValue = []
             this.dynamicTags = []
+            this.fileList = []
         },
         handleEdit(row){
             this.editForm.research_id = row.research_id
