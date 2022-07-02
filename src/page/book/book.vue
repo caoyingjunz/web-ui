@@ -73,7 +73,7 @@
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable/>
                 <el-table-column prop="name" label="资料名" width="200" />
                 <el-table-column prop="rtype" label="类型" width="60" />
-                <el-table-column prop="gmt_create" label="创建时间" width="168" sortable/>
+                <el-table-column prop="gmt_create" label="创建时间" width="170" sortable/>
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
                 <!-- <el-table-column prop="press" label="出版机构" width="80"/> -->
 
@@ -85,6 +85,8 @@
                     </template>
                 </el-table-column>
 
+                <el-table-column v-if="pageInfo.select == 3" prop="contents" label="内容">
+                </el-table-column>
 
                 <el-table-column fixed="right" label="操作" width="250">
                     <template #default="scope">
