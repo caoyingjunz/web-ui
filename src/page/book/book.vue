@@ -150,24 +150,20 @@
 
               <el-upload
                 class="upload-demo"
-                ref="upload"
-                action="doUpload"
                 drag
                 multiple
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
                 :limit="1"
-                :before-upload="beforeUpload">
+                :file-list="fileList"
+                :auto-upload="false"
+                >
 
                 <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                 <div class="el-upload__text">
                     将文件拖到此处，或 <em>点击上传</em>
                 </div>
-
-                <template #tip>
-                    <div class="el-upload__tip">
-                        只能上传jpg/png文件，且不超过500kb
-                    </div>
-                </template>
-                 <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
               </el-upload>
 
               <el-form-item label="标签" prop="label">
@@ -329,6 +325,9 @@ import { ElNotification } from 'element-plus'
 export default {
     data() {
         return{
+            file:'',
+            fileList: [],
+
             options: [],
             cascaderValue: [],
             cascaderSelectValue: [],
@@ -343,7 +342,6 @@ export default {
             bulkValues: [],
 
             loading: false,
-            file:'',
             pageInfo: {
                 // 搜索下拉分类
                 select: '资料名',
@@ -414,6 +412,18 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleRemove(file, fileList) {
+            console.log("remove",file, fileList);
+        },
+        handlePreview(file) {
+            console.log("preview",file);
+        },
+        handleExceed(files, fileList) {
+            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        },
+        beforeRemove(file, fileList) {
+            return this.$confirm(`确定移除 ${ file.name }？`);
+        },
         handleSelectionChange(val){
             this.bulkValues = val
         },
