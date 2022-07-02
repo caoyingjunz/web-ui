@@ -153,6 +153,7 @@
                 drag
                 multiple
                 :on-preview="handlePreview"
+                :on-change="handleChange"
                 :on-remove="handleRemove"
                 :before-remove="beforeRemove"
                 :limit="1"
@@ -189,7 +190,7 @@
             <template #footer>
                 <span class="dialog-footer">
                   <el-button @click="cancelCreate">取消</el-button>
-                  <el-button type="primary" @click="confirmCreate2">确定</el-button>
+                  <el-button type="primary" @click="confirmCreate">确定</el-button>
                 </span>
               </template>
             </el-dialog>
@@ -325,7 +326,6 @@ import { ElNotification } from 'element-plus'
 export default {
     data() {
         return{
-            file:'',
             fileList: [],
 
             options: [],
@@ -412,11 +412,15 @@ export default {
         this.getOptionList()
     },
     methods: {
+        handleChange(file, fileList) {
+            console.log(file, fileList)
+            this.fileList = fileList
+        },
         handleRemove(file, fileList) {
-            console.log("remove",file, fileList);
+            console.log(file, fileList)
         },
         handlePreview(file) {
-            console.log("preview",file);
+            console.log(file);
         },
         handleExceed(files, fileList) {
             this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -424,6 +428,7 @@ export default {
         beforeRemove(file, fileList) {
             return this.$confirm(`确定移除 ${ file.name }？`);
         },
+
         handleSelectionChange(val){
             this.bulkValues = val
         },
@@ -516,19 +521,22 @@ export default {
         handleCreate(){
             this.createDialogFormVisible = true
         },
-        confirmCreate2(){
+        confirmCreate(){
             this.createDialogFormVisible = false
-            if (this.file == ''){
+            if (this.fileList.length == 0){
                 return this.$message.error('请选择要上传的文件！')
             }
+            var file = this.fileList[0].raw
+
             // this.createForm.label = this.dynamicTags.join(",")
             this.dynamicTags = []
             this.cascaderValue = []
+            this.fileList = []
 
             this.$http.post("/research/create", this.createForm)
                 .then((res)=>{
                     let fileFormData = new FormData();
-                    fileFormData.append('file', this.file, this.file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+                    fileFormData.append('file', file, file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
                     let requestConfig = {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -537,7 +545,6 @@ export default {
                     // TODO： 先创建后，生成id之后然后上传
                     this.$http.post("/research/upload?research_id=" + res.data.result.research_id, fileFormData, requestConfig)
                         .then((res)=>{
-                            this.file = ''
                             this.getBookList()
                             this.$message.success("上传资料成功")
                             this.uploadDialogFormVisible = false
