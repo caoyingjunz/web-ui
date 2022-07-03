@@ -475,10 +475,6 @@ export default {
             this.inputVisible = false;
             this.inputValue = '';
         },
-        beforeUpload(file){
-            this.file = file
-            return false // 返回false不会自动上传
-        },
         downloadFile(row){
             window.open('/research/download?research_id=' + row.research_id)
         },
