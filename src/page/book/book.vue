@@ -39,15 +39,13 @@
                 </el-cascader>
                 </div>
 
-                <el-col :span="4" :offset="1">
-                    <el-button @click="getBookList" style="margin-left: 2px;">
-                        <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
-                    </el-button>
+                <el-button @click="getBookList" style="margin-left: 2px;">
+                    <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
+                </el-button>
 
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
-                    </el-button>
-                </el-col>
+                <el-button type="primary" @click="handleCreate">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
+                </el-button>
 
                 <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
                     <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
