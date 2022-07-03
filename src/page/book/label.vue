@@ -70,11 +70,11 @@
 
                 <el-table-column fixed="right" label="操作" width="200">
                     <template #default="scope">
-                      <el-button type="primary" size="small" @click="handleEdit(scope.row)">
+                      <el-button type="primary" plain size="small" @click="handleEdit(scope.row)">
                         <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
                       </el-button>
 
-                      <el-button type="danger" size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
+                      <el-button type="danger" plain size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
                         <el-icon style="vertical-align: middle;margin-right: 5px;" ><Delete /></el-icon> 删除
                       </el-button>
                     </template>

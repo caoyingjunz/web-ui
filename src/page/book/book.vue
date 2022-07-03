@@ -99,7 +99,7 @@
                       </el-button>
 
                         <el-dropdown>
-                          <el-button type="info" size="small">
+                          <el-button type="info" plain size="small">
                              更多
                              <el-icon style="vertical-align: middle; margin-left: 5px;"><arrow-down /></el-icon>
                           </el-button>
