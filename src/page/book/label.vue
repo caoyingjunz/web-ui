@@ -31,7 +31,7 @@
                 <el-button type="primary" @click="handleCreate">
                     <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
                 </el-button>
-                <el-button @click="getLabelList" type="primary" plain>
+                <el-button @click="downloadLabelTemplate" type="primary" plain>
                     <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
                 </el-button>
 
@@ -275,6 +275,13 @@ export default {
         this.getLabelList()
     },
     methods: {
+        downloadLabelTemplate(){
+            let a = document.createElement('a')
+            a.href = `/static/labeltemplate.xlsx`
+            a.download = "标签模板.xlsx"
+            a.click()
+            a.remove()
+        },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         },
