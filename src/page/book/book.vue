@@ -288,13 +288,23 @@
 
             <el-upload
                 class="upload-demo"
-                ref="upload"
-                action="doUpload"
+                drag
+                multiple
+                :on-preview="handlePreview"
+                :on-change="handleChange"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
                 :limit="1"
-                :before-upload="beforeUpload">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            </el-upload>
+                :file-list="fileList"
+                :auto-upload="false"
+                >
 
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    将文件拖到此处，或 <em>点击上传</em>
+                </div>
+                <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
+            </el-upload>
             </el-form>
 
             <template #footer>
@@ -607,11 +617,14 @@ export default {
             this.dynamicTags = []
         },
         confirmUpload(){
-            if (this.file == ''){
+            if (this.fileList.length == 0){
                 return this.$message.error('请选择要上传的文件！')
             }
+            var file = this.fileList[0].raw
+            this.fileList = []
+
             let fileFormData = new FormData();
-            fileFormData.append('file', this.file, this.file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+            fileFormData.append('file', file, file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
             let requestConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -621,16 +634,14 @@ export default {
                 .then((res)=>{
                     this.getBookList()
                     this.$message.success("上传资料成功")
-                    // 重置
-                    this.file = ''
                 })
                 .catch((err)=> {
-                    this.file = ''
                     return this.$message.error(err.toString())
                 })
             this.uploadDialogFormVisible = false
         },
         cancelUpload(){
+            this.fileList = []
             this.uploadDialogFormVisible = false
         },
         handleBulkDownload(){
