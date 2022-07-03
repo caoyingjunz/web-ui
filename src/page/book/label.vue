@@ -12,7 +12,7 @@
                     <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getLabelList"  @clear="getLabelList">
                     <template #append>
                         <el-button span="8" type="primary" size="default" @click="getLabelList" >
-                            <el-icon style="vertical-align: middle;" ><Search /></el-icon>
+                            <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
                         </el-button>
                     </template>
                   </el-input>
@@ -25,6 +25,16 @@
 
                     <el-button  @click="getLabelList">
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
+                    </el-button>
+                </el-col>
+
+                <el-col :span="6">
+                    <el-button  @click="getLabelList">
+                        <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
+                    </el-button>
+
+                    <el-button type="primary" @click="handleCreate">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;"><FolderOpened /></el-icon> 导入标签模板
                     </el-button>
                 </el-col>
 
@@ -207,7 +217,8 @@ import {
     Plus,
     Upload,
     Download,
-    UploadFilled
+    UploadFilled,
+    FolderOpened
 } from '@element-plus/icons-vue'
 
 export default {
@@ -406,7 +417,8 @@ export default {
         Upload,
         Download,
         Refresh,
-        UploadFilled
+        UploadFilled,
+        FolderOpened
     }
 }
 </script>
