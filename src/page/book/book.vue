@@ -441,7 +441,7 @@ export default {
         downloadBookTemplate(){
             let a = document.createElement('a')
             a.href = `/static/booktemplate.xlsx`
-            a.download = "研究资料模板.xlsx"
+            a.download = "资料模板.xlsx"
             a.click()
             a.remove()
         },
