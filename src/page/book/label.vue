@@ -28,14 +28,12 @@
                     </el-button>
                 </el-col>
 
-                <dev>
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
-                    </el-button>
-                    <el-button @click="getLabelList" type="primary" plain>
-                        <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
-                    </el-button>
-                </dev>
+                <el-button type="primary" @click="handleCreate">
+                    <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
+                </el-button>
+                <el-button @click="getLabelList" type="primary" plain>
+                    <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
+                </el-button>
 
             </el-row>
 
