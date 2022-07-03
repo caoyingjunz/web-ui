@@ -49,16 +49,17 @@
                     </el-button>
                 </el-col>
 
-                <el-col :span="4" :offset="1">
-                    <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
-                    </el-button>
+                <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
+                </el-button>
 
-                    <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
-                       <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
-                    </el-button>
+                <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+                </el-button>
 
-                </el-col>
+                <el-button @click="downloadBookTemplate" type="primary" plain>
+                    <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载资料模板
+                </el-button>
             </el-row>
 
             <!-- table 表格区域 -->
@@ -439,6 +440,13 @@ export default {
             return this.$confirm(`确定移除 ${ file.name }？`);
         },
 
+        downloadBookTemplate(){
+            let a = document.createElement('a')
+            a.href = `/static/booktemplate.xlsx`
+            a.download = "研究资料模板.xlsx"
+            a.click()
+            a.remove()
+        },
         handleSelectionChange(val){
             this.bulkValues = val
         },
