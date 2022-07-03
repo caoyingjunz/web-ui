@@ -39,26 +39,25 @@
                 </el-cascader>
                 </div>
 
-                <el-col :span="4" :offset="1">
-                    <el-button @click="getBookList" style="margin-left: 2px;">
-                        <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
-                    </el-button>
+                <el-button @click="getBookList" style="margin-left: 2px;">
+                    <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
+                </el-button>
 
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
-                    </el-button>
-                </el-col>
+                <el-button type="primary" @click="handleCreate">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
+                </el-button>
 
-                <el-col :span="4" :offset="1">
-                    <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
-                    </el-button>
+                <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
+                </el-button>
 
-                    <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
-                       <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
-                    </el-button>
+                <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+                </el-button>
 
-                </el-col>
+                <el-button @click="downloadBookTemplate" type="primary" plain>
+                    <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载资料模板
+                </el-button>
             </el-row>
 
             <!-- table 表格区域 -->
@@ -90,16 +89,16 @@
 
                 <el-table-column fixed="right" label="操作" width="250">
                     <template #default="scope">
-                      <el-button type="primary" size="small" @click="handleEdit(scope.row)">
+                      <el-button type="primary" plain size="small" @click="handleEdit(scope.row)">
                         <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
                       </el-button>
 
-                      <el-button type="danger" size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
+                      <el-button type="danger" plain size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
                         <el-icon style="vertical-align: middle;margin-right: 5px;" ><Delete /></el-icon> 删除
                       </el-button>
 
                         <el-dropdown>
-                          <el-button type="info" size="small">
+                          <el-button type="info" plain size="small">
                              更多
                              <el-icon style="vertical-align: middle; margin-left: 5px;"><arrow-down /></el-icon>
                           </el-button>
@@ -288,13 +287,23 @@
 
             <el-upload
                 class="upload-demo"
-                ref="upload"
-                action="doUpload"
+                drag
+                multiple
+                :on-preview="handlePreview"
+                :on-change="handleChange"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
                 :limit="1"
-                :before-upload="beforeUpload">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            </el-upload>
+                :file-list="fileList"
+                :auto-upload="false"
+                >
 
+                <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                <div class="el-upload__text">
+                    将文件拖到此处，或 <em>点击上传</em>
+                </div>
+                <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
+            </el-upload>
             </el-form>
 
             <template #footer>
@@ -429,6 +438,13 @@ export default {
             return this.$confirm(`确定移除 ${ file.name }？`);
         },
 
+        downloadBookTemplate(){
+            let a = document.createElement('a')
+            a.href = `/static/booktemplate.xlsx`
+            a.download = "研究资料模板.xlsx"
+            a.click()
+            a.remove()
+        },
         handleSelectionChange(val){
             this.bulkValues = val
         },
@@ -464,10 +480,6 @@ export default {
             }
             this.inputVisible = false;
             this.inputValue = '';
-        },
-        beforeUpload(file){
-            this.file = file
-            return false // 返回false不会自动上传
         },
         downloadFile(row){
             window.open('/research/download?research_id=' + row.research_id)
@@ -607,11 +619,14 @@ export default {
             this.dynamicTags = []
         },
         confirmUpload(){
-            if (this.file == ''){
+            if (this.fileList.length == 0){
                 return this.$message.error('请选择要上传的文件！')
             }
+            var file = this.fileList[0].raw
+            this.fileList = []
+
             let fileFormData = new FormData();
-            fileFormData.append('file', this.file, this.file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+            fileFormData.append('file', file, file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
             let requestConfig = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -621,16 +636,14 @@ export default {
                 .then((res)=>{
                     this.getBookList()
                     this.$message.success("上传资料成功")
-                    // 重置
-                    this.file = ''
                 })
                 .catch((err)=> {
-                    this.file = ''
                     return this.$message.error(err.toString())
                 })
             this.uploadDialogFormVisible = false
         },
         cancelUpload(){
+            this.fileList = []
             this.uploadDialogFormVisible = false
         },
         handleBulkDownload(){

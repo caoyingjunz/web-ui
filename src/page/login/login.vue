@@ -252,7 +252,7 @@ export default {
     box-sizing: border-box;
     padding-bottom: 133px;
     min-height: 100vh;
-    background: url(../../../static/beijing.simple.jpeg) no-repeat;
+    background: url(../../../static/beijing.jpeg) no-repeat;
     background-size: cover;
 }
 

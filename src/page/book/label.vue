@@ -12,21 +12,28 @@
                     <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getLabelList"  @clear="getLabelList">
                     <template #append>
                         <el-button span="8" type="primary" size="default" @click="getLabelList" >
-                            <el-icon style="vertical-align: middle;" ><Search /></el-icon>
+                            <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
                         </el-button>
                     </template>
                   </el-input>
                 </el-col>
 
-                <el-col :span="6">
+                <el-col :span="13">
                     <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 新建标签
+                        <el-icon style="vertical-align: middle;margin-right: 4px;"><plus /></el-icon> 新建标签
                     </el-button>
 
-                    <el-button  @click="getLabelList">
+                    <el-button  @click="getLabelList" type="primary" plain>
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
                 </el-col>
+
+                <el-button type="primary" @click="handleCreate">
+                    <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
+                </el-button>
+                <el-button @click="downloadLabelTemplate" type="primary" plain>
+                    <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
+                </el-button>
 
             </el-row>
 
@@ -61,11 +68,11 @@
 
                 <el-table-column fixed="right" label="操作" width="200">
                     <template #default="scope">
-                      <el-button type="primary" size="small" @click="handleEdit(scope.row)">
+                      <el-button type="primary" plain size="small" @click="handleEdit(scope.row)">
                         <el-icon style="vertical-align: middle; margin-right: 5px;"><Edit /></el-icon> 编辑
                       </el-button>
 
-                      <el-button type="danger" size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
+                      <el-button type="danger" plain size="small" @click="handleDelete(scope.row)" style="margin-right: 10px">
                         <el-icon style="vertical-align: middle;margin-right: 5px;" ><Delete /></el-icon> 删除
                       </el-button>
                     </template>
@@ -207,7 +214,8 @@ import {
     Plus,
     Upload,
     Download,
-    UploadFilled
+    UploadFilled,
+    FolderOpened
 } from '@element-plus/icons-vue'
 
 export default {
@@ -267,6 +275,13 @@ export default {
         this.getLabelList()
     },
     methods: {
+        downloadLabelTemplate(){
+            let a = document.createElement('a')
+            a.href = `/static/labeltemplate.xlsx`
+            a.download = "标签模板.xlsx"
+            a.click()
+            a.remove()
+        },
         handleClose(tag) {
           this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         },
@@ -406,7 +421,8 @@ export default {
         Upload,
         Download,
         Refresh,
-        UploadFilled
+        UploadFilled,
+        FolderOpened
     }
 }
 </script>
