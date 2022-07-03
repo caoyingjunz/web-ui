@@ -18,9 +18,9 @@
                   </el-input>
                 </el-col>
 
-                <el-col :span="6">
+                <el-col :span="13">
                     <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 新建标签
+                        <el-icon style="vertical-align: middle;margin-right: 4px;"><plus /></el-icon> 新建标签
                     </el-button>
 
                     <el-button  @click="getLabelList">
@@ -28,15 +28,14 @@
                     </el-button>
                 </el-col>
 
-                <el-col :span="6">
-                    <el-button  @click="getLabelList">
+                <dev>
+                    <el-button type="primary" @click="handleCreate">
+                        <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
+                    </el-button>
+                    <el-button @click="getLabelList" type="primary" plain>
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
                     </el-button>
-
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 8px;"><FolderOpened /></el-icon> 导入标签模板
-                    </el-button>
-                </el-col>
+                </dev>
 
             </el-row>
 
