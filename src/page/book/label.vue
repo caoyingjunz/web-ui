@@ -23,7 +23,7 @@
                         <el-icon style="vertical-align: middle;margin-right: 4px;"><plus /></el-icon> 新建标签
                     </el-button>
 
-                    <el-button  @click="getLabelList">
+                    <el-button  @click="getLabelList" type="primary" plain>
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
                 </el-col>
