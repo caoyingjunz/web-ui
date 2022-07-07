@@ -10,21 +10,36 @@
             <el-row>
                 <el-col>
                     <div>
-                        <el-input placeholder="请输入搜索内容" style="width: 480px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
+                        <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable @input="getBookList" @clear="getBookList" class="input-with-select">
                           <template #prepend>
-                            <el-select v-model="pageInfo.select" style="width: 90px">
+                            <el-select v-model="pageInfo.select" style="width: 100px">
                               <el-option label="资料名" value="1" />
                               <el-option label="标签" value="2" />
                               <el-option label="精准查找" value="3" />
                             </el-select>
                           </template>
-
-                          <template #append>
-                            <el-button type="primary" size="default" @click="getBookList" >
-                                <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
-                            </el-button>
-                          </template>
                         </el-input>
+
+                        <el-button type="primary" size="default" style="margin-left: 12px;" @click="getBookList" >
+                            <el-icon style="vertical-align: middle; margin-right: 8px;" ><Search /></el-icon> 搜索
+                        </el-button>
+
+                        <el-button type="primary" @click="handleCreate" style="margin-left: 80px;">
+                            <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
+                        </el-button>
+
+                        <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
+                            <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
+                        </el-button>
+
+                        <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
+                            <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
+                        </el-button>
+
+                        <el-button @click="downloadBookTemplate" type="primary" plain>
+                            <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载资料模板
+                        </el-button>
+
                     </div>
                 </el-col>
 
@@ -36,28 +51,9 @@
                     @change="handleCascaderSelectChange"
                     filterable
                     >
-                </el-cascader>
+                    </el-cascader>
                 </div>
 
-                <el-button @click="getBookList" style="margin-left: 2px;">
-                    <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
-                </el-button>
-
-                <el-button type="primary" @click="handleCreate">
-                    <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
-                </el-button>
-
-                <el-button type="success" @click="handleBulkDownload" style="padding-right: 10px;">
-                    <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
-                </el-button>
-
-                <el-button type="danger" @click="handleBulkDelete" style="padding-right: 10px;">
-                    <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
-                </el-button>
-
-                <el-button @click="downloadBookTemplate" type="primary" plain>
-                    <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载资料模板
-                </el-button>
             </el-row>
 
             <!-- table 表格区域 -->
