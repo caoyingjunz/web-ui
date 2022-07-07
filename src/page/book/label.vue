@@ -7,33 +7,37 @@
         </el-breadcrumb>
 
         <el-card style="margin-top: 30px;">
-            <el-row :gutter="40">
-                <el-col :span="6">
-                    <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getLabelList"  @clear="getLabelList">
+            <el-row>
+                <el-col>
+                    <el-input placeholder="请输入内容" v-model="pageInfo.query" style="width: 430px;" clearable @input="getLabelList"  @clear="getLabelList">
                     <template #append>
                         <el-button span="8" type="primary" size="default" @click="getLabelList" >
                             <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
                         </el-button>
                     </template>
                   </el-input>
-                </el-col>
 
-                <el-col :span="13">
-                    <el-button type="primary" @click="handleCreate">
-                        <el-icon style="vertical-align: middle;margin-right: 4px;"><plus /></el-icon> 新建标签
-                    </el-button>
+                  <el-button type="primary" @click="handleCreate" style="margin-left: 20px;">
+                    <el-icon style="vertical-align: middle;margin-right: 4px;"><plus /></el-icon> 新建标签
+                  </el-button>
 
                     <el-button  @click="getLabelList" type="primary" plain>
                         <el-icon style="vertical-align: middle;margin-right: 4px; "><refresh /></el-icon> 刷新
                     </el-button>
+
+                    <el-button type="primary" @click="handleCreate" style="float: right; margin-right: 50px;">
+                        <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
+                    </el-button>
+                    <el-button @click="downloadLabelTemplate" type="primary" plain style="float: right;">
+                        <el-icon style="vertical-align: middle;margin-right: 4px;"><DocumentCopy /></el-icon> 下载标签模板
+                    </el-button>
+
+                </el-col>
+                <el-col>
+
                 </el-col>
 
-                <el-button type="primary" @click="handleCreate">
-                    <el-icon style="vertical-align: middle;margin-right: 4px;"><FolderOpened /></el-icon> 导入标签模板
-                </el-button>
-                <el-button @click="downloadLabelTemplate" type="primary" plain>
-                    <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 下载标签模板
-                </el-button>
+
 
             </el-row>
 
@@ -215,6 +219,7 @@ import {
     Upload,
     Download,
     UploadFilled,
+    DocumentCopy,
     FolderOpened
 } from '@element-plus/icons-vue'
 
@@ -413,6 +418,7 @@ export default {
         }
     },
     components: {
+        DocumentCopy,
         Search,
         Edit,
         Delete,
