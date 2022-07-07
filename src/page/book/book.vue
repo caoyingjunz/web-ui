@@ -10,9 +10,9 @@
             <el-row>
                 <el-col>
                     <div>
-                        <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
+                        <el-input placeholder="请输入搜索内容" style="width: 480px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
                           <template #prepend>
-                            <el-select v-model="pageInfo.select" style="width: 100px">
+                            <el-select v-model="pageInfo.select" style="width: 90px">
                               <el-option label="资料名" value="1" />
                               <el-option label="标签" value="2" />
                               <el-option label="精准查找" value="3" />
