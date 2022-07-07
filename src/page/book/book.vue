@@ -20,7 +20,7 @@
                           </template>
 
                           <template #append>
-                            <el-button span="8" type="primary" size="default" @click="getBookList" >
+                            <el-button type="primary" size="default" @click="getBookList" >
                                 <el-icon style="vertical-align: middle; margin-right: 6px;" ><Search /></el-icon> 搜索
                             </el-button>
                           </template>
