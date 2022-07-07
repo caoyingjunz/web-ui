@@ -18,25 +18,26 @@
                               <el-option label="精准查找" value="3" />
                             </el-select>
                           </template>
+
                         </el-input>
 
-                        <el-button type="primary" size="default" style="margin-left: 12px;" @click="getBookList" >
+                        <el-button type="primary" size="default" style="margin-left: 20px;" @click="getBookList" >
                             <el-icon style="vertical-align: middle; margin-right: 8px;" ><Search /></el-icon> 搜索
                         </el-button>
 
-                        <el-button type="primary" @click="handleCreate" style="margin-left: 80px;">
+                        <el-button type="primary" @click="handleCreate" style="margin-left: 60px;">
                             <el-icon style="vertical-align: middle;margin-right: 8px;"><plus /></el-icon> 资料上传
                         </el-button>
 
                         <el-button @click="downloadBookTemplate" type="primary" plain>
-                            <el-icon style="vertical-align: middle;margin-right: 4px; "><Download /></el-icon> 模板下载
+                            <el-icon style="vertical-align: middle;margin-right: 4px; "><DocumentCopy /></el-icon> 下载资料模板
                         </el-button>
 
                         <el-button type="success" @click="handleBulkDownload" style="float: right; margin-right: 20px;">
-                            <el-icon style="vertical-align: middle;margin-right: 8px;"><Download /></el-icon> 批量下载
+                            <el-icon style="vertical-align: middle;margin-right: 8px;"><FolderAdd /></el-icon> 批量下载
                         </el-button>
 
-                        <el-button type="danger" @click="handleBulkDelete" style="float: right; ">
+                        <el-button type="danger" @click="handleBulkDelete" style="float: right;">
                             <el-icon style="vertical-align: middle;margin-right: 8px;"><delete /></el-icon> 批量删除
                         </el-button>
                     </div>
@@ -318,10 +319,12 @@ import {
     Search,
     Delete,
     Edit,
+    DocumentCopy,
     ArrowDown,
     Plus,
     Upload,
     Download,
+    FolderAdd,
     UploadFilled
 } from '@element-plus/icons-vue'
 
@@ -718,6 +721,7 @@ export default {
         }
     },
     components: {
+        FolderAdd,
         Search,
         Edit,
         Delete,
@@ -726,6 +730,7 @@ export default {
         Upload,
         Download,
         Refresh,
+        DocumentCopy,
         UploadFilled
     }
 }
