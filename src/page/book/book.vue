@@ -6,9 +6,9 @@
             <el-breadcrumb-item>研究资料</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 20px;">
-            <el-row :gutter="40">
-                <el-col :span="8">
+        <el-card style="margin-top: 30px;">
+            <el-row>
+                <el-col>
                     <div>
                         <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable @input="getBookList"  @clear="getBookList" class="input-with-select">
                           <template #prepend>
