@@ -124,14 +124,14 @@
         </div>
 
         <el-row style="margin-top: 20px;">
-            <div style="vertical-align: middle;margin-right: 10px; margin-top: 4px;">已选择 1 项</div>
-            <el-button type="primary" plain @click="handleBulkDownload" style="float: right; margin-right: 4px;">
+            <div style="vertical-align: middle;margin-right: 10px; margin-top: 4px;">已选择 {{ bulkValues.length }} 项</div>
+            <el-button @click="handleBulkDownload" style="float: right; margin-right: 4px;" :disabled="bulkValues.length == 0">
                 <el-icon style="vertical-align: middle;margin-right: 8px;">
                     <FolderAdd />
                 </el-icon> 批量下载
             </el-button>
 
-            <el-button type="danger" plain @click="handleBulkDelete" style="float: right;">
+            <el-button type="danger" plain @click="handleBulkDelete" style="float: right;" :disabled="bulkValues.length == 0">
                 <el-icon style="vertical-align: middle;margin-right: 8px;">
                     <delete />
                 </el-icon> 批量删除
