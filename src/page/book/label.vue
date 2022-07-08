@@ -46,16 +46,14 @@
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="labelList" stripe style="margin-top: 20px; width: 100%" v-loading="loading">
+            <el-table :data="labelList" stripe style="margin-top: 30px; width: 100%" v-loading="loading">
 
                 <el-table-column type="selection" width="40" />
 
                 <el-table-column prop="name" label="标签名称" width="200" sortable>
                     <template #default="scope">
                         <el-link type="primary" @click="jumpRoute(scope.row.label_id)"> {{ scope.row.name }} </el-link>
-                        <!-- <router-link tag="a" :to="{path: '/labelDetail', query: {label_id: scope.row.label_id}}"> {{ scope.row.name }}  </router-link> -->
                     </template>
-
                 </el-table-column>
 
                 <el-table-column prop="gmt_create" label="创建时间" width="200" sortable />
@@ -89,11 +87,17 @@
 
             </el-table>
 
-            <!-- 分页区域 -->
-            <el-pagination style="margin-top: 20px;" v-model:currentPage="pageInfo.page"
-                v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
-                layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
-                @current-change="handleCurrentChange" />
+            <div style="margin-top: 25px;">
+                <div>
+                    <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 1 项 </span>
+
+                    <!-- 分页区域 -->
+                    <el-pagination style="float: right; margin-right: 40px;" v-model:currentPage="pageInfo.page"
+                        v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
+                        layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange" />
+                </div>
+            </div>
         </div>
 
         <!-- 创建对话框区域 -->

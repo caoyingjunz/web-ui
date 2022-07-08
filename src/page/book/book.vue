@@ -39,7 +39,6 @@
                                 <plus />
                             </el-icon> 资料上传
                         </el-button>
-
                     </div>
                 </el-col>
 
@@ -58,7 +57,7 @@
 
                 <el-table-column type="selection" width="40" />
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable />
-                <el-table-column prop="name" label="资料名" width="200" />
+                <el-table-column prop="name" label="资料名" width="300" />
                 <el-table-column prop="rtype" label="类型" width="60" />
                 <el-table-column prop="gmt_create" label="创建时间" width="170" sortable />
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
@@ -123,20 +122,29 @@
             </el-table>
         </div>
 
-        <el-row style="margin-top: 20px;">
-            <div style="vertical-align: middle;margin-right: 10px; margin-top: 4px;">已选择 {{ bulkValues.length }} 项</div>
-            <el-button @click="handleBulkDownload" style="float: right; margin-right: 4px;" :disabled="bulkValues.length == 0">
-                <el-icon style="vertical-align: middle;margin-right: 8px;">
-                    <FolderAdd />
-                </el-icon> 批量下载
-            </el-button>
+        <div style="margin-top: 25px;">
+            <div>
+                <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 {{ bulkValues.length }} 项 </span>
 
-            <el-button @click="handleBulkDelete" style="float: right;" :disabled="bulkValues.length == 0">
-                <el-icon style="vertical-align: middle;margin-right: 8px;">
-                    <delete />
-                </el-icon> 批量删除
-            </el-button>
-        </el-row>
+                <el-button @click="handleBulkDownload" style="margin-right: 4px;" :disabled="bulkValues.length == 0">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;">
+                        <FolderAdd />
+                    </el-icon> 批量下载
+                </el-button>
+
+                <el-button @click="handleBulkDelete" :disabled="bulkValues.length == 0">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;">
+                        <delete />
+                    </el-icon> 批量删除
+                </el-button>
+                <!-- 分页区域 -->
+                <el-pagination style="float: right; margin-right: 20px;" v-model:currentPage="pageInfo.page"
+                    v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange" />
+            </div>
+        </div>
+
 
         <!-- 创建对话框区域 -->
         <el-dialog v-model="createDialogFormVisible" title="资料上传" width="60%" draggable @close="createDialogClose">
