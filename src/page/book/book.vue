@@ -6,7 +6,7 @@
             <el-breadcrumb-item>研究资料</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 30px;">
+        <div style="margin-top: 30px;">
             <el-row>
                 <el-col>
                     <div>
@@ -19,7 +19,6 @@
                                     <el-option label="精准查找" value="3" />
                                 </el-select>
                             </template>
-
                         </el-input>
 
                         <el-button type="primary" size="default" style="margin-left: 20px;" @click="getBookList">
@@ -28,28 +27,17 @@
                             </el-icon> 搜索
                         </el-button>
 
-                        <el-button type="primary" @click="handleCreate" style="margin-left: 60px;">
-                            <el-icon style="vertical-align: middle;margin-right: 8px;">
-                                <plus />
-                            </el-icon> 资料上传
-                        </el-button>
-
-                        <el-button @click="downloadBookTemplate" type="primary" plain>
+                        <el-button @click="downloadBookTemplate" type="primary" plain
+                            style="float: right;  margin-right: 20px;">
                             <el-icon style="vertical-align: middle;margin-right: 4px; ">
                                 <DocumentCopy />
                             </el-icon> 下载资料模板
                         </el-button>
 
-                        <el-button type="success" @click="handleBulkDownload" style="float: right; margin-right: 20px;">
+                        <el-button type="primary" @click="handleCreate" style="float: right;">
                             <el-icon style="vertical-align: middle;margin-right: 8px;">
-                                <FolderAdd />
-                            </el-icon> 批量下载
-                        </el-button>
-
-                        <el-button type="danger" @click="handleBulkDelete" style="float: right;">
-                            <el-icon style="vertical-align: middle;margin-right: 8px;">
-                                <delete />
-                            </el-icon> 批量删除
+                                <plus />
+                            </el-icon> 资料上传
                         </el-button>
                     </div>
                 </el-col>
@@ -64,12 +52,12 @@
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="bookList" stripe style="margin-top: 20px; width: 100%" v-loading="loading"
+            <el-table :data="bookList" stripe style="margin-top: 30px; width: 100% " v-loading="loading"
                 @selection-change="handleSelectionChange">
 
                 <el-table-column type="selection" width="40" />
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable />
-                <el-table-column prop="name" label="资料名" width="200" />
+                <el-table-column prop="name" label="资料名" width="300" />
                 <el-table-column prop="rtype" label="类型" width="60" />
                 <el-table-column prop="gmt_create" label="创建时间" width="170" sortable />
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
@@ -129,18 +117,34 @@
                                 </el-dropdown-menu>
                             </template>
                         </el-dropdown>
-
                     </template>
                 </el-table-column>
-
             </el-table>
+        </div>
 
-            <!-- 分页区域 -->
-            <el-pagination style="margin-top: 20px;" v-model:currentPage="pageInfo.page"
-                v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
-                layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
-                @current-change="handleCurrentChange" />
-        </el-card>
+        <div style="margin-top: 25px;">
+            <div>
+                <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 {{ bulkValues.length }} 项 </span>
+
+                <el-button @click="handleBulkDownload" style="margin-right: 4px;" :disabled="bulkValues.length == 0">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;">
+                        <FolderAdd />
+                    </el-icon> 批量下载
+                </el-button>
+
+                <el-button @click="handleBulkDelete" :disabled="bulkValues.length == 0">
+                    <el-icon style="vertical-align: middle;margin-right: 8px;">
+                        <delete />
+                    </el-icon> 批量删除
+                </el-button>
+                <!-- 分页区域 -->
+                <el-pagination style="float: right; margin-right: 20px;" v-model:currentPage="pageInfo.page"
+                    v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
+                    layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange" />
+            </div>
+        </div>
+
 
         <!-- 创建对话框区域 -->
         <el-dialog v-model="createDialogFormVisible" title="资料上传" width="60%" draggable @close="createDialogClose">
@@ -160,8 +164,9 @@
                 </el-upload>
 
                 <el-form-item label="标签" prop="label">
-                    <el-cascader :options="options" :props="{ multiple: true, checkStrictly: true }"
-                        v-model="cascaderValue" @change="handleCascaderChange" clearable>
+                    <el-cascader :options="options" style="width: 230px;"
+                        :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
+                        @change="handleCascaderChange" clearable>
                     </el-cascader>
                 </el-form-item>
 
@@ -216,18 +221,6 @@
                         @change="handleCascaderChange" clearable>
                     </el-cascader>
 
-                    <!-- <el-input
-                class="input-new-tag"
-                v-if="inputVisible"
-                v-model="inputValue"
-                ref="saveTagInput"
-                size="small"
-                @keyup.enter.native="handleInputConfirm"
-                @blur="handleInputConfirm"
-              >
-              </el-input>
-
-              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
                 </el-form-item>
 
                 <el-form-item label="出版机构" prop="press">
@@ -279,7 +272,6 @@
                 </span>
             </template>
         </el-dialog>
-
     </div>
 </template>
 
@@ -420,7 +412,7 @@
                     `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             },
             beforeRemove(file, fileList) {
-                return this.$confirm(`确定移除 ${ file.name }？`);
+                return this.$confirm(`确定移除 ${file.name}？`);
             },
 
             downloadBookTemplate() {

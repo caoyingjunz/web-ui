@@ -158,7 +158,7 @@
     width: 100%;
     font-weight: 400;
     font-style: normal;
-    position: fixed;
+    /* position: fixed; */
     min-width: 1120px;
     z-index: 1002;
     top: 0;
@@ -208,6 +208,6 @@
   }
 
   .el-main {
-    background: rgb(234, 237, 241);
+    background: #fff;
   }
 </style>
