@@ -290,12 +290,16 @@
                     content: '',
                 },
                 createFormRules: {
-                    name: [
-                        { required: true, message: '请输入标签名称', trigger: 'blur' }
-                    ],
-                    content: [
-                        { required: false, message: '', trigger: 'blur' }
-                    ]
+                    name: [{
+                        required: true,
+                        message: '请输入标签名称',
+                        trigger: 'blur'
+                    }],
+                    content: [{
+                        required: false,
+                        message: '',
+                        trigger: 'blur'
+                    }]
                 },
                 editForm: {
                     label_id: 0,
@@ -307,9 +311,11 @@
                     content: '',
                 },
                 editFormRules: {
-                    name: [
-                        { required: true, message: '请输入资料名', trigger: 'blur' }
-                    ],
+                    name: [{
+                        required: true,
+                        message: '请输入资料名',
+                        trigger: 'blur'
+                    }],
                 },
             }
         },
@@ -391,14 +397,12 @@
                 window.sessionStorage.setItem("activeName", this.activeName)
             },
             async handleDelete(row) {
-                this.$confirm('此操作将永久删除标签 ' + row.name + ' , 是否继续?', '提示',
-                    {
+                this.$confirm('此操作将永久删除标签 ' + row.name + ' , 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning',
                         draggable: true,
-                    }
-                )
+                    })
                     .then(() => {
                         this.$http.delete("/research/label/delete?label_id=" + row.label_id)
                             .then((res) => {
@@ -409,11 +413,9 @@
                                 return this.$message.error(err.toString())
                             })
                     })
-                    .catch(() => {
-                    }) // 捕捉取消事件
+                    .catch(() => {}) // 捕捉取消事件
             },
-            handleOpen() {
-            },
+            handleOpen() {},
             handleCreate() {
                 this.createForm.owner = this.label_info.name
                 this.createForm.parent_id = parseInt(this.label_id)
@@ -424,7 +426,9 @@
                 this.createDialogFormVisible = false
 
                 this.createForm.content = this.subDynamicTags.join(",")
-                const { data: res } = this.$http.post("/research/label/create", this.createForm)
+                const {
+                    data: res
+                } = this.$http.post("/research/label/create", this.createForm)
                     .then((res) => {
                         this.getLabelList()
                         this.$message.success(this.createForm.name + " 创建成功")
@@ -485,7 +489,11 @@
             },
             async getLabelList() {
                 this.loading = true
-                const { data: res } = await this.$http.get('/research/label/list', { params: this.pageInfo })
+                const {
+                    data: res
+                } = await this.$http.get('/research/label/list', {
+                    params: this.pageInfo
+                })
                 this.loading = false
                 if (res.code != 200) {
                     return this.$message.error('获取标签列表失败');
@@ -495,7 +503,7 @@
                 if (res.result != null) {
                     this.pageInfo.page = res.result.page
                 }
-                if ( res.result != null) {
+                if (res.result != null) {
                     this.pageInfo.page_size = res.result.page_size
                 }
 
@@ -504,7 +512,9 @@
             },
             async getLabelDetail(label_id) {
                 this.loading = true
-                const { data: res } = await this.$http.get('/research/label/detail?label_id=' + label_id)
+                const {
+                    data: res
+                } = await this.$http.get('/research/label/detail?label_id=' + label_id)
                 this.loading = false
                 if (res.code != 200) {
                     return this.$message.error('获取标签详情失败');
@@ -512,7 +522,7 @@
 
                 this.label_info = res.result
 
-                if (res.result.content== undefined ) {
+                if (res.result.content == undefined) {
                     this.dynamicTags = []
                 } else {
                     this.dynamicTags = res.result.content.split(',')
