@@ -145,41 +145,50 @@
             </div>
         </div>
 
-
         <!-- 创建对话框区域 -->
-        <el-dialog v-model="createDialogFormVisible" title="资料上传" width="60%" draggable @close="createDialogClose">
-            <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
-                label-position="top">
+        <el-dialog v-model="createDialogFormVisible" width="60%" draggable @close="createDialogClose">
 
-                <el-upload class="upload-demo" drag multiple :on-preview="handlePreview" :on-change="handleChange"
-                    :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                    :auto-upload="false">
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="创建" name="first">
 
-                    <el-icon class="el-icon--upload">
-                        <upload-filled />
-                    </el-icon>
-                    <div class="el-upload__text">
-                        将文件拖到此处，或 <em>点击上传</em>
-                    </div>
-                </el-upload>
+                    <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
+                    label-position="top">
 
-                <el-form-item label="标签" prop="label">
-                    <el-cascader :options="options" style="width: 230px;"
-                        :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
-                        @change="handleCascaderChange" clearable>
-                    </el-cascader>
-                </el-form-item>
+                    <el-upload class="upload-demo" drag multiple :on-preview="handlePreview" :on-change="handleChange"
+                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                        :auto-upload="false">
 
-                <el-form-item label="出版机构" prop="press">
-                    <el-input v-model="createForm.press" placeholder="请输入出版机构" />
-                </el-form-item>
+                        <el-icon class="el-icon--upload">
+                            <upload-filled />
+                        </el-icon>
+                        <div class="el-upload__text">
+                            将文件拖到此处，或 <em>点击上传</em>
+                        </div>
+                    </el-upload>
 
-                <el-form-item label="描述" prop="description">
-                    <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
-                        :autosize="autosize" />
-                </el-form-item>
+                    <el-form-item label="标签" prop="label">
+                        <el-cascader :options="options" style="width: 230px;"
+                            :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
+                            @change="handleCascaderChange" clearable>
+                        </el-cascader>
+                    </el-form-item>
 
-            </el-form>
+                    <el-form-item label="出版机构" prop="press">
+                        <el-input v-model="createForm.press" placeholder="请输入出版机构" />
+                    </el-form-item>
+
+                    <el-form-item label="描述" prop="description">
+                        <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
+                            :autosize="autosize" />
+                    </el-form-item>
+
+                </el-form>
+
+
+                </el-tab-pane>
+                <el-tab-pane label="导入" name="second">研究资料导入</el-tab-pane>
+            </el-tabs>
+
 
             <template #footer>
                 <span class="dialog-footer">
@@ -297,6 +306,8 @@
     export default {
         data() {
             return {
+                activeName: "first",
+
                 fileList: [],
 
                 options: [],
@@ -397,6 +408,9 @@
             this.getOptionList()
         },
         methods: {
+            handleClick(tab, event){
+                console.log(tab, event)
+            },
             handleChange(file, fileList) {
                 console.log(file, fileList)
                 this.fileList = fileList
