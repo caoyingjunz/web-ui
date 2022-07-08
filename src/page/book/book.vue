@@ -131,7 +131,7 @@
                 </el-icon> 批量下载
             </el-button>
 
-            <el-button type="danger" plain @click="handleBulkDelete" style="float: right;" :disabled="bulkValues.length == 0">
+            <el-button @click="handleBulkDelete" style="float: right;" :disabled="bulkValues.length == 0">
                 <el-icon style="vertical-align: middle;margin-right: 8px;">
                     <delete />
                 </el-icon> 批量删除
