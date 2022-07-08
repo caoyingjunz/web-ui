@@ -6,7 +6,7 @@
             <el-breadcrumb-item>标签管理</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 30px;">
+        <div style="margin-top: 30px;">
             <el-row>
                 <el-col>
                     <el-input placeholder="请输入内容" v-model="pageInfo.query" style="width: 430px;" clearable
@@ -42,14 +42,7 @@
                             <DocumentCopy />
                         </el-icon> 下载标签模板
                     </el-button>
-
                 </el-col>
-                <el-col>
-
-                </el-col>
-
-
-
             </el-row>
 
             <!-- table 表格区域 -->
@@ -101,7 +94,7 @@
                 v-model:page-size="pageInfo.page_size" :page-sizes="[10, 20, 50]"
                 layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
                 @current-change="handleCurrentChange" />
-        </el-card>
+        </div>
 
         <!-- 创建对话框区域 -->
         <el-dialog v-model="createDialogFormVisible" title="新建标签" width="60%" draggable @close="createDialogClose">

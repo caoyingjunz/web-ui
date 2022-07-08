@@ -6,7 +6,7 @@
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <el-card style="margin-top: 20px;">
+        <div style="margin-top: 20px;">
             <el-row :gutter="40">
                 <el-col :span="6">
                     <el-input placeholder="请输入用户名称" v-model="userInfo.query" @input="getUserList" clearable
@@ -70,7 +70,7 @@
                 layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleUserSizeChange"
                 @current-change="handleUserCurrentChange" />
 
-        </el-card>
+        </div>
 
         <!-- 创建用户对话框区域 -->
         <el-dialog v-model="createUserDialogFormVisible" title="新增用户" width="60%" draggable
