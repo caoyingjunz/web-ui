@@ -124,7 +124,8 @@
 
         <div style="margin-top: 25px;">
             <div>
-                <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 {{ bulkValues.length }} 项 </span>
+                <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 {{ bulkValues.length }} 项
+                </span>
 
                 <el-button @click="handleBulkDownload" style="margin-right: 4px;" :disabled="bulkValues.length == 0">
                     <el-icon style="vertical-align: middle;margin-right: 8px;">
@@ -146,49 +147,45 @@
         </div>
 
         <!-- 创建对话框区域 -->
-        <el-dialog v-model="createDialogFormVisible" width="60%" draggable @close="createDialogClose">
-
-            <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-dialog v-model="createDialogFormVisible" width="50%" draggable @close="createDialogClose">
+            <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
                 <el-tab-pane label="创建" name="first">
-
                     <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
-                    label-position="top">
+                        label-position="top">
 
-                    <el-upload class="upload-demo" drag multiple :on-preview="handlePreview" :on-change="handleChange"
-                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                        :auto-upload="false">
+                        <el-upload class="upload-demo" drag multiple :on-preview="handlePreview"
+                            :on-change="handleChange" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1"
+                            :file-list="fileList" :auto-upload="false">
 
-                        <el-icon class="el-icon--upload">
-                            <upload-filled />
-                        </el-icon>
-                        <div class="el-upload__text">
-                            将文件拖到此处，或 <em>点击上传</em>
-                        </div>
-                    </el-upload>
+                            <el-icon class="el-icon--upload">
+                                <upload-filled />
+                            </el-icon>
+                            <div class="el-upload__text">
+                                将文件拖到此处，或 <em>点击上传</em>
+                            </div>
+                        </el-upload>
 
-                    <el-form-item label="标签" prop="label">
-                        <el-cascader :options="options" style="width: 230px;"
-                            :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
-                            @change="handleCascaderChange" clearable>
-                        </el-cascader>
-                    </el-form-item>
+                        <el-form-item label="标签" prop="label">
+                            <el-cascader :options="options" style="width: 360px;"
+                                :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
+                                @change="handleCascaderChange" clearable>
+                            </el-cascader>
+                        </el-form-item>
 
-                    <el-form-item label="出版机构" prop="press">
-                        <el-input v-model="createForm.press" placeholder="请输入出版机构" />
-                    </el-form-item>
+                        <el-form-item label="出版机构" prop="press">
+                            <el-input v-model="createForm.press" placeholder="请输入出版机构" />
+                        </el-form-item>
 
-                    <el-form-item label="描述" prop="description">
-                        <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
-                            :autosize="autosize" />
-                    </el-form-item>
+                        <el-form-item label="描述" prop="description">
+                            <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
+                                :autosize="autosize" />
+                        </el-form-item>
 
-                </el-form>
-
+                    </el-form>
 
                 </el-tab-pane>
                 <el-tab-pane label="导入" name="second">研究资料导入</el-tab-pane>
             </el-tabs>
-
 
             <template #footer>
                 <span class="dialog-footer">
@@ -408,7 +405,7 @@
             this.getOptionList()
         },
         methods: {
-            handleClick(tab, event){
+            handleClick(tab, event) {
                 console.log(tab, event)
             },
             handleChange(file, fileList) {
