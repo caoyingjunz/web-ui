@@ -153,9 +153,9 @@
                     <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
                         label-position="top">
 
-                        <el-upload drag multiple :on-preview="handlePreview"
-                            :on-change="handleChange" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1"
-                            :file-list="fileList" :auto-upload="false">
+                        <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange"
+                            :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                            :auto-upload="false">
 
                             <el-icon class="el-icon--upload">
                                 <upload-filled />
@@ -184,7 +184,40 @@
                     </el-form>
 
                 </el-tab-pane>
-                <el-tab-pane label="批量导入" name="second">研究资料导入</el-tab-pane>
+                <el-tab-pane label="批量导入" name="second">
+                    <span>选择文件列表</span>
+                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" style="margin-top: 10px;"
+                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                        :auto-upload="false">
+                        <el-icon class="el-icon--upload">
+                            <upload-filled />
+                        </el-icon>
+                        <div class="el-upload__text">
+                            将文件列表拖到此处，或 <em>点击上传</em>
+                        </div>
+                        <template #tip>
+                            <div>
+                            </div>
+                        </template>
+                    </el-upload>
+
+                    <span style="margin-top: 20px;">选择文件包</span>
+                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" style="margin-top: 10px;"
+                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                        :auto-upload="false">
+                        <el-icon class="el-icon--upload">
+                            <upload-filled />
+                        </el-icon>
+                        <div class="el-upload__text">
+                            将文件压缩包拖到此处，或 <em>点击上传</em>
+                        </div>
+                        <template #tip>
+                            <div>
+                            </div>
+                        </template>
+                    </el-upload>
+
+                </el-tab-pane>
             </el-tabs>
 
             <template #footer>
@@ -247,7 +280,6 @@
             </template>
         </el-dialog>
 
-
         <!-- 上传对话框区域 -->
         <el-dialog v-model="uploadDialogFormVisible" title="重新上传" width="60%" draggable @close="uploadDialogClose">
             <el-form ref="uploadFormRef" :model="uploadForm" :rules="uploadFormRules" label-width="120px"
@@ -257,9 +289,8 @@
                     <el-input v-model="uploadForm.research_id" disabled />
                 </el-form-item>
 
-                <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange"
-                    :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                    :auto-upload="false">
+                <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" :on-remove="handleRemove"
+                    :before-remove="beforeRemove" :limit="1" :file-list="fileList" :auto-upload="false">
 
                     <el-icon class="el-icon--upload">
                         <upload-filled />
@@ -269,6 +300,7 @@
                     </div>
                     <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
                 </el-upload>
+
             </el-form>
 
             <template #footer>

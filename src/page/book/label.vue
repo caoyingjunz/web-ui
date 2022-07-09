@@ -32,11 +32,12 @@
                         </el-icon> 刷新
                     </el-button>
 
-                    <el-button type="primary" @click="handleCreate" style="float: right; margin-right: 50px;">
+                    <el-button type="primary" @click="uploadLabelTemplate" style="float: right; margin-right: 50px;">
                         <el-icon style="vertical-align: middle;margin-right: 4px;">
                             <FolderOpened />
                         </el-icon> 导入标签模板
                     </el-button>
+
                     <el-button @click="downloadLabelTemplate" type="primary" plain style="float: right;">
                         <el-icon style="vertical-align: middle;margin-right: 4px;">
                             <DocumentCopy />
@@ -179,6 +180,16 @@
             </template>
         </el-dialog>
 
+        <el-dialog v-model="labelDialogVisible" title="导入标签文件" width="50%" :before-close="handleLabelClose">
+            <span>This is a message</span>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="handleLabelClose">取消</el-button>
+                    <el-button type="primary" @click="confirmUploadLabelTemplate">确定</el-button>
+                </span>
+            </template>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -200,6 +211,8 @@
     export default {
         data() {
             return {
+                labelDialogVisible: false,
+
                 dynamicTags: [],
                 inputVisible: false,
                 inputValue: '',
@@ -260,6 +273,18 @@
             this.getLabelList()
         },
         methods: {
+            handleLabelClose() {
+                console.log("handleLabelClose")
+                this.labelDialogVisible = false
+            },
+            uploadLabelTemplate() {
+                console.log("uploadLabelTemplate")
+                this.labelDialogVisible = true
+            },
+            confirmUploadLabelTemplate() {
+                console.log("confirmUploadLabelTemplate")
+                this.labelDialogVisible = false
+            },
             downloadLabelTemplate() {
                 let a = document.createElement('a')
                 a.href = `/static/labeltemplate.xlsx`
