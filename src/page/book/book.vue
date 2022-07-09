@@ -124,7 +124,8 @@
 
         <div style="margin-top: 25px;">
             <div>
-                <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 {{ bulkValues.length }} 项 </span>
+                <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 {{ bulkValues.length }} 项
+                </span>
 
                 <el-button @click="handleBulkDownload" style="margin-right: 4px;" :disabled="bulkValues.length == 0">
                     <el-icon style="vertical-align: middle;margin-right: 8px;">
@@ -145,41 +146,79 @@
             </div>
         </div>
 
-
         <!-- 创建对话框区域 -->
-        <el-dialog v-model="createDialogFormVisible" title="资料上传" width="60%" draggable @close="createDialogClose">
-            <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
-                label-position="top">
+        <el-dialog v-model="createDialogFormVisible" width="50%" draggable @close="createDialogClose">
+            <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
+                <el-tab-pane label="创建" name="first">
+                    <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
+                        label-position="top">
 
-                <el-upload class="upload-demo" drag multiple :on-preview="handlePreview" :on-change="handleChange"
-                    :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                    :auto-upload="false">
+                        <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange"
+                            :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                            :auto-upload="false">
 
-                    <el-icon class="el-icon--upload">
-                        <upload-filled />
-                    </el-icon>
-                    <div class="el-upload__text">
-                        将文件拖到此处，或 <em>点击上传</em>
-                    </div>
-                </el-upload>
+                            <el-icon class="el-icon--upload">
+                                <upload-filled />
+                            </el-icon>
+                            <div class="el-upload__text">
+                                将文件拖到此处，或 <em>点击上传</em>
+                            </div>
+                        </el-upload>
 
-                <el-form-item label="标签" prop="label">
-                    <el-cascader :options="options" style="width: 230px;"
-                        :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
-                        @change="handleCascaderChange" clearable>
-                    </el-cascader>
-                </el-form-item>
+                        <el-form-item label="标签" prop="label">
+                            <el-cascader :options="options" style="width: 360px;"
+                                :props="{ multiple: true, checkStrictly: true } " v-model="cascaderValue"
+                                @change="handleCascaderChange" clearable>
+                            </el-cascader>
+                        </el-form-item>
 
-                <el-form-item label="出版机构" prop="press">
-                    <el-input v-model="createForm.press" placeholder="请输入出版机构" />
-                </el-form-item>
+                        <el-form-item label="出版机构" prop="press">
+                            <el-input v-model="createForm.press" placeholder="请输入出版机构" />
+                        </el-form-item>
 
-                <el-form-item label="描述" prop="description">
-                    <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
-                        :autosize="autosize" />
-                </el-form-item>
+                        <el-form-item label="描述" prop="description">
+                            <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
+                                :autosize="autosize" />
+                        </el-form-item>
 
-            </el-form>
+                    </el-form>
+
+                </el-tab-pane>
+                <el-tab-pane label="批量导入" name="second">
+                    <span>选择文件列表</span>
+                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" style="margin-top: 10px;"
+                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                        :auto-upload="false">
+                        <el-icon class="el-icon--upload">
+                            <upload-filled />
+                        </el-icon>
+                        <div class="el-upload__text">
+                            将文件列表拖到此处，或 <em>点击上传</em>
+                        </div>
+                        <template #tip>
+                            <div>
+                            </div>
+                        </template>
+                    </el-upload>
+
+                    <span style="margin-top: 20px;">选择文件包</span>
+                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" style="margin-top: 10px;"
+                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
+                        :auto-upload="false">
+                        <el-icon class="el-icon--upload">
+                            <upload-filled />
+                        </el-icon>
+                        <div class="el-upload__text">
+                            将文件压缩包拖到此处，或 <em>点击上传</em>
+                        </div>
+                        <template #tip>
+                            <div>
+                            </div>
+                        </template>
+                    </el-upload>
+
+                </el-tab-pane>
+            </el-tabs>
 
             <template #footer>
                 <span class="dialog-footer">
@@ -241,7 +280,6 @@
             </template>
         </el-dialog>
 
-
         <!-- 上传对话框区域 -->
         <el-dialog v-model="uploadDialogFormVisible" title="重新上传" width="60%" draggable @close="uploadDialogClose">
             <el-form ref="uploadFormRef" :model="uploadForm" :rules="uploadFormRules" label-width="120px"
@@ -251,9 +289,8 @@
                     <el-input v-model="uploadForm.research_id" disabled />
                 </el-form-item>
 
-                <el-upload class="upload-demo" drag multiple :on-preview="handlePreview" :on-change="handleChange"
-                    :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                    :auto-upload="false">
+                <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" :on-remove="handleRemove"
+                    :before-remove="beforeRemove" :limit="1" :file-list="fileList" :auto-upload="false">
 
                     <el-icon class="el-icon--upload">
                         <upload-filled />
@@ -263,6 +300,7 @@
                     </div>
                     <!-- <el-button slot="trigger" size="small" type="primary">选取文件</el-button> -->
                 </el-upload>
+
             </el-form>
 
             <template #footer>
@@ -297,6 +335,8 @@
     export default {
         data() {
             return {
+                activeName: "first",
+
                 fileList: [],
 
                 options: [],
@@ -397,6 +437,15 @@
             this.getOptionList()
         },
         methods: {
+            handleClick(tab, event) {
+                if (this.activeName == "first") {
+                    console.log("first")
+                    this.fileList = []
+                } else {
+                    console.log("second")
+                    this.createDialogClose()
+                }
+            },
             handleChange(file, fileList) {
                 console.log(file, fileList)
                 this.fileList = fileList
@@ -469,6 +518,8 @@
             },
             createDialogClose() {
                 this.$refs.createFormRef.resetFields()
+                this.cascaderValue = []
+                this.fileList = []
             },
             uploadDialogClose() {
                 this.$refs.uploadFormRef.resetFields()
@@ -554,9 +605,9 @@
             },
             cancelCreate() {
                 this.createDialogFormVisible = false
-                this.cascaderValue = []
+
                 this.dynamicTags = []
-                this.fileList = []
+                this.createDialogClose()
             },
             handleEdit(row) {
                 this.editForm.research_id = row.research_id
@@ -641,8 +692,6 @@
                 for (var i = 0; i < this.bulkValues.length; i++) {
                     localIds.push(this.bulkValues[i].research_id)
                 }
-
-                console.log("handleBulkDownload")
             },
             handleBulkDelete() {
                 if (this.bulkValues.length == 0) {
