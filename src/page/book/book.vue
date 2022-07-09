@@ -153,7 +153,7 @@
                     <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
                         label-position="top">
 
-                        <el-upload class="upload-demo" drag multiple :on-preview="handlePreview"
+                        <el-upload drag multiple :on-preview="handlePreview"
                             :on-change="handleChange" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1"
                             :file-list="fileList" :auto-upload="false">
 
@@ -184,7 +184,7 @@
                     </el-form>
 
                 </el-tab-pane>
-                <el-tab-pane label="导入" name="second">研究资料导入</el-tab-pane>
+                <el-tab-pane label="批量导入" name="second">研究资料导入</el-tab-pane>
             </el-tabs>
 
             <template #footer>
@@ -257,7 +257,7 @@
                     <el-input v-model="uploadForm.research_id" disabled />
                 </el-form-item>
 
-                <el-upload class="upload-demo" drag multiple :on-preview="handlePreview" :on-change="handleChange"
+                <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange"
                     :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
                     :auto-upload="false">
 
@@ -406,7 +406,13 @@
         },
         methods: {
             handleClick(tab, event) {
-                console.log(tab, event)
+                if (this.activeName == "first") {
+                    console.log("first")
+                    this.fileList = []
+                } else {
+                    console.log("second")
+                    this.createDialogClose()
+                }
             },
             handleChange(file, fileList) {
                 console.log(file, fileList)
@@ -480,6 +486,8 @@
             },
             createDialogClose() {
                 this.$refs.createFormRef.resetFields()
+                this.cascaderValue = []
+                this.fileList = []
             },
             uploadDialogClose() {
                 this.$refs.uploadFormRef.resetFields()
@@ -565,9 +573,9 @@
             },
             cancelCreate() {
                 this.createDialogFormVisible = false
-                this.cascaderValue = []
+
                 this.dynamicTags = []
-                this.fileList = []
+                this.createDialogClose()
             },
             handleEdit(row) {
                 this.editForm.research_id = row.research_id
@@ -652,8 +660,6 @@
                 for (var i = 0; i < this.bulkValues.length; i++) {
                     localIds.push(this.bulkValues[i].research_id)
                 }
-
-                console.log("handleBulkDownload")
             },
             handleBulkDelete() {
                 if (this.bulkValues.length == 0) {
