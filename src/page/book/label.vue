@@ -32,17 +32,19 @@
                         </el-icon> 刷新
                     </el-button>
 
-                    <el-button type="primary" @click="uploadLabelTemplate" style="float: right; margin-right: 50px;">
+                    <el-button @click="downloadLabelTemplate" type="primary" plain
+                        style="float: right;  margin-right: 50px;">
+                        <el-icon style="vertical-align: middle;margin-right: 4px;">
+                            <DocumentCopy />
+                        </el-icon> 下载标签模板
+                    </el-button>
+
+                    <el-button type="primary" @click="uploadLabelTemplate" style="float: right;">
                         <el-icon style="vertical-align: middle;margin-right: 4px;">
                             <FolderOpened />
                         </el-icon> 导入标签模板
                     </el-button>
 
-                    <el-button @click="downloadLabelTemplate" type="primary" plain style="float: right;">
-                        <el-icon style="vertical-align: middle;margin-right: 4px;">
-                            <DocumentCopy />
-                        </el-icon> 下载标签模板
-                    </el-button>
                 </el-col>
             </el-row>
 
@@ -181,7 +183,18 @@
         </el-dialog>
 
         <el-dialog v-model="labelDialogVisible" title="导入标签文件" width="50%" :before-close="handleLabelClose">
-            <span>This is a message</span>
+
+            <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" :on-remove="handleRemove"
+                :before-remove="beforeRemove" :limit="1" :file-list="fileList" :auto-upload="false">
+
+                <el-icon class="el-icon--upload">
+                    <upload-filled />
+                </el-icon>
+                <div class="el-upload__text">
+                    将标签文件拖到此处，或 <em>点击上传</em>
+                </div>
+            </el-upload>
+
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="handleLabelClose">取消</el-button>
@@ -212,6 +225,7 @@
         data() {
             return {
                 labelDialogVisible: false,
+                fileList: [],
 
                 dynamicTags: [],
                 inputVisible: false,
@@ -273,17 +287,59 @@
             this.getLabelList()
         },
         methods: {
-            handleLabelClose() {
-                console.log("handleLabelClose")
-                this.labelDialogVisible = false
+            handleChange(file, fileList) {
+                console.log(file, fileList)
+                this.fileList = fileList
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList)
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(
+                    `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            beforeRemove(file, fileList) {
+                return this.$confirm(`确定移除 ${file.name}？`);
             },
             uploadLabelTemplate() {
                 console.log("uploadLabelTemplate")
                 this.labelDialogVisible = true
             },
-            confirmUploadLabelTemplate() {
-                console.log("confirmUploadLabelTemplate")
+
+            // 取消
+            handleLabelClose() {
+                this.fileList = []
                 this.labelDialogVisible = false
+            },
+            // 确认上传
+            confirmUploadLabelTemplate() {
+                if (this.fileList.length == 0) {
+                    return this.$message.error('未选择需要导入的标签列表文件')
+                }
+
+                this.labelDialogVisible = false
+                var file = this.fileList[0].raw
+                this.fileList = []
+
+                // 创建文件内容
+                let fileFormData = new FormData();
+                fileFormData.append('file', file, file.name); //filename是键，file是值，就是要传的文件，test.zip是要传的文件名
+                let requestConfig = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                }
+                this.$http.post("/research/label/upload", fileFormData, requestConfig)
+                    .then((res) => {
+                        this.getLabelList()
+                        this.$message.success("批量导入标签成功")
+                    })
+                    .catch((err) => {
+                        this.$message.error(err.toString())
+                    })
             },
             downloadLabelTemplate() {
                 let a = document.createElement('a')
