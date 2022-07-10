@@ -182,7 +182,7 @@
             </template>
         </el-dialog>
 
-        <el-dialog v-model="labelDialogVisible" title="导入标签文件" width="50%" :before-close="handleLabelClose">
+        <el-dialog v-model="labelDialogVisible" title="导入标签文件" width="50%" :before-close="handleLabelClose" draggable="true">
 
             <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" :on-remove="handleRemove"
                 :before-remove="beforeRemove" :limit="1" :file-list="fileList" :auto-upload="false">
