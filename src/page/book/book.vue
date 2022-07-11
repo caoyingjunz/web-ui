@@ -532,6 +532,7 @@
                 this.$refs.createFormRef.resetFields()
                 this.cascaderValue = []
                 this.fileList = []
+                this.fileTarList = []
             },
             uploadDialogClose() {
                 this.$refs.uploadFormRef.resetFields()
@@ -576,6 +577,7 @@
                 }
             },
             handleCreate() {
+                this.activeName = "first"
                 this.createDialogFormVisible = true
             },
             confirmMultiFiles() {
@@ -583,9 +585,12 @@
                     return this.$message.error('请选择要上传的文件包!')
                 }
 
-                // this.createDialogFormVisible = false
                 var file = this.fileList[0].raw
                 var fileTar = this.fileTarList[0].raw
+                // 置空
+                this.fileList = []
+                this.fileTarList = []
+                this.createDialogFormVisible = false
 
                 let fileFormData = new FormData()
                 fileFormData.append('file', file, file.name)
@@ -599,11 +604,7 @@
                 this.$http.post("/research/upload?research_id=1", fileFormData, requestConfig)
                     .then((res) => {
                         this.getBookList()
-                        this.$message.success("上传资料成功")
-
-                        this.fileList = []
-                        this.fileTarList = []
-                        this.uploadDialogFormVisible = false
+                        this.$message.success("批量上传资料成功")
                     })
                     .catch((err) => {
                         this.$message.error(err.toString())
