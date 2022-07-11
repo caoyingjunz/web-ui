@@ -186,9 +186,9 @@
                 </el-tab-pane>
                 <el-tab-pane label="批量导入" name="second">
                     <span>选择文件列表</span>
-                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" style="margin-top: 10px;"
-                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                        :auto-upload="false">
+                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange"
+                        style="margin-top: 10px;" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1"
+                        :file-list="fileList" :auto-upload="false">
                         <el-icon class="el-icon--upload">
                             <upload-filled />
                         </el-icon>
@@ -202,9 +202,9 @@
                     </el-upload>
 
                     <span style="margin-top: 20px;">选择文件包</span>
-                    <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" style="margin-top: 10px;"
-                        :on-remove="handleRemove" :before-remove="beforeRemove" :limit="1" :file-list="fileList"
-                        :auto-upload="false">
+                    <el-upload drag multiple :on-preview="handleFilesPreview" :on-change="handleFilesChange"
+                        style="margin-top: 10px;" :on-remove="handleFilesRemove" :before-remove="beforeFilesRemove"
+                        :limit="1" :file-list="fileTarList" :auto-upload="false">
                         <el-icon class="el-icon--upload">
                             <upload-filled />
                         </el-icon>
@@ -451,10 +451,19 @@
                 console.log(file, fileList)
                 this.fileList = fileList
             },
+            handleFilesChange(file, fileTarList) {
+                this.fileTarList = fileTarList
+            },
             handleRemove(file, fileList) {
                 console.log(file, fileList)
             },
+            handleFilesRemove(file, fileTarList) {
+                console.log(file, fileTarList)
+            },
             handlePreview(file) {
+                console.log(file);
+            },
+            handleFilesPreview(file) {
                 console.log(file);
             },
             handleExceed(files, fileList) {
@@ -464,7 +473,9 @@
             beforeRemove(file, fileList) {
                 return this.$confirm(`确定移除 ${file.name}？`);
             },
-
+            beforeFilesRemove(file, fileTarList) {
+                return this.$confirm(`确定移除 ${file.name}？`);
+            },
             downloadBookTemplate() {
                 let a = document.createElement('a')
                 a.href = `/static/booktemplate.xlsx`
@@ -567,7 +578,7 @@
             handleCreate() {
                 this.createDialogFormVisible = true
             },
-            confirmMultiFiles(){
+            confirmMultiFiles() {
                 if (this.fileTarList.length == 0) {
                     return this.$message.error('请选择要上传的文件包!')
                 }
@@ -589,6 +600,9 @@
                     .then((res) => {
                         this.getBookList()
                         this.$message.success("上传资料成功")
+
+                        this.fileList = []
+                        this.fileTarList = []
                         this.uploadDialogFormVisible = false
                     })
                     .catch((err) => {
