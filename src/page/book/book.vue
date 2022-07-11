@@ -338,6 +338,7 @@
                 activeName: "first",
 
                 fileList: [],
+                fileTarList: [], // 压缩包文件
 
                 options: [],
                 cascaderValue: [],
@@ -566,10 +567,45 @@
             handleCreate() {
                 this.createDialogFormVisible = true
             },
+            confirmMultiFiles(){
+                if (this.fileTarList.length == 0) {
+                    return this.$message.error('请选择要上传的文件包!')
+                }
+
+                // this.createDialogFormVisible = false
+                var file = this.fileList[0].raw
+                var fileTar = this.fileTarList[0].raw
+
+                let fileFormData = new FormData()
+                fileFormData.append('file', file, file.name)
+                fileFormData.append('files', fileTar, fileTar.name)
+                let requestConfig = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                }
+
+                this.$http.post("/research/upload?research_id=1", fileFormData, requestConfig)
+                    .then((res) => {
+                        this.getBookList()
+                        this.$message.success("上传资料成功")
+                        this.uploadDialogFormVisible = false
+                    })
+                    .catch((err) => {
+                        this.$message.error(err.toString())
+                    })
+            },
             confirmCreate() {
                 if (this.fileList.length == 0) {
-                    return this.$message.error('请选择要上传的文件！')
+                    return this.$message.error('请选择要上传的文件列表!')
                 }
+
+                if (this.activeName != "first") {
+                    console.log("执行多文件上传")
+                    return this.confirmMultiFiles()
+                }
+
+                console.log("执行单文件上传")
                 this.createDialogFormVisible = false
                 var file = this.fileList[0].raw
 
