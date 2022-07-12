@@ -6,93 +6,58 @@
             <el-breadcrumb-item>标签详情</el-breadcrumb-item>
         </el-breadcrumb>
 
-        <!-- 上外边距是 10px
+        <!-- 上外边距是 30px
         右外边距是 5px
         下外边距是 15px
         左外边距是 20px -->
-        <div style="margin: 30px 10px 40px 0px;">
-            <span style="font-size: 30px;"> {{ label_info.name }}</span>
-            <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
-        </div>
-
-        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-            <el-tab-pane label="详细信息" name="first">
-                <div style="margin: 20px 20px 40px 0;">
-
-                    <el-form>
-                        <el-row :gutter="40">
-
-                            <!-- <el-col :span="6">
-                                <el-form-item label="标签名称:">
-                                    <div>{{ label_info.name }}</div>
-                                </el-form-item>
-                            </el-col> -->
-
-                            <el-col :span="6">
-                                <el-form-item label="标签ID:">
-                                    <div>{{ label_info.label_id }}</div>
-                                </el-form-item>
-                            </el-col>
-
-                            <el-col :span="6">
-                                <el-form-item label="创建时间:">
-                                    <div>{{ label_info.gmt_create }}</div>
-                                </el-form-item>
-                            </el-col>
-
-                            <el-col :span="6">
-                                <el-form-item label="更新时间:">
-                                    <div>{{ label_info.gmt_modified }}</div>
-                                </el-form-item>
-                            </el-col>
-
-                        </el-row>
-
-                        <el-form>
-                            <el-form-item label="标签值:" />
-                        </el-form>
-
-                        <el-form>
-                            <el-form-item>
-                                <el-tag hit :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false"
-                                    @close="handleClose(tag)">
-                                    {{ tag }}
-                                </el-tag>
-                                <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue"
-                                    ref="saveTagInput" size="default" @keyup.enter.native="handleInputConfirm"
-                                    @blur="handleInputConfirm">
-                                </el-input>
-                                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag
-                                </el-button>
-                            </el-form-item>
-
-                        </el-form>
-
-                    </el-form>
-                </div>
-
-            </el-tab-pane>
-
-            <el-tab-pane label="子标签列表" name="second">
-                <el-row :gutter="40">
+        <div style="margin: 20px 0px 0px 10px;">
+            <!-- 按钮靠右对应 style=“float: right -->
+            <!-- <el-button style="float: right;">操作按钮</el-button> -->
+            <el-form>
+                <span style="font-size: 40px;"> {{ label_info.name }}</span>
+                <el-button type="primary" style="margin-left: 50px;">更新操作</el-button>
+                <el-row style="margin-top: 16px;">
                     <el-col :span="6">
-                        <el-input placeholder="请输入内容" v-model="pageInfo.query" clearable @input="getLabelList"
-                            @clear="getLabelList">
-                            <template #append>
-                                <el-button span="8" type="primary" size="default" @click="getLabelList">
-                                    <el-icon style="vertical-align: middle;">
-                                        <Search />
-                                    </el-icon>
-                                </el-button>
-                            </template>
-                        </el-input>
+                        <el-form-item label="标签ID:" style="margin-left: 2px;">
+                            <div>{{ label_info.label_id }}</div>
+                        </el-form-item>
                     </el-col>
 
                     <el-col :span="6">
-                        <el-button type="primary" @click="handleCreate">
+                        <el-form-item label="创建时间:">
+                            <div>{{ label_info.gmt_create }}</div>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :span="6">
+                        <el-form-item label="更新时间:">
+                            <div>{{ label_info.gmt_modified }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </div>
+
+
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="margin-left: 12px;">
+            <el-tab-pane label="标签列表" name="first">
+                <el-row>
+                    <el-col>
+                        <el-input placeholder="请输入内容" v-model="pageInfo.query" style="width: 360px;" clearable
+                            @input="getLabelList" @clear="getLabelList">
+                            <template #append>
+                                <el-button type="primary" size="default" @click="getLabelList">
+                                    <el-icon style="vertical-align: middle; margin-right: 6px;">
+                                        <Search />
+                                    </el-icon> 搜索
+                                </el-button>
+                            </template>
+                        </el-input>
+
+                        <el-button type="primary" @click="handleCreate" style="margin-left: 20px;">
                             <el-icon style="vertical-align: middle;margin-right: 8px;">
                                 <plus />
-                            </el-icon> 新建子标签
+                            </el-icon> 新建标签
                         </el-button>
 
                         <el-button @click="getLabelList">
@@ -101,7 +66,6 @@
                             </el-icon> 刷新
                         </el-button>
                     </el-col>
-
                 </el-row>
 
                 <!-- table 表格区域 -->

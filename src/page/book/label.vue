@@ -12,7 +12,7 @@
                     <el-input placeholder="请输入内容" v-model="pageInfo.query" style="width: 430px;" clearable
                         @input="getLabelList" @clear="getLabelList">
                         <template #append>
-                            <el-button span="8" type="primary" size="default" @click="getLabelList">
+                            <el-button type="primary" size="default" @click="getLabelList">
                                 <el-icon style="vertical-align: middle; margin-right: 6px;">
                                     <Search />
                                 </el-icon> 搜索
@@ -49,7 +49,8 @@
             </el-row>
 
             <!-- table 表格区域 -->
-            <el-table :data="labelList" stripe style="margin-top: 30px; width: 100%" v-loading="loading">
+            <el-table :data="labelList" stripe style="margin-top: 30px; width: 100%" v-loading="loading"
+                @selection-change="handleSelectionChange">
 
                 <el-table-column type="selection" width="40" />
 
@@ -92,7 +93,21 @@
 
             <div style="margin-top: 25px;">
                 <div>
-                    <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择 1 项 </span>
+                    <span style="vertical-align: middle;margin-right: 12px; margin-top: 4px;"> 已选择
+                        {{ bulkValues.length }} 项 </span>
+
+                    <el-button @click="handleBulkDownload" style="margin-right: 4px;"
+                        :disabled="bulkValues.length == 0">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;">
+                            <FolderAdd />
+                        </el-icon> 批量下载
+                    </el-button>
+
+                    <el-button @click="handleBulkDelete" :disabled="bulkValues.length == 0">
+                        <el-icon style="vertical-align: middle;margin-right: 8px;">
+                            <delete />
+                        </el-icon> 批量删除
+                    </el-button>
 
                     <!-- 分页区域 -->
                     <el-pagination style="float: right; margin-right: 40px;" v-model:currentPage="pageInfo.page"
@@ -182,7 +197,8 @@
             </template>
         </el-dialog>
 
-        <el-dialog v-model="labelDialogVisible" title="导入标签文件" width="50%" :before-close="handleLabelClose" draggable="true">
+        <el-dialog v-model="labelDialogVisible" title="导入标签文件" width="50%" :before-close="handleLabelClose"
+            draggable="true">
 
             <el-upload drag multiple :on-preview="handlePreview" :on-change="handleChange" :on-remove="handleRemove"
                 :before-remove="beforeRemove" :limit="1" :file-list="fileList" :auto-upload="false">
@@ -218,7 +234,8 @@
         Download,
         UploadFilled,
         DocumentCopy,
-        FolderOpened
+        FolderOpened,
+        FolderAdd
     } from '@element-plus/icons-vue'
 
     export default {
@@ -226,6 +243,9 @@
             return {
                 labelDialogVisible: false,
                 fileList: [],
+
+                // 批量操作
+                bulkValues: [],
 
                 dynamicTags: [],
                 inputVisible: false,
@@ -287,6 +307,9 @@
             this.getLabelList()
         },
         methods: {
+            handleSelectionChange(val) {
+                this.bulkValues = val
+            },
             handleChange(file, fileList) {
                 console.log(file, fileList)
                 this.fileList = fileList
@@ -492,7 +515,8 @@
             Download,
             Refresh,
             UploadFilled,
-            FolderOpened
+            FolderOpened,
+            FolderAdd
         }
     }
 </script>
