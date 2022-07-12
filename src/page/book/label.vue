@@ -131,7 +131,7 @@
                     <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
                         :autosize="autosize" />
                 </el-form-item>
-
+<!--
                 <el-form-item label="标签值" prop="content">
                     <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false"
                         @close="handleClose(tag)">
@@ -141,8 +141,7 @@
                         size="small" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
                     </el-input>
                     <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-                    <!-- <el-input v-model="createForm.content" placeholder="请输入标签" type="textarea" :autosize="autosize"/> -->
-                </el-form-item>
+                </el-form-item> -->
 
             </el-form>
 
@@ -155,7 +154,7 @@
         </el-dialog>
 
         <!-- 编辑对话框区域 -->
-        <el-dialog v-model="dialogFormVisible" title="编辑标签" width="60%" draggable @close="editDialogClose">
+        <el-dialog v-model="dialogFormVisible" title="编辑标签" width="50%" draggable @close="editDialogClose">
             <el-form ref="editFormRef" :model="editForm" :rules="editFormRules" label-width="120px"
                 label-position="top">
 
@@ -264,7 +263,7 @@
                 uploadDialogFormVisible: false,
                 total: 0,
                 autosize: {
-                    minRows: 4,
+                    minRows: 8,
                 },
                 createForm: {
                     name: '',

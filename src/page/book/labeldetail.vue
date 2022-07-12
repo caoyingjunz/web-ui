@@ -118,7 +118,7 @@
                     @current-change="handleCurrentChange" />
 
                 <!-- 创建对话框区域 -->
-                <el-dialog v-model="createDialogFormVisible" title="新建子标签" width="60%" draggable
+                <el-dialog v-model="createDialogFormVisible" title="新建标签" width="50%" draggable
                     @close="createDialogClose">
                     <el-form ref="createFormRef" :model="createForm" :rules="createFormRules" label-width="10px"
                         label-position="top">
@@ -139,7 +139,7 @@
                             <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput"
                                 size="small" @keyup.enter.native="handleSubInputConfirm" @blur="handleSubInputConfirm">
                             </el-input>
-                            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag
+                            <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新增标签
                             </el-button>
                             <!-- <el-input v-model="createForm.content" placeholder="请输入标签" type="textarea" :autosize="autosize"/> -->
                         </el-form-item>
