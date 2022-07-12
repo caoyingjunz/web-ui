@@ -57,7 +57,7 @@
 
                 <el-table-column type="selection" width="40" />
                 <el-table-column prop="research_id" label="资料编号" width="110" sortable />
-                <el-table-column prop="name" label="资料名" width="300" />
+                <el-table-column prop="name" label="资料名" width="360" />
                 <el-table-column prop="rtype" label="类型" width="60" />
                 <el-table-column prop="gmt_create" label="创建时间" width="170" sortable />
                 <!-- <el-table-column prop="gmt_modified" label="更新时间" width="200"/> -->
