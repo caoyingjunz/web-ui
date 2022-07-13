@@ -5,17 +5,25 @@
       <!-- header有两部分 -->
       <div style="display: flex; align-items:center;">
         <img src="../../../static/huawei.logo.png" />
-        <span style="font-size:medium;"> Pixiu Cloud </span>
+        <span style="font-size:medium;">貔貅云</span>
+
+        <el-button type="text" style="margin-left: 30px; background-color: rgb(40, 43, 51)">
+          <el-icon style="vertical-align: middle;margin-right: 0px; font-size:large;">
+            <HomeFilled />
+          </el-icon> <span style="font-size:small; color: #a6a1a1;">总览</span>
+        </el-button>
+        <span style="margin-left: 20px; font-size:medium;">|</span>
+        <span style="margin-left: 20px; font-size:small;"> 云产品</span>
       </div>
 
       <div style="display: flex; align-items:center;">
-
-        <!-- <div class="block" style="margin: 30px 0px 10px;">
-            <el-avatar :size="40" :src="circleUrl"/>
-          </div> -->
-
-        <el-button style="margin: 0px 20px;" type="text" @click="logout"> 退出 </el-button>
+        <el-input v-model="headInput" placeholder="请输入内容" :suffix-icon="Search" style="margin-right: 60px; width: 300px;" @blur="handleLost" @focus="handleInput" clearable>
+          <template #suffix>
+            <el-icon class="el-input__icon"><search /></el-icon>
+          </template></el-input>
+        <el-button style="margin-right: 20px;" type="text" @click="logout"> 退出 </el-button>
       </div>
+
     </el-header>
 
     <el-container>
@@ -30,9 +38,9 @@
             <!-- 无子集 -->
             <el-menu-item index="/index" @click='saveActiveIndex("/index")'>
               <el-icon>
-                <Histogram />
+                <Menu />
               </el-icon>
-              <span>总览</span>
+              <span>主页</span>
             </el-menu-item>
 
             <!-- 无子集 -->
@@ -51,7 +59,7 @@
 
             <el-menu-item index="/label" @click='saveActiveIndex("/label")'>
               <el-icon>
-                <Promotion />
+                <Collection />
               </el-icon>
               <span>标签管理</span>
             </el-menu-item>
@@ -94,11 +102,13 @@
 
 <script>
   import {
-    Histogram,
+    Menu,
     Setting,
     Notebook,
     UserFilled,
-    Promotion,
+    Collection,
+    HomeFilled,
+    Search,
     Lock,
   } from '@element-plus/icons-vue'
 
@@ -106,6 +116,7 @@
     data() {
       return {
         activeIndex: '',
+        headInput: "",
         circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
       }
     },
@@ -116,6 +127,12 @@
       }
     },
     methods: {
+      handleLost(){
+        console.log("lost")
+      },
+      handleInput(){
+        console.log("input")
+      },
       logout() {
         // 清除本地缓存的 token 和 menuid
         window.sessionStorage.clear()
@@ -128,12 +145,14 @@
       }
     },
     components: {
-      Histogram,
+      Menu,
       Notebook,
       Setting,
       Lock,
-      Promotion,
-      UserFilled
+      Collection,
+      UserFilled,
+      HomeFilled,
+      Search,
     }
   }
 </script>
@@ -142,7 +161,6 @@
   .home_container {
     height: 100%;
   }
-
 
   .modules-plain-text-cf-header-console-name {
     display: flex;
