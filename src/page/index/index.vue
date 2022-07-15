@@ -24,7 +24,33 @@
               <search />
             </el-icon>
           </template></el-input>
-        <el-button style="margin-right: 20px;" type="text" @click="logout"> 退出 </el-button>
+
+        <div style="vertical-align: middle; margin-top: 30px;margin-right: 28px;">
+          <el-dropdown>
+            <span>
+              <el-avatar :size="30" :src="circleUrl" />
+            </span>
+            <!-- <span>
+              <el-icon style="margin-left: 8px; margin-top: 18px; font-size:larger;">
+                <CaretBottom />
+              </el-icon>
+            </span> -->
+            <template #dropdown>
+              <div>
+                断马
+              </div>
+              <div>
+                账号ID：100015412243
+              </div>
+              <el-dropdown-menu>
+                <el-dropdown-item :icon="Plus" divided>账号信息</el-dropdown-item>
+                <el-dropdown-item :icon="CirclePlus">访问管理</el-dropdown-item>
+                <el-dropdown-item :icon="Check" divided>退出</el-dropdown-item>
+              </el-dropdown-menu>
+
+            </template>
+          </el-dropdown>
+        </div>
       </div>
 
     </el-header>
@@ -112,6 +138,7 @@
     Collection,
     HomeFilled,
     Search,
+    CaretBottom,
     Lock,
   } from '@element-plus/icons-vue'
 
@@ -120,6 +147,7 @@
       return {
         activeIndex: '',
         headInput: "",
+        circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
         inputWidth: "200px"
       }
     },
@@ -156,6 +184,7 @@
       UserFilled,
       HomeFilled,
       Search,
+      CaretBottom,
     }
   }
 </script>
