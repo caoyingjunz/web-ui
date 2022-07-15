@@ -17,9 +17,12 @@
       </div>
 
       <div style="display: flex; align-items:center;">
-        <el-input v-model="headInput" placeholder="请输入内容" :suffix-icon="Search" style="margin-right: 60px; width: 300px;" @blur="handleLost" @focus="handleInput" clearable>
+        <el-input class="header-input " v-model="headInput" placeholder="请输入内容" :suffix-icon="Search" @blur="handleLost"
+          @focus="handleInput" clearable>
           <template #suffix>
-            <el-icon class="el-input__icon"><search /></el-icon>
+            <el-icon class="el-input__icon">
+              <search />
+            </el-icon>
           </template></el-input>
         <el-button style="margin-right: 20px;" type="text" @click="logout"> 退出 </el-button>
       </div>
@@ -127,10 +130,10 @@
       }
     },
     methods: {
-      handleLost(){
+      handleLost() {
         console.log("lost")
       },
-      handleInput(){
+      handleInput() {
         console.log("input")
       },
       logout() {
@@ -158,19 +161,6 @@
 </script>
 
 <style scoped="scoped">
-  .home_container {
-    height: 100%;
-  }
-
-  .modules-plain-text-cf-header-console-name {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: inherit;
-    line-height: 50px;
-    cursor: pointer;
-  }
-
   .modules-header-cf-header-container {
     height: 100%;
     width: 100%;
@@ -184,11 +174,9 @@
     background-color: #ebe7e7;
   }
 
-  .modules-user-info-user-info-menu-wrapper-user-info-multi-user-info {
-    line-height: 130%;
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 210px;
+  .header-input {
+    margin-right: 60px;
+    width: 300px;
   }
 
   .el-header {
@@ -219,11 +207,7 @@
     width: 200px;
   }
 
-  .modules-user-info-user-info-menu-wrapper-user-info-text {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-  }
+
 
   .el-main {
     background: #fff;
