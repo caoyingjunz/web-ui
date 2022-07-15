@@ -17,14 +17,40 @@
       </div>
 
       <div style="display: flex; align-items:center;">
-        <el-input class="header-input " v-model="headInput" placeholder="请输入内容" :suffix-icon="Search" @blur="handleLost"
+        <el-input class="header-input" v-model="headInput" placeholder="请输入内容" :suffix-icon="Search" @blur="handleLost"
           @focus="handleInput" clearable>
           <template #suffix>
             <el-icon class="el-input__icon">
               <search />
             </el-icon>
           </template></el-input>
-        <el-button style="margin-right: 20px;" type="text" @click="logout"> 退出 </el-button>
+
+        <div style="vertical-align: middle; margin-top: 30px;margin-right: 28px;">
+          <el-dropdown>
+            <span>
+              <el-avatar :size="30" :src="circleUrl" />
+            </span>
+            <!-- <span>
+              <el-icon style="margin-left: 8px; margin-top: 18px; font-size:larger;">
+                <CaretBottom />
+              </el-icon>
+            </span> -->
+            <template #dropdown>
+              <div>
+                断马
+              </div>
+              <div>
+                账号ID：100015412243
+              </div>
+              <el-dropdown-menu>
+                <el-dropdown-item :icon="Plus" divided>账号信息</el-dropdown-item>
+                <el-dropdown-item :icon="CirclePlus">访问管理</el-dropdown-item>
+                <el-dropdown-item :icon="Check" divided>退出</el-dropdown-item>
+              </el-dropdown-menu>
+
+            </template>
+          </el-dropdown>
+        </div>
       </div>
 
     </el-header>
@@ -112,6 +138,7 @@
     Collection,
     HomeFilled,
     Search,
+    CaretBottom,
     Lock,
   } from '@element-plus/icons-vue'
 
@@ -120,7 +147,8 @@
       return {
         activeIndex: '',
         headInput: "",
-        circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+        circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+        inputWidth: "200px"
       }
     },
     created() {
@@ -131,10 +159,10 @@
     },
     methods: {
       handleLost() {
-        console.log("lost")
+        this.inputWidth = "200px"
       },
       handleInput() {
-        console.log("input")
+        this.inputWidth = "400px"
       },
       logout() {
         // 清除本地缓存的 token 和 menuid
@@ -156,6 +184,7 @@
       UserFilled,
       HomeFilled,
       Search,
+      CaretBottom,
     }
   }
 </script>
@@ -176,7 +205,8 @@
 
   .header-input {
     margin-right: 60px;
-    width: 300px;
+    /* css 变量  */
+    width: v-bind(inputWidth);
   }
 
   .el-header {
@@ -206,8 +236,6 @@
     border-right: none;
     width: 200px;
   }
-
-
 
   .el-main {
     background: #fff;
