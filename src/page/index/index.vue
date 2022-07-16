@@ -37,6 +37,20 @@
             </el-icon>
           </template></el-input>
 
+          <el-dropdown>
+            <span style="font-size:small; margin-right: 25px; color: #ADB0BB;">
+              工具
+              <el-icon>
+                <CaretBottom />
+              </el-icon>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>百宝箱</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+
         <el-dropdown>
           <span style="font-size:small; margin-right: 30px; color: #ADB0BB;">
             支持
@@ -79,15 +93,13 @@
           </el-dropdown>
         </div>
       </div>
-
     </el-header>
 
     <el-container>
       <!-- 左边侧边栏 -->
-      <el-aside width="100px">
-
-        <el-col :span="12">
-          <el-menu active-text-color="#ffd04b" background-color="rgb(51, 55, 68)" class="el-menu-vertical-demo"
+      <el-aside>
+        <el-col>
+          <el-menu active-text-color="#ffd04b" background-color="rgb(51, 55, 68)"
             border-right="none" :default-active="activeIndex" text-color="#fff" @open="handleOpen" @close="handleClose"
             router>
 
@@ -144,7 +156,6 @@
 
           </el-menu>
         </el-col>
-
       </el-aside>
 
       <!-- 主体 -->
@@ -233,7 +244,7 @@
   }
 
   .header-input {
-    margin-right: 60px;
+    margin-right: 30px;
     /* css 变量  */
     width: v-bind(inputWidth);
   }
