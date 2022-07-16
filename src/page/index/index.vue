@@ -43,6 +43,8 @@
           </el-icon>
         </span>
 
+        <a href="https://www.baidu.com" class="header-bottom">文档</a>
+
         <el-dropdown>
           <span style="font-size:small; margin-right: 25px; color: #ADB0BB;">
             工具
@@ -272,6 +274,12 @@
     height: 80%;
     width: auto;
     margin: 5px;
+  }
+
+  .header-bottom {
+    font-size: small;
+    margin-right: 25px;
+    color: #ADB0BB;
   }
 
   .el-aside {
