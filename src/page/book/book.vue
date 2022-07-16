@@ -1,8 +1,10 @@
 <template>
+    <!-- <el-header
+        style="background-color: rgb(223, 226, 234); height: 45px;">
+        <span>研究资料</span>
+    </el-header> -->
     <div>
-        <!-- 面包屑导航 -->
         <el-breadcrumb separator="/">
-            <!-- <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item> -->
             <el-breadcrumb-item>
                 <span style="font-weight: bold; font-size: 18px; color: black;">研究资料</span>
             </el-breadcrumb-item>
