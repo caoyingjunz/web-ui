@@ -21,9 +21,9 @@
             </el-icon>
           </span>
           <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>研究资料</el-dropdown-item>
-            </el-dropdown-menu>
+            <div style="width: 900px; height: 500px">
+              todo
+            </div>
           </template>
         </el-dropdown>
       </div>
@@ -37,19 +37,25 @@
             </el-icon>
           </template></el-input>
 
-          <el-dropdown>
-            <span style="font-size:small; margin-right: 25px; color: #ADB0BB;">
-              工具
-              <el-icon>
-                <CaretBottom />
-              </el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>百宝箱</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+        <span style="font-size:large; margin-right: 20px; margin-top: 8px;" @click="handleMessage">
+          <el-icon>
+            <Message />
+          </el-icon>
+        </span>
+
+        <el-dropdown>
+          <span style="font-size:small; margin-right: 25px; color: #ADB0BB;">
+            工具
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>百宝箱</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
 
         <el-dropdown>
           <span style="font-size:small; margin-right: 30px; color: #ADB0BB;">
@@ -99,9 +105,8 @@
       <!-- 左边侧边栏 -->
       <el-aside>
         <el-col>
-          <el-menu active-text-color="#ffd04b" background-color="rgb(51, 55, 68)"
-            border-right="none" :default-active="activeIndex" text-color="#fff" @open="handleOpen" @close="handleClose"
-            router>
+          <el-menu active-text-color="#ffd04b" background-color="rgb(51, 55, 68)" border-right="none"
+            :default-active="activeIndex" text-color="#fff" @open="handleOpen" @close="handleClose" router>
 
             <!-- 无子集 -->
             <el-menu-item index="/index" @click='saveActiveIndex("/index")'>
@@ -177,7 +182,7 @@
     HomeFilled,
     Search,
     CaretBottom,
-    Plus,
+    Message,
     Lock,
   } from '@element-plus/icons-vue'
 
@@ -197,6 +202,9 @@
       }
     },
     methods: {
+      handleMessage() {
+        console.log("get message")
+      },
       handleLost() {
         this.inputWidth = "200px"
       },
@@ -224,7 +232,7 @@
       HomeFilled,
       Search,
       CaretBottom,
-      Plus,
+      Message,
     }
   }
 </script>
