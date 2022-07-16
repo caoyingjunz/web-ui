@@ -13,7 +13,19 @@
           </el-icon> <span style="font-size:small; color: #a6a1a1;">总览</span>
         </el-button>
         <span style="margin-left: 20px; font-size:medium;">|</span>
-        <span style="margin-left: 20px; font-size:small;"> 云产品</span>
+        <el-dropdown>
+          <span style="margin-left: 20px; font-size:small; color:  #ADB0BB;">
+            云产品
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>研究资料</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
 
       <div style="display: flex; align-items:center;">
@@ -24,6 +36,21 @@
               <search />
             </el-icon>
           </template></el-input>
+
+        <el-dropdown>
+          <span style="font-size:small; margin-right: 30px; color: #ADB0BB;">
+            支持
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>售后支持</el-dropdown-item>
+              <el-dropdown-item>待办</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
 
         <div style="vertical-align: middle; margin-top: 30px;margin-right: 28px;">
           <el-dropdown>
@@ -139,6 +166,7 @@
     HomeFilled,
     Search,
     CaretBottom,
+    Plus,
     Lock,
   } from '@element-plus/icons-vue'
 
@@ -185,6 +213,7 @@
       HomeFilled,
       Search,
       CaretBottom,
+      Plus,
     }
   }
 </script>
