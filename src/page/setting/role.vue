@@ -2,8 +2,11 @@
     <div>
         <!-- 面包屑导航效果 -->
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/index' }"> 总览 </el-breadcrumb-item>
-            <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+            <!-- <el-breadcrumb-item :to="{ path: '/index' }"> 总览 </el-breadcrumb-item> -->
+            <el-breadcrumb-item>
+                <span style="font-weight: bold; font-size: 18px; color: black;">用户管理</span>
+            </el-breadcrumb-item>
+
         </el-breadcrumb>
 
         <div style="margin-top: 20px;">
