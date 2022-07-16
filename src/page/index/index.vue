@@ -14,7 +14,7 @@
         </el-button>
         <span style="margin-left: 20px; font-size:medium;">|</span>
         <el-dropdown>
-          <span style="margin-left: 20px; font-size:small; color:  #ADB0BB;">
+          <span style="margin-left: 20px; font-size:small; color: #ADB0BB;">
             云产品
             <el-icon>
               <CaretBottom />
@@ -42,6 +42,10 @@
             <Message />
           </el-icon>
         </span>
+
+        <el-drawer v-model="showMessage" title="站内信" direction="rtl" size="20%">
+          <div></div>
+        </el-drawer>
 
         <a href="https://www.baidu.com" class="header-bottom">文档</a>
 
@@ -85,18 +89,35 @@
               </el-icon>
             </span> -->
             <template #dropdown>
-              <div>
+              <span style="margin-left: 20px; font-size: 18px;">
                 断马
+              </span>
+              <div style="margin-left: 20px;">
+                账号ID: 100015412243
               </div>
-              <div>
-                账号ID：100015412243
-              </div>
-              <el-dropdown-menu>
-                <el-dropdown-item :icon="Plus" divided>账号信息</el-dropdown-item>
-                <el-dropdown-item :icon="CirclePlus">访问管理</el-dropdown-item>
-                <el-dropdown-item :icon="Check" divided>退出</el-dropdown-item>
-              </el-dropdown-menu>
 
+              <el-dropdown-menu>
+                <el-dropdown-item divided>
+                  <el-icon>
+                    <UserFilled />
+                  </el-icon>账号信息
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-icon>
+                    <HelpFilled />
+                  </el-icon>访问管理
+                </el-dropdown-item>
+                <el-dropdown-item divided disabled>
+                  <el-icon>
+                    <Shop />
+                  </el-icon>帮助设置偏好
+                  <el-radio-group v-model="radio1" size="small" style="margin-left: 18px;">
+                    <el-radio-button label="开启" />
+                    <el-radio-button label="关闭" />
+                  </el-radio-group>
+                </el-dropdown-item>
+                <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
+              </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
@@ -183,9 +204,12 @@
     Collection,
     HomeFilled,
     Search,
+    Shop,
     CaretBottom,
+    HelpFilled,
     Message,
     Lock,
+    User,
   } from '@element-plus/icons-vue'
 
   export default {
@@ -194,7 +218,9 @@
         activeIndex: '',
         headInput: "",
         circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-        inputWidth: "200px"
+        inputWidth: "200px",
+        showMessage: false,
+        radio1: "开启",
       }
     },
     created() {
@@ -205,7 +231,7 @@
     },
     methods: {
       handleMessage() {
-        console.log("get message")
+        this.showMessage = true
       },
       handleLost() {
         this.inputWidth = "200px"
@@ -230,11 +256,14 @@
       Setting,
       Lock,
       Collection,
+      HelpFilled,
       UserFilled,
+      Shop,
       HomeFilled,
       Search,
       CaretBottom,
       Message,
+      User,
     }
   }
 </script>
