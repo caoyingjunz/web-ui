@@ -14,18 +14,23 @@
             <el-row>
                 <el-col>
                     <div>
-                        <el-input placeholder="请输入搜索内容" style="width: 430px;" v-model="pageInfo.query" clearable
-                            @input="getBookList" @clear="getBookList" class="input-with-select">
-                            <template #prepend>
-                                <el-select v-model="pageInfo.select" style="width: 100px">
-                                    <el-option label="资料名" value="1" />
-                                    <el-option label="标签" value="2" />
-                                    <el-option label="精准查找" value="3" />
-                                </el-select>
-                            </template>
+                        <el-select v-model="pageInfo.select" style="width: 100px;">
+                            <el-option label="资料名" value="1" />
+                            <el-option label="标签" value="2" />
+                            <el-option label="精准查找" value="3" />
+                        </el-select>
+
+                        <span v-if="pageInfo.select == 3">
+                            <el-cascader style="width: 210px;"  :options="options" v-model="cascaderSelectValue" placeholder="标签选择"
+                                :props="{ checkStrictly: true }" @change="handleCascaderSelectChange" filterable clearable>
+                            </el-cascader>
+                        </span>
+
+                        <el-input placeholder="请输入搜索内容" style="width: 300px;" v-model="pageInfo.query" clearable
+                            @input="getBookList" @clear="getBookList">
                         </el-input>
 
-                        <el-button type="primary" size="default" style="margin-left: 20px;" @click="getBookList">
+                        <el-button type="primary" size="default" style="margin-left: 10px;" @click="getBookList">
                             <el-icon style="vertical-align: middle; margin-right: 8px;">
                                 <Search />
                             </el-icon> 搜索
@@ -45,13 +50,6 @@
                         </el-button>
                     </div>
                 </el-col>
-
-                <div v-if="pageInfo.select == 3">
-                    <el-cascader style="margin-left: 10px; width: 230px;" :options="options"
-                        v-model="cascaderSelectValue" :props="{ checkStrictly: true }"
-                        @change="handleCascaderSelectChange" filterable>
-                    </el-cascader>
-                </div>
 
             </el-row>
 
@@ -341,6 +339,7 @@
             return {
                 activeName: "first",
 
+                cascaderLength: "1000px",
                 fileList: [],
                 fileTarList: [], // 压缩包文件
 
@@ -575,10 +574,10 @@
                 this.options = res.result
 
                 // 添加默认值
-                if (this.options.length > 0) {
-                    this.cascaderSelectValue.push(this.options[0].label)
-                    this.pageInfo.cascader_label = this.options[0].label
-                }
+                // if (this.options.length > 0) {
+                //     this.cascaderSelectValue.push(this.options[0].label)
+                //     this.pageInfo.cascader_label = this.options[0].label
+                // }
             },
             handleCreate() {
                 this.activeName = "first"
@@ -821,10 +820,6 @@
 </script>
 
 <style scoped>
-    .input-with-select .el-input-group__prepend {
-        background-color: var(--el-fill-color-blank);
-    }
-
     .el-icon {
         vertical-align: middle;
         text-align: center;
