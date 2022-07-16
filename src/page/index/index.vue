@@ -93,7 +93,7 @@
                 断马
               </span>
               <div style="margin-left: 20px;">
-                账号ID: 100015412243
+                账号ID: 12345678910
               </div>
 
               <el-dropdown-menu>
