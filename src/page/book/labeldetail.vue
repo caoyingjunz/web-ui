@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
+        <el-breadcrumb style="font-weight: bold; font-size: 18px; color: black;" separator="/">
+            <!-- <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item> -->
             <el-breadcrumb-item><a href="/#/label">标签管理</a></el-breadcrumb-item>
             <el-breadcrumb-item>标签详情</el-breadcrumb-item>
         </el-breadcrumb>

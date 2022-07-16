@@ -2,8 +2,10 @@
     <div>
         <!-- 面包屑导航 -->
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>标签管理</el-breadcrumb-item>
+            <!-- <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item> -->
+            <el-breadcrumb-item>
+                <span style="font-weight: bold; font-size: 18px; color: black;">标签管理</span>
+            </el-breadcrumb-item>
         </el-breadcrumb>
 
         <div style="margin-top: 30px;">
@@ -131,7 +133,7 @@
                     <el-input v-model="createForm.description" placeholder="请输入简介描述" type="textarea"
                         :autosize="autosize" />
                 </el-form-item>
-<!--
+                <!--
                 <el-form-item label="标签值" prop="content">
                     <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false"
                         @close="handleClose(tag)">

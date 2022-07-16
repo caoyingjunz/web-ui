@@ -1,16 +1,5 @@
 <template>
     <div class="login_body_CFs_DNF">
-
-        <!-- <div class="u-head_head_yingjun">
-        <span class="u-head_logo_yingjun">
-            <a class="u-head_logo_icon_yingjun"> </a>
-            <span class="u-head_logo_title_yingjun" > </span>
-        </span>
-
-        <div class="u-head_middle_yingjun"></div>
-        <div class="u-head_right_yingjun"></div>
-    </div> -->
-
         <div class="login_gbody_CFs_DNF">
             <div class="login_form_body_CFs_DNF">
                 <div class="login_cont_body_CFs_DNF">
@@ -19,16 +8,13 @@
                             <div class="login_container_form_CFs_DNF">
                                 <div class="login_login_form_CFs_DNF">
                                     <div class="login_form_CFs_DNF">
-
                                         <div direction="vertical" class="u-linear-layout_FaugwXHe" gap="large">
-
                                             <div class="u-tabs_3_DeFFee">
                                                 <ul class="u-tabs_head_3_DeFFee">
                                                     <li title="用户登录" selected="selected" class="u-tabs_item_3_DeFFee">
                                                         <span>用户登录</span></li>
                                                 </ul>
                                             </div>
-
                                             <el-input v-model="loginInfo.name" :prefix-icon="UserFilled"
                                                 placeholder="请输入账号" clearable maxlength="128"
                                                 @keyup.enter.native="login">
@@ -70,7 +56,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>

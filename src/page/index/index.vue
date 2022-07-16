@@ -13,7 +13,19 @@
           </el-icon> <span style="font-size:small; color: #a6a1a1;">总览</span>
         </el-button>
         <span style="margin-left: 20px; font-size:medium;">|</span>
-        <span style="margin-left: 20px; font-size:small;"> 云产品</span>
+        <el-dropdown>
+          <span style="margin-left: 20px; font-size:small; color: #ADB0BB;">
+            云产品
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <div style="width: 900px; height: 500px">
+              todo
+            </div>
+          </template>
+        </el-dropdown>
       </div>
 
       <div style="display: flex; align-items:center;">
@@ -24,6 +36,47 @@
               <search />
             </el-icon>
           </template></el-input>
+
+        <span style="font-size:large; margin-right: 20px; margin-top: 8px;" @click="handleMessage">
+          <el-icon>
+            <Message />
+          </el-icon>
+        </span>
+
+        <el-drawer v-model="showMessage" title="站内信" direction="rtl" size="20%">
+          <div></div>
+        </el-drawer>
+
+        <a href="https://www.baidu.com" class="header-bottom">文档</a>
+
+        <el-dropdown>
+          <span style="font-size:small; margin-right: 25px; color: #ADB0BB;">
+            工具
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>百宝箱</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+        <el-dropdown>
+          <span style="font-size:small; margin-right: 30px; color: #ADB0BB;">
+            支持
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>售后支持</el-dropdown-item>
+              <el-dropdown-item>待办</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
 
         <div style="vertical-align: middle; margin-top: 30px;margin-right: 28px;">
           <el-dropdown>
@@ -36,33 +89,47 @@
               </el-icon>
             </span> -->
             <template #dropdown>
-              <div>
+              <span style="margin-left: 20px; font-size: 18px;">
                 断马
+              </span>
+              <div style="margin-left: 20px;">
+                账号ID: 12345678910
               </div>
-              <div>
-                账号ID：100015412243
-              </div>
-              <el-dropdown-menu>
-                <el-dropdown-item :icon="Plus" divided>账号信息</el-dropdown-item>
-                <el-dropdown-item :icon="CirclePlus">访问管理</el-dropdown-item>
-                <el-dropdown-item :icon="Check" divided>退出</el-dropdown-item>
-              </el-dropdown-menu>
 
+              <el-dropdown-menu>
+                <el-dropdown-item divided>
+                  <el-icon>
+                    <UserFilled />
+                  </el-icon>账号信息
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-icon>
+                    <HelpFilled />
+                  </el-icon>访问管理
+                </el-dropdown-item>
+                <el-dropdown-item divided disabled>
+                  <el-icon>
+                    <Shop />
+                  </el-icon>帮助设置偏好
+                  <el-radio-group v-model="radio1" size="small" style="margin-left: 18px;">
+                    <el-radio-button label="开启" />
+                    <el-radio-button label="关闭" />
+                  </el-radio-group>
+                </el-dropdown-item>
+                <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
+              </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
       </div>
-
     </el-header>
 
     <el-container>
       <!-- 左边侧边栏 -->
-      <el-aside width="100px">
-
-        <el-col :span="12">
-          <el-menu active-text-color="#ffd04b" background-color="rgb(51, 55, 68)" class="el-menu-vertical-demo"
-            border-right="none" :default-active="activeIndex" text-color="#fff" @open="handleOpen" @close="handleClose"
-            router>
+      <el-aside>
+        <el-col>
+          <el-menu active-text-color="#ffd04b" background-color="rgb(51, 55, 68)" border-right="none"
+            :default-active="activeIndex" text-color="#fff" @open="handleOpen" @close="handleClose" router>
 
             <!-- 无子集 -->
             <el-menu-item index="/index" @click='saveActiveIndex("/index")'>
@@ -117,7 +184,6 @@
 
           </el-menu>
         </el-col>
-
       </el-aside>
 
       <!-- 主体 -->
@@ -138,8 +204,12 @@
     Collection,
     HomeFilled,
     Search,
+    Shop,
     CaretBottom,
+    HelpFilled,
+    Message,
     Lock,
+    User,
   } from '@element-plus/icons-vue'
 
   export default {
@@ -148,7 +218,9 @@
         activeIndex: '',
         headInput: "",
         circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-        inputWidth: "200px"
+        inputWidth: "200px",
+        showMessage: false,
+        radio1: "开启",
       }
     },
     created() {
@@ -158,6 +230,9 @@
       }
     },
     methods: {
+      handleMessage() {
+        this.showMessage = true
+      },
       handleLost() {
         this.inputWidth = "200px"
       },
@@ -181,10 +256,14 @@
       Setting,
       Lock,
       Collection,
+      HelpFilled,
       UserFilled,
+      Shop,
       HomeFilled,
       Search,
       CaretBottom,
+      Message,
+      User,
     }
   }
 </script>
@@ -204,7 +283,7 @@
   }
 
   .header-input {
-    margin-right: 60px;
+    margin-right: 30px;
     /* css 变量  */
     width: v-bind(inputWidth);
   }
@@ -224,6 +303,12 @@
     height: 80%;
     width: auto;
     margin: 5px;
+  }
+
+  .header-bottom {
+    font-size: small;
+    margin-right: 25px;
+    color: #ADB0BB;
   }
 
   .el-aside {
