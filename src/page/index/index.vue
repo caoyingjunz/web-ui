@@ -221,6 +221,9 @@
         inputWidth: "200px",
         showMessage: false,
         radio1: "开启",
+        logoutInfo: {
+          name: "",
+        }
       }
     },
     created() {
@@ -240,7 +243,13 @@
         this.inputWidth = "400px"
       },
       logout() {
-        // 清除本地缓存的 token 和 menuid
+        // 触发后端登出逻辑
+        this.logoutInfo.name = window.sessionStorage.getItem("account")
+        this.$http.post("/user/logout",this.logoutInfo)
+          .then((res) => {})
+          .catch((err) => {})
+
+        // 清除本地缓存的 token 和 account
         window.sessionStorage.clear()
         // 跳转到登陆页面
         this.$router.push('/')

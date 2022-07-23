@@ -60,20 +60,14 @@
     },
     methods: {
       async getOptionList() {
-                const {
-                    data: res
-                } = await this.$http.get('/research/label/cascade/list')
-                if (res.code != 200) {
-                    return this.$message.error('获取label失败');
-                }
-                this.options = res.result
-
-                // 添加默认值
-                // if (this.options.length > 0) {
-                //     this.cascaderSelectValue.push(this.options[0].label)
-                //     this.pageInfo.cascader_label = this.options[0].label
-                // }
-            },
+        const {
+          data: res
+        } = await this.$http.get('/research/label/cascade/list')
+        if (res.code != 200) {
+          return this.$message.error('获取label失败');
+        }
+        this.options = res.result
+      },
     }
   }
 </script>

@@ -89,6 +89,7 @@
                     .then((res) => {
                         const token = res.data.result
                         window.sessionStorage.setItem("token", token)
+                        window.sessionStorage.setItem("account", this.loginInfo.name)
 
                         this.$message.success("登陆成功")
                         this.$router.push('/index')
@@ -253,7 +254,7 @@
         box-sizing: border-box;
         padding-bottom: 133px;
         min-height: 100vh;
-        background: url(../../../static/beijing.jpeg) no-repeat;
+        background: url(../../../static/beijing.jpg) no-repeat;
         background-size: cover;
     }
 
