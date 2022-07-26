@@ -7,25 +7,32 @@
         <img src="../../../static/huawei.logo.png" />
         <span style="font-size:medium;">貔貅云</span>
 
-        <el-button type="text" style="margin-left: 30px; background-color: rgb(40, 43, 51)">
+        <el-button type="text" style="margin-left: 20px; background-color: rgb(40, 43, 51)">
           <el-icon style="vertical-align: middle;margin-right: 0px; font-size:large;">
             <HomeFilled />
           </el-icon> <span style="font-size:small; color: #a6a1a1;">总览</span>
         </el-button>
-        <span style="margin-left: 20px; font-size:medium;">|</span>
-        <el-dropdown>
-          <span style="margin-left: 20px; font-size:small; color: #ADB0BB;">
-            云产品
-            <el-icon>
-              <CaretBottom />
-            </el-icon>
-          </span>
-          <template #dropdown>
-            <div style="width: 900px; height: 500px">
-              todo
-            </div>
+        <span style="margin-left: 16px; font-size:medium;">|</span>
+
+        <el-menu
+          :default-active="activeIndex2"
+          class="el-menu-class"
+          text-color="#ADB0BB"
+          background-color="rgb(40, 43, 51)"
+          mode="horizontal"
+          @select="handleSelect"
+        >
+
+        <el-sub-menu index="1">
+          <template #title>
+            <span style="font-size:small; color: #ADB0BB;">
+              云产品
+            </span>
           </template>
-        </el-dropdown>
+          <el-menu-item style="width: 900px; height: 500px" index="2-1">TODO</el-menu-item>
+        </el-sub-menu>
+
+      </el-menu>
       </div>
 
       <div style="display: flex; align-items:center;">
@@ -216,6 +223,7 @@
     data() {
       return {
         activeIndex: '',
+        activeIndex2: '1',
         headInput: "",
         circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
         inputWidth: "200px",
@@ -233,6 +241,10 @@
       }
     },
     methods: {
+      handleSelect(key, keyPath){
+        console.log("key", key)
+        console.log("keyPath", keyPath)
+      },
       handleMessage() {
         this.showMessage = true
       },
@@ -312,6 +324,10 @@
     height: 80%;
     width: auto;
     margin: 5px;
+  }
+
+  .el-menu-class {
+    height: 51px
   }
 
   .header-bottom {
