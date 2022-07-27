@@ -21,8 +21,9 @@
                         </el-select>
 
                         <span v-if="pageInfo.select == 3">
-                            <el-cascader style="width: 210px;"  :options="options" v-model="cascaderSelectValue" placeholder="标签选择"
-                                :props="{ checkStrictly: true }" @change="handleCascaderSelectChange" filterable clearable>
+                            <el-cascader style="width: 210px;" :options="options" v-model="cascaderSelectValue"
+                                placeholder="标签选择" :props="{ checkStrictly: true }" @change="handleCascaderSelectChange"
+                                filterable clearable>
                             </el-cascader>
                         </span>
 
@@ -522,7 +523,16 @@
                 this.inputValue = '';
             },
             downloadFile(row) {
-                window.open('/research/download?research_id=' + row.research_id)
+                let token = window.sessionStorage.getItem("token")
+                window.open('http://103.39.211.122:8090/research/download?research_id=' + row.research_id+'&Authorization='+token)
+                // let routeData = this.$router.resolve({
+                //     path: "/research/download",
+                //     query: {
+                //         "research_id": row.research_id,
+                //         "token": "dddd",
+                //     }
+                // })
+                // window.open(routeData.href)
             },
             uploadFile(row) {
                 this.uploadForm.research_id = row.research_id
